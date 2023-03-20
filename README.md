@@ -88,7 +88,7 @@ This project is licensed under the MIT License.
         <img width="100%" src="https://avatars.githubusercontent.com/u/51091854?v=4"  alt=""/>
         <center>BE. 팀장</center>
         <br/>
-        <a href="https://github.com/724thomas">
+        <a href="https://github.com/HongGuma">
           <img src="https://img.shields.io/badge/홍수희-6e34bf?style=flat-round&logo=GitHub&logoColor=white"/>
         </a>
       </br>
@@ -96,7 +96,7 @@ This project is licensed under the MIT License.
         <img width="100%" src="https://avatars.githubusercontent.com/u/113500771?v=4"  alt=""/>
         <center>BE. 팀원</center>
         <br/>
-        <a href="https://github.com/JeYeongR">
+        <a href="https://github.com/724thomas">
           <img src="https://img.shields.io/badge/최원준-345ebf?style=flat-round&logo=GitHub&logoColor=white"/>
         </a>
       </td>
@@ -104,7 +104,7 @@ This project is licensed under the MIT License.
         <img width="100%" src="https://avatars.githubusercontent.com/u/109578096?v=4"  alt=""/>
         <center>BE. 팀원</center>
         <br/>
-        <a href="https://github.com/Ryusunshine">
+        <a href="https://github.com/smallsnail-study">
           <img src="https://img.shields.io/badge/곽윤희-ff5e5e?style=flat-round&logo=GitHub&logoColor=white"/>
         </a>
       </td>
@@ -112,7 +112,7 @@ This project is licensed under the MIT License.
         <img width="100%" src="https://avatars.githubusercontent.com/u/113500922?v=4"  alt=""/>
         <center>BE. 팀원</center>
         <br/>
-        <a href="https://github.com/devSojoong">
+        <a href="https://github.com/flimberkim">
           <img src="https://img.shields.io/badge/김우석-34bfa6?style=flat-round&logo=GitHub&logoColor=white"/>
         </a>
       </td>
