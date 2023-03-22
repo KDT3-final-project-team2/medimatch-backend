@@ -14,7 +14,7 @@ public class Jobpost {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "jobpost_serial_number")
-    private Long id; //PK
+    private Long jobpostId; //PK
 
     @Column(name = "jobpost_title")
     private String title; //공고 제목
