@@ -2,6 +2,7 @@ package com.project.finalproject.jobpost.entity;
 
 import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.company.entity.Company;
+import com.project.finalproject.jobpost.entity.enums.JobpostStatus;
 
 import javax.annotation.processing.Generated;
 import javax.persistence.*;
@@ -34,4 +35,6 @@ public class Jobpost {
     @JoinColumn(name = "company_serial_number")
     private Company company;
 
+    @Column(name = "jobpost_status")
+    private JobpostStatus jobpostStatus;
 }
