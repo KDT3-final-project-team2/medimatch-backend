@@ -31,6 +31,9 @@ public class Jobpost {
     @Column(name = "jobpost_views")
     private Integer views; //조회수
 
+    @Column(name = "terms_contents", columnDefinition = "TEXT")
+    private String contentsFilePath; // 채용공고 내용 (pdf 파일)
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_serial_number")
     private Company company;
