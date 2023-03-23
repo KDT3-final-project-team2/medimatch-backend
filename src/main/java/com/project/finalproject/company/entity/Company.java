@@ -1,12 +1,18 @@
 package com.project.finalproject.company.entity;
 
 import com.project.finalproject.company.entity.enums.CompanyType;
+import lombok.*;
 
 import javax.persistence.*;
 
 //기업 회원
 @Entity
 @Table(name = "tb_company")
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Company {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
