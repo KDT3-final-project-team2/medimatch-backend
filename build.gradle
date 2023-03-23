@@ -29,7 +29,8 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    runtimeOnly 'com.mysql:mysql-connector-j'
+//    runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
