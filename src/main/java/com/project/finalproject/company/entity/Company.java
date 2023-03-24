@@ -8,6 +8,7 @@ import javax.persistence.*;
 //기업 회원
 @Entity
 @Table(name = "tb_company")
+
 @Builder
 @Getter
 @Setter
