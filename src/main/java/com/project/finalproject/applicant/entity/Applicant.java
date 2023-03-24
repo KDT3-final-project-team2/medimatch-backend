@@ -1,12 +1,20 @@
 package com.project.finalproject.applicant.entity;
 
 import com.project.finalproject.applicant.entity.enums.Gender;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 //지원자
 @Entity
 @Table(name = "applicant")
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Applicant {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
