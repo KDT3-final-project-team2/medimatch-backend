@@ -3,13 +3,15 @@ package com.project.finalproject.jobpost.entity;
 import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.jobpost.entity.enums.JobpostStatus;
+import lombok.Getter;
 
 import javax.annotation.processing.Generated;
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "jobpost")
+@Table(name = "tb_jobpost")
+@Getter
 public class Jobpost {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,5 +41,6 @@ public class Jobpost {
     private Company company;
 
     @Column(name = "jobpost_status")
+    @Enumerated(EnumType.STRING)
     private JobpostStatus jobpostStatus;
 }
