@@ -1,14 +1,17 @@
 package com.project.finalproject.company.entity;
 
 import com.project.finalproject.company.entity.enums.CompanyType;
+
 import lombok.*;
+
+import lombok.Getter;
+
 
 import javax.persistence.*;
 
 //기업 회원
 @Entity
 @Table(name = "tb_company")
-
 @Builder
 @Getter
 @Setter
@@ -45,6 +48,7 @@ public class Company {
     private String url; //회사 홈페이지
 
     @Column(name = "company_type")
+    @Enumerated(EnumType.STRING)
     private CompanyType companyType; // 기업 회원 타입 (기업/어드민)
 
 
