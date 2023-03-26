@@ -1,7 +1,10 @@
 package com.project.finalproject.company.entity;
 
 import com.project.finalproject.company.entity.enums.CompanyType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -9,6 +12,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tb_company")
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Company {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +22,7 @@ public class Company {
     private Long id; //PK
 
     @Column(name = "company_registration_number")
-    private Long regNum; //사업자 등록 번호
+    private String regNum; //사업자 등록 번호
 
     @Column(name = "company_email")
     private String email; // 이메일
