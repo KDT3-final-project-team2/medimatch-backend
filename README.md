@@ -91,7 +91,7 @@ This project is licensed under the MIT License.
         <a href="https://github.com/HongGuma">
           <img src="https://img.shields.io/badge/홍수희-6e34bf?style=flat-round&logo=GitHub&logoColor=white"/>
         </a>
-      </td>
+      </br>
       <td align="center" width="150px">
         <img width="100%" src="https://avatars.githubusercontent.com/u/113500771?v=4"  alt=""/>
         <center>BE. 팀원</center>
