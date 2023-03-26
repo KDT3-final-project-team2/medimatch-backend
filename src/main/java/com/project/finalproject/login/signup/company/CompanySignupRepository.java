@@ -1,4 +1,4 @@
-package com.project.finalproject.signup.repository;
+package com.project.finalproject.login.signup.company;
 
 import com.project.finalproject.company.entity.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
