@@ -13,6 +13,11 @@ public class ApplicantInfoUpdateServiceImpl implements ApplicantInfoUpdateServic
 
     private final ApplicantInfoUpdateRepository applicantInfoUpdateRepository;
 
+
+    public Applicant getApplicantInfo(Long id) {
+        return applicantInfoUpdateRepository.getApplicantInfo(id);
+    }
+
     public String updateApplicantInfo(Applicant applicant) {
         return applicantInfoUpdateRepository.updateApplicantInfo(applicant);
     }
