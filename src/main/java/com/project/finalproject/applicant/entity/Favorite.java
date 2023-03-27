@@ -5,7 +5,7 @@ import com.project.finalproject.jobpost.entity.Jobpost;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "favorite")
+@Table(name = "tb_favorite")
 public class Favorite {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
