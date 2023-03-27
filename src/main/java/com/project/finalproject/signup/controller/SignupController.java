@@ -19,6 +19,7 @@ public class SignupController {
      */
     @PostMapping("/applicant/signup")
     public String signUp(@RequestBody ApplicantSignupReqDTO applicantSignupReqDTO){
+        System.out.println("TEST");
         if(applicantSignupReqDTO.getEmail() == null || applicantSignupReqDTO.getPassword() == null){
             return "아이디와 비밀번호를 정확히 입력해주세요";
         }

@@ -28,18 +28,20 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
     @Builder
-    public JwtFilter(JwtUtil jwtUtil) {
+    public JwtFilter(JwtUtil jwtUtil, StringRedisTemplate stringRedisTemplate) {
         this.jwtUtil = jwtUtil;
+        this.stringRedisTemplate = stringRedisTemplate;
     }
 
-    public static JwtFilter of(JwtUtil jwtUtil){
-        return new JwtFilter(jwtUtil);
-    }
+//    public static JwtFilter of(JwtUtil jwtUtil){
+//        return new JwtFilter(jwtUtil, stringRedisTemplate);
+//    }
 
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        System.out.println("dofilterInternal");
 
         if(!stringRedisTemplate.hasKey(authorizationHeader)){
             try{
