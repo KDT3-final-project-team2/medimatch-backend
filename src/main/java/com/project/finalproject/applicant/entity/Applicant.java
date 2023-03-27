@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 //지원자
 @Entity
-@Table(name = "applicant")
+@Table(name = "tb_applicant")
 @Getter
 @Builder
 @NoArgsConstructor

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 //기업 약관
 @Entity
 @Builder
-@Table(name = "terms")
+@Table(name = "tb_terms")
 @Getter
 @EntityListeners(value = {AuditingEntityListener.class})
 @NoArgsConstructor

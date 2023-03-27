@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 //지원서
 @Entity
-@Table(name = "applications")
+@Table(name = "tb_applications")
 public class Applications {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
