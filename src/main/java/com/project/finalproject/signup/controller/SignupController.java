@@ -1,9 +1,9 @@
-package com.project.finalproject.login;
+package com.project.finalproject.signup.controller;
 
-import com.project.finalproject.login.dto.ApplicantSignupReqDTO;
-import com.project.finalproject.login.dto.CompanySignupReqDTO;
-import com.project.finalproject.login.signup.applicant.ApplicantSignupService;
-import com.project.finalproject.login.signup.company.CompanySignupService;
+import com.project.finalproject.signup.dto.ApplicantSignupReqDTO;
+import com.project.finalproject.signup.dto.CompanySignupReqDTO;
+import com.project.finalproject.signup.service.ApplicantSignupService;
+import com.project.finalproject.signup.service.CompanySignupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class AuthController {
-
+public class SignupController {
     private final ApplicantSignupService applicantSignupService;
     private final CompanySignupService companySignupService;
     /**
