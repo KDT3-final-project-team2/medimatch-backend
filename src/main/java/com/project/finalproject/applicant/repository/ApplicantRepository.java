@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ApplicantInfoUpdateRepository extends JpaRepository<Applicant, Long> {
+public interface ApplicantRepository extends JpaRepository<Applicant, Long> {
 
     @Query("SELECT a FROM Applicant a WHERE a.id = ?1")
     Applicant getApplicantInfo(Long id);
