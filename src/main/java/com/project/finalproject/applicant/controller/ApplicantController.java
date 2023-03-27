@@ -1,12 +1,9 @@
 package com.project.finalproject.applicant.controller;
 
 import com.project.finalproject.applicant.dto.request.ApplicantInfoUpdateRequest;
-import com.project.finalproject.applicant.entity.Applicant;
-import com.project.finalproject.applicant.service.ApplicantInfoUpdateService;
-import com.project.finalproject.applicant.service.impl.ApplicantInfoUpdateServiceImpl;
+import com.project.finalproject.applicant.service.impl.ApplicantServiceImpl;
 import com.project.finalproject.global.dto.ResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/applicant")
 public class ApplicantController {
 
-    private final ApplicantInfoUpdateServiceImpl applicantInfoUpdateServiceImpl;
+    private final ApplicantServiceImpl applicantInfoUpdateServiceImpl;
 
 
     @GetMapping("/info")
