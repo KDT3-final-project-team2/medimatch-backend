@@ -36,6 +36,17 @@
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=flat-round&logo=MariaDB&logoColor=white)
 ![Amazon Web Services](https://img.shields.io/badge/Amazon%20Web%20Services-232F3E?style=flat-round&logo=amazon-aws&logoColor=white)
 
+- Spring Boot 2.7.9
+- Spring Security 2.7.9
+- JPA 2.7.9
+- jwt 0.11.5
+- JAVA 11
+- JDK 11
+- thymeleaf 2.7.9
+- lombok 1.18.26
+- RDS MySQL 8.0.28
+- AWS EC2 Ubuntu 20.04
+- Jenkins 2.387.1
 
 <br/><br/>
 
