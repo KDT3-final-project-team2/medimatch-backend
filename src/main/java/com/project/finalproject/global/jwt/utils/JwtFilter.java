@@ -17,13 +17,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Set;
 
 @Component
 @Getter
 public class JwtFilter extends OncePerRequestFilter {
 
+    @Autowired
     private final JwtUtil jwtUtil;
 
+    @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
@@ -41,7 +44,12 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if(!stringRedisTemplate.hasKey(authorizationHeader)){
+        if(authorizationHeader == null || !authorizationHeader.startsWith("Bearer")){
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if(!stringRedisTemplate.hasKey(jwtUtil.extractToken(authorizationHeader))){
             try{
                 LoginResDTO user = jwtUtil.getResDTO(authorizationHeader);
                 SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user,
