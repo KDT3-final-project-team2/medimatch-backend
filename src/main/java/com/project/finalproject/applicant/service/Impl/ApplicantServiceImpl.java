@@ -13,6 +13,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,8 @@ public class ApplicantServiceImpl implements ApplicantService {
 
     private final ApplicantRepository applicantRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     private final String resumeDirectory = "c:/Users/user/"; //이력서 저장 경로
 
 
@@ -38,7 +41,9 @@ public class ApplicantServiceImpl implements ApplicantService {
         }
         else{
             //TODO: 개인회원 회원가입시 비밀번호 암호화 추가
-            applicantRepository.save(signupRequestDTO.toEntity());
+            Applicant applicant = signupRequestDTO.toEntity();
+            applicant.setPassword(passwordEncoder.encode(signupRequestDTO.getApplicantPassword()));
+            applicantRepository.save(applicant);
             return "success";
         }
     }
@@ -46,13 +51,13 @@ public class ApplicantServiceImpl implements ApplicantService {
     public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO){
         Long applicantId = 1L;
         Applicant applicant = applicantRepository.findById(applicantId).get();
-        applicant.setPassword(infoUpdateRequestDTO.getApplicantPassword());
+        applicant.setPassword(passwordEncoder.encode(infoUpdateRequestDTO.getApplicantPassword()));
         applicant.setName(infoUpdateRequestDTO.getApplicantName());
         applicant.setContact(infoUpdateRequestDTO.getApplicantContact());
         applicant.setEducation(infoUpdateRequestDTO.getApplicantEducation());
         applicant.setWorkExperience(infoUpdateRequestDTO.getApplicantWorkExperience());
         applicant.setSector(infoUpdateRequestDTO.getApplicantSector());
-        System.out.println(applicant);
+
         applicantRepository.save(applicant);
         return "success";
     }
@@ -66,6 +71,7 @@ public class ApplicantServiceImpl implements ApplicantService {
         String savePath = resumeDirectory + applicantId + ".pdf"; //이력서 저장 경로. 파일명은 개인회원Id.pdf
         resume.transferTo(new File(savePath));
         System.out.println(savePath);
+
         // 개인회원 filePath 컬럼에 이력서 경로저장
         Applicant applicant = applicantRepository.findById(applicantId).get();
         applicant.setFilePath(savePath);
