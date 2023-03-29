@@ -123,7 +123,8 @@ public class ApplicantController {
     // 내 정보
     @GetMapping("/info")
     public ResponseDTO myInfo(){
-        return new ResponseDTO(200, true, null, "회사정보");
+        Long applicantId = 1L;
+        return new ResponseDTO(200, true, applicantService.myInfo(applicantId), "내 정보");
     }
 
     // 채용공고 추천

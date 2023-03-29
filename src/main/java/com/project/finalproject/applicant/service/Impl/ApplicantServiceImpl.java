@@ -2,6 +2,7 @@ package com.project.finalproject.applicant.service.Impl;
 
 import com.project.finalproject.applicant.dto.request.InfoUpdateRequestDTO;
 import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
+import com.project.finalproject.applicant.dto.response.MyInfoResponseDTO;
 import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.applicant.repository.ApplicantRepository;
 import com.project.finalproject.applicant.service.ApplicantService;
@@ -71,6 +72,13 @@ public class ApplicantServiceImpl implements ApplicantService {
         applicantRepository.save(applicant);
         return "success";
     }
+
+    public MyInfoResponseDTO myInfo(Long applicantID){
+        Applicant applicant = applicantRepository.findById(applicantID).get();
+        MyInfoResponseDTO myInfoResponseDTO = new MyInfoResponseDTO(applicant);
+        return myInfoResponseDTO;
+    }
+
 
     @Override
     public String resumeSave(MultipartFile resume) throws IOException { //이력서 등록, 덮어쓰기
