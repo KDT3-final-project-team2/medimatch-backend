@@ -62,10 +62,6 @@ public class ApplicantController {
     // 정보 수정
     @PutMapping("/me")
     public ResponseDTO me(@RequestBody InfoUpdateRequestDTO infoUpdateRequestDTO){
-        System.out.println(infoUpdateRequestDTO.getApplicantPassword());
-        System.out.println(infoUpdateRequestDTO.getApplicantEducation());
-
-
         if (applicantService.infoUpdate(infoUpdateRequestDTO).equals("success")){
             return new ResponseDTO(200, true, "success", "회원정보 수정 성공");
         }else{
