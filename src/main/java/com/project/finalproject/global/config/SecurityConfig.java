@@ -21,7 +21,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     // jwt 토큰을 사용하지 않는 URL
-    String[] permitUrl = {"/company/login","/applicant/login","/company/signup","/applicant/signup","/oauth2/**", "/", "/product/**", "/refresh", "/swagger-ui/**", "/api-docs/**"};
+    String[] permitUrl = {
+            "/company/login","/applicant/signup","applicant/checkemail",
+            "/applicant/login","/company/signup",
+            "/oauth2/**", "/", "/product/**", "/refresh", "/swagger-ui/**", "/api-docs/**"};
 
 
     @Bean
