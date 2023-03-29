@@ -31,6 +31,16 @@ public class ApplicantController {
         return new ResponseDTO(200, true, null, "로그인 성공");
     }
 
+    @PostMapping("/checkemail")
+    public ResponseDTO checkEmail(@RequestBody SignupRequestDTO signupRequestDTO){
+        System.out.println(signupRequestDTO.getApplicantEmail());
+        if(applicantService.checkEmail(signupRequestDTO.getApplicantEmail()).equals("duplicate ID")){
+            return new ResponseDTO(401, false, "duplicate ID", "이미 존재하는 이메일입니다.");
+        }else{
+            return new ResponseDTO(200, true, "success", "사용 가능한 이메일입니다.");
+        }
+    }
+
     // 회원가입
     @PostMapping("/signup")
     public ResponseDTO signup(@RequestBody SignupRequestDTO signupRequestDTO){

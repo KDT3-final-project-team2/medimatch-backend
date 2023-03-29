@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -44,6 +45,15 @@ public class ApplicantServiceImpl implements ApplicantService {
             Applicant applicant = signupRequestDTO.toEntity();
             applicant.setPassword(passwordEncoder.encode(signupRequestDTO.getApplicantPassword()));
             applicantRepository.save(applicant);
+            return "success";
+        }
+    }
+
+    public String checkEmail(String applicantEmail){
+        if(applicantRepository.findByEmail(applicantEmail).isPresent()){
+            return "duplicate ID";
+        }
+        else{
             return "success";
         }
     }

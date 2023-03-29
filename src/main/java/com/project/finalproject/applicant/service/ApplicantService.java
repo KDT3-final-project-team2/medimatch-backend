@@ -12,6 +12,8 @@ public interface ApplicantService {
 
     public String signup(SignupRequestDTO signupRequestDTO);
 
+    public String checkEmail(String applicantEmail);
+
     public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO);
 
     public String resumeSave(MultipartFile files) throws IOException;
