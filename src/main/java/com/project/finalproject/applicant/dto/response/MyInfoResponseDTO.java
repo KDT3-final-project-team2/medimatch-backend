@@ -19,6 +19,7 @@ import java.time.LocalDate;
 public class MyInfoResponseDTO {
 
     public MyInfoResponseDTO(Applicant applicant){
+        this.applicantId = applicant.getId();
         this.applicantEmail = applicant.getEmail();
         this.applicantName = applicant.getName();
         this.applicantBirthDate = applicant.getBirthDate();
@@ -30,6 +31,7 @@ public class MyInfoResponseDTO {
         this.applicant_file_path=applicant.getFilePath();
     }
 
+    private Long applicantId;
     private String applicantEmail;
     private String applicantName;
     private LocalDate applicantBirthDate;
