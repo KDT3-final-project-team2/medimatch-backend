@@ -4,10 +4,8 @@ import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
 import com.project.finalproject.applicant.entity.enums.ApplicantWorkExperience;
 import com.project.finalproject.applicant.entity.enums.Gender;
 import com.project.finalproject.applicant.entity.enums.Sector;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -17,6 +15,7 @@ import java.time.LocalDate;
  * 지원자 (개인회원)
  */
 @Getter
+@Setter
 @Builder
 @Table(name = "tb_applicant")
 @Entity

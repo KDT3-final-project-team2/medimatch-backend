@@ -5,7 +5,13 @@ import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,26 +66,43 @@ public class ApplicantController {
 
     // 이력서 등록
     @PostMapping("/resume")
-    public ResponseDTO resumeCreate(){
-        return new ResponseDTO(200, true, "success", "이력서 등록 성공");
+    public ResponseDTO resumeSave(MultipartFile resume) throws IOException {
+        String message = applicantService.resumeSave(resume);
+        if (message.equals("empty file")) {
+            return new ResponseDTO(401, true, "empty file", "빈 파일입니다.");
+        } else {
+            return new ResponseDTO(200, true, "success", "이력서 등록 성공");
+        }
     }
 
     // 이력서 조회
     @GetMapping("/resume")
-    public ResponseDTO resumeGet(){
-        return new ResponseDTO(200, true, null, "내 이력서");
+    public ResponseEntity<Resource> resumeDownload() throws IOException {
+        return applicantService.resumeDownload();
     }
 
     //이력서 수정
     @PutMapping("/resume")
-    public ResponseDTO resumeUpdate(){
-        return new ResponseDTO(200, true, "success", "이력서 수정 성공");
+    public ResponseDTO resumeUpdate(MultipartFile resume) throws IOException {
+        String message = applicantService.resumeSave(resume);
+        if (message.equals("empty file")) {
+            return new ResponseDTO(401, true, "empty file", "빈 파일입니다.");
+        } else {
+            return new ResponseDTO(200, true, "success", "이력서 덮어쓰기 성공");
+        }
     }
 
     // 이력서 삭제
     @DeleteMapping("/resume")
-    public ResponseDTO resumeDelete(){
-        return new ResponseDTO(200, true, "success", "이력서 삭제 성공");
+    public ResponseDTO resumeDelete() throws IOException {
+        String message = applicantService.resumeDelete();
+        if (message.equals("file not found")) {
+            return new ResponseDTO(401, true, "file not found", "이력서가 존재하지 않습니다.");
+        }else if(message.equals("fail")){
+            return new ResponseDTO(401, true, "delete fail", "이력서 삭제 실패");
+        }else{
+            return new ResponseDTO(200, true, "success", "이력서 삭제 성공");
+        }
     }
 
     // 내 정보
