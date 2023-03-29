@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * 개인 사용자 (지원자) 와 채용 공고를 이어주는 mapping table
  */
 @Entity
-@Table(name = "tb_applicaion")
+@Table(name = "tb_application")
 public class Application {
 
     @Id
