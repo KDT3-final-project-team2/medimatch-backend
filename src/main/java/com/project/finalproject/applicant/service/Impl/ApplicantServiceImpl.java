@@ -6,6 +6,7 @@ import com.project.finalproject.applicant.repository.ApplicantRepository;
 import com.project.finalproject.applicant.service.ApplicantService;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ContentDisposition;
@@ -19,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 
+
 @Service
 @RequiredArgsConstructor
 public class ApplicantServiceImpl implements ApplicantService {
@@ -26,6 +28,7 @@ public class ApplicantServiceImpl implements ApplicantService {
     private final ApplicantRepository applicantRepository;
 
     private final String resumeDirectory = "c:/Users/user/"; //이력서 저장 경로
+
 
     @Override
     public String signup(SignupRequestDTO signupRequestDTO){
@@ -93,5 +96,4 @@ public class ApplicantServiceImpl implements ApplicantService {
             return "failed";
         }
     }
-
 }

@@ -5,6 +5,7 @@ import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

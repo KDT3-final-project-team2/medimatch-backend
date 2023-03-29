@@ -4,6 +4,7 @@ import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
 import com.project.finalproject.applicant.entity.enums.ApplicantWorkExperience;
 import com.project.finalproject.applicant.entity.enums.Gender;
 import com.project.finalproject.applicant.entity.enums.Sector;
+
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
