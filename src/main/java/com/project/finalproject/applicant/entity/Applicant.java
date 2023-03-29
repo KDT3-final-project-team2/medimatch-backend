@@ -47,9 +47,11 @@ public class Applicant {
     private String contact; //지원자 연락처
 
     @Column(name = "applicant_education")
+    @Enumerated(EnumType.STRING)
     private ApplicantEducation education; //지원자 학력
 
     @Column(name = "applicant_work_experience")
+    @Enumerated(EnumType.STRING)
     private ApplicantWorkExperience workExperience; //지원자 경력
 
     @Column(name = "applicant_sector")
