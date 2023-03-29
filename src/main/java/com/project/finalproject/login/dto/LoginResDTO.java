@@ -18,8 +18,7 @@ import java.util.Collections;
 public class LoginResDTO {
     private String email;
     private String role;
-    private Applicant applicant;
-    private Company company;
+    private String name; //기업은 기업명, 개인은 이름
     private String accessToken;
     private String refreshToken;
 
