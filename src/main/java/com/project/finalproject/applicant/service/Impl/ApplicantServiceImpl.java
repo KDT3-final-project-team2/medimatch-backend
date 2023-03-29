@@ -14,6 +14,7 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -39,6 +40,15 @@ public class ApplicantServiceImpl implements ApplicantService {
         else{
             //TODO: 개인회원 회원가입시 비밀번호 암호화 추가
             applicantRepository.save(signupRequestDTO.toEntity());
+            return "success";
+        }
+    }
+
+    public String checkEmail(String applicantEmail){
+        if(applicantRepository.findByEmail(applicantEmail).isPresent()){
+            return "duplicate ID";
+        }
+        else{
             return "success";
         }
     }
