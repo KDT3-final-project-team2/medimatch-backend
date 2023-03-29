@@ -1,0 +1,96 @@
+package com.project.finalproject.applicant.controller;
+
+import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
+import com.project.finalproject.applicant.service.ApplicantService;
+import com.project.finalproject.global.dto.ResponseDTO;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/applicant")
+public class ApplicantController {
+
+    private final ApplicantService applicantService;
+
+    @GetMapping("/test")
+    public ResponseDTO test(){
+        return new ResponseDTO(200, true, null, "테스트");
+    }
+    // 로그인
+    @PostMapping("/login")
+    public ResponseDTO login(){
+        return new ResponseDTO(200, true, null, "로그인 성공");
+    }
+
+    // 회원가입
+    @PostMapping("/signup")
+    public ResponseDTO signup(@RequestBody SignupRequestDTO signupRequestDTO){
+        if(applicantService.signup(signupRequestDTO).equals("duplicate ID")){
+            return new ResponseDTO(401, false, "duplicate ID", "이미 존재하는 이메일입니다.");
+        }else{
+            return new ResponseDTO(200, true, "success", "회원가입 성공");
+        }
+    }
+
+    // 메인페이지
+    @GetMapping("/main")
+    public ResponseDTO main(){
+        return new ResponseDTO(200, true, null, "메인페이지");
+    }
+
+    // 지원하기
+    @PostMapping("/apply")
+    public ResponseDTO apply(){
+        return new ResponseDTO(200, true, "success", "지원하기 성공");
+    }
+
+    // 지원취소
+    @DeleteMapping("/apply")
+    public ResponseDTO applyCancel(){
+        return new ResponseDTO(200, true, "success", "지원취소 성공");
+    }
+
+    // 정보 수정
+    @PutMapping("/me")
+    public ResponseDTO me(){
+        return new ResponseDTO(200, true, "success", "회원정보 수정 성공");
+    }
+
+    // 이력서 등록
+    @PostMapping("/resume")
+    public ResponseDTO resumeCreate(){
+        return new ResponseDTO(200, true, "success", "이력서 등록 성공");
+    }
+
+    // 이력서 조회
+    @GetMapping("/resume")
+    public ResponseDTO resumeGet(){
+        return new ResponseDTO(200, true, null, "내 이력서");
+    }
+
+    //이력서 수정
+    @PutMapping("/resume")
+    public ResponseDTO resumeUpdate(){
+        return new ResponseDTO(200, true, "success", "이력서 수정 성공");
+    }
+
+    // 이력서 삭제
+    @DeleteMapping("/resume")
+    public ResponseDTO resumeDelete(){
+        return new ResponseDTO(200, true, "success", "이력서 삭제 성공");
+    }
+
+    // 내 정보
+    @GetMapping("/info")
+    public ResponseDTO myInfo(){
+        return new ResponseDTO(200, true, null, "회사정보");
+    }
+
+    // 채용공고 추천
+    @GetMapping("/jobpost/suggest")
+    public ResponseDTO jobpostSuggest(){
+        return new ResponseDTO(200, true, null, "추천 채용공고");
+    }
+}
