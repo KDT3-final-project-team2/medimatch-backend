@@ -1,5 +1,6 @@
 package com.project.finalproject.applicant.controller;
 
+import com.project.finalproject.applicant.dto.request.InfoUpdateRequestDTO;
 import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
 import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
@@ -60,8 +61,12 @@ public class ApplicantController {
 
     // 정보 수정
     @PutMapping("/me")
-    public ResponseDTO me(){
-        return new ResponseDTO(200, true, "success", "회원정보 수정 성공");
+    public ResponseDTO me(@RequestBody InfoUpdateRequestDTO infoUpdateRequestDTO){
+        if (applicantService.infoUpdate(infoUpdateRequestDTO).equals("success")){
+            return new ResponseDTO(200, true, "success", "회원정보 수정 성공");
+        }else{
+            return new ResponseDTO(200, false, "fail", "회원정보 수정 실패");
+        }
     }
 
     // 이력서 등록

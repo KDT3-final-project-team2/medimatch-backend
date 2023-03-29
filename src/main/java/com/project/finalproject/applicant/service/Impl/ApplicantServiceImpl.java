@@ -1,5 +1,6 @@
 package com.project.finalproject.applicant.service.Impl;
 
+import com.project.finalproject.applicant.dto.request.InfoUpdateRequestDTO;
 import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
 import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.applicant.repository.ApplicantRepository;
@@ -40,6 +41,20 @@ public class ApplicantServiceImpl implements ApplicantService {
             applicantRepository.save(signupRequestDTO.toEntity());
             return "success";
         }
+    }
+
+    public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO){
+        Long applicantId = 1L;
+        Applicant applicant = applicantRepository.findById(applicantId).get();
+        applicant.setPassword(infoUpdateRequestDTO.getApplicantPassword());
+        applicant.setName(infoUpdateRequestDTO.getApplicantName());
+        applicant.setContact(infoUpdateRequestDTO.getApplicantContact());
+        applicant.setEducation(infoUpdateRequestDTO.getApplicantEducation());
+        applicant.setWorkExperience(infoUpdateRequestDTO.getApplicantWorkExperience());
+        applicant.setSector(infoUpdateRequestDTO.getApplicantSector());
+        System.out.println(applicant);
+        applicantRepository.save(applicant);
+        return "success";
     }
 
     @Override
