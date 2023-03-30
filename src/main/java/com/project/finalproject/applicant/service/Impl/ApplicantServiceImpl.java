@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -165,7 +166,9 @@ public class ApplicantServiceImpl implements ApplicantService {
         Long applicantId = 1L; //TODO 개인회원Id 받기
         Jobpost jobpost = jobpostRepository.findById(jobpostId).get(); //Jobpost 객체 가져오기
 
-        if (LocalTime.now().isAfter(jobpost.getDueDate().toLocalTime())) { // 채용공고 마감일이 지났을때, 지원 불가
+        System.out.println(LocalTime.now());
+        System.out.println(jobpost.getDueDate().toLocalTime());
+        if (LocalDate.now().isAfter(jobpost.getDueDate().toLocalDate())) { // 채용공고 마감일이 지났을때, 지원 불가
             return "due date passed";
         }
 
@@ -176,7 +179,7 @@ public class ApplicantServiceImpl implements ApplicantService {
         }else{ //지원 가능
             //Application DB에 정보 저장
             Applicant applicant = applicantRepository.findById(applicantId).get(); //Applicant 객체 가져오기
-            Application application = new Application(applicant, jobpost, jobpostResumeDirectory + jobpostId + "/resume/" + applicantId + ".pdf"); //Application 객체 생성
+            Application application = new Application(applicant, jobpost, jobpostResumeDirectory + applicantId + ".pdf"); //Application 객체 생성
             applicationRepository.save(application); //Application 객체 저장
 
             //Applicant의 이력서를 채용공고의 이력서 폴더로 복사

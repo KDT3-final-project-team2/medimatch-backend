@@ -4,6 +4,7 @@ import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.application.entity.enums.ApplicationStatus;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.jobpost.entity.Jobpost;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
  * 개인 사용자 (지원자) 와 채용 공고를 이어주는 mapping table
  */
 @Entity
+@NoArgsConstructor
 @Table(name = "tb_application")
 public class Application {
 
