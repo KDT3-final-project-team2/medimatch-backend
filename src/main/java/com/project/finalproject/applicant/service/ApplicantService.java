@@ -11,9 +11,13 @@ import java.io.IOException;
 
 public interface ApplicantService {
 
+    public String checkEmail(String applicantEmail);
+
     public String signup(SignupRequestDTO signupRequestDTO);
 
-    public String checkEmail(String applicantEmail);
+    public String applyJobpost(Long jobpostId) throws IOException;
+
+    public String cancelApplyJobpost(Long jobpostId) throws IOException;
 
     public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO);
 
@@ -25,7 +29,4 @@ public interface ApplicantService {
 
     public String resumeDelete() throws IOException;
 
-    public String applyJobpost(Long jobpostId) throws IOException;
-
-    public String cancelApplyJobpost(Long jobpostId) throws IOException;
 }

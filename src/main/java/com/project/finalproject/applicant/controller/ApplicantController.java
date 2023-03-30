@@ -25,6 +25,7 @@ public class ApplicantController {
     public ResponseDTO test(){
         return new ResponseDTO(200, true, null, "테스트");
     }
+
     // 로그인
     @PostMapping("/login")
     public ResponseDTO login(){
@@ -59,7 +60,7 @@ public class ApplicantController {
 
     // 지원하기
     @PostMapping("/apply")
-    public ResponseDTO apply(@RequestBody JobpostIdRequestDTO jobpostId) throws IOException {
+    public ResponseDTO applyJobpost(@RequestBody JobpostIdRequestDTO jobpostId) throws IOException {
         String message = applicantService.applyJobpost(jobpostId.getJobpostId());
         if(message.equals("due date passed")){
             return new ResponseDTO(401, false, "due date passed", "채용공고가 마감되었습니다.");
@@ -72,7 +73,7 @@ public class ApplicantController {
 
     // 지원취소
     @DeleteMapping("/apply")
-    public ResponseDTO applyCancel(@RequestBody JobpostIdRequestDTO jobpostId) throws IOException {
+    public ResponseDTO cancelApplyJobpost(@RequestBody JobpostIdRequestDTO jobpostId) throws IOException {
         String message = applicantService.cancelApplyJobpost(jobpostId.getJobpostId());
         if(message.equals("not applied")){
             return new ResponseDTO(401, false, "not applied", "지원하지 않았습니다.");
@@ -89,6 +90,13 @@ public class ApplicantController {
         }else{
             return new ResponseDTO(200, false, "fail", "회원정보 수정 실패");
         }
+    }
+
+    // 내 정보
+    @GetMapping("/info")
+    public ResponseDTO myInfo(){
+        Long applicantId = 1L;
+        return new ResponseDTO(200, true, applicantService.myInfo(applicantId), "내 정보");
     }
 
     // 이력서 등록
@@ -132,12 +140,6 @@ public class ApplicantController {
         }
     }
 
-    // 내 정보
-    @GetMapping("/info")
-    public ResponseDTO myInfo(){
-        Long applicantId = 1L;
-        return new ResponseDTO(200, true, applicantService.myInfo(applicantId), "내 정보");
-    }
 
     // 채용공고 추천
     @GetMapping("/jobpost/suggest")
