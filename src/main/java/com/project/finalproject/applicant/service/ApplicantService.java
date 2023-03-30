@@ -15,13 +15,17 @@ public interface ApplicantService {
 
     public String signup(SignupRequestDTO signupRequestDTO);
 
+    public MyInfoResponseDTO myInfo(Long applicantID);
+
+    public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO);
+
+
+
     public String applyJobpost(Long jobpostId) throws IOException;
 
     public String cancelApplyJobpost(Long jobpostId) throws IOException;
 
-    public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO);
 
-    public MyInfoResponseDTO myInfo(Long applicantID);
 
     public String resumeSave(MultipartFile files) throws IOException;
 

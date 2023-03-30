@@ -48,19 +48,15 @@ public class ApplicantServiceImpl implements ApplicantService {
     private final String applicantResumeDirectory = "c:/Users/user/test/applicant/"; //이력서 저장 경로
     private final String jobpostResumeDirectory = "c:/Users/user/test/jobpost/resume/"; //이력서 저장 경로
 
-
-    public void createDirectoryIfNotExist(String directoryPath) throws IOException {
-        File directory = new File(directoryPath);
-        if (!directory.exists()) {
-            directory.mkdirs();
-            System.out.println("Directory is created!");
-            System.out.println(directoryPath);
-        }else{
-            System.out.println("Directory already exists.");
+    @Override
+    public String checkEmail(String applicantEmail){
+        if(applicantRepository.findByEmail(applicantEmail).isPresent()){
+            return "duplicate ID";
         }
-
+        else{
+            return "success";
+        }
     }
-
 
     @Override
     public String signup(SignupRequestDTO signupRequestDTO){
@@ -76,15 +72,14 @@ public class ApplicantServiceImpl implements ApplicantService {
         }
     }
 
-    public String checkEmail(String applicantEmail){
-        if(applicantRepository.findByEmail(applicantEmail).isPresent()){
-            return "duplicate ID";
-        }
-        else{
-            return "success";
-        }
+    @Override
+    public MyInfoResponseDTO myInfo(Long applicantID){
+        Applicant applicant = applicantRepository.findById(applicantID).get();
+        MyInfoResponseDTO myInfoResponseDTO = new MyInfoResponseDTO(applicant);
+        return myInfoResponseDTO;
     }
 
+    @Override
     public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO){
         Long applicantId = 1L;
         Applicant applicant = applicantRepository.findById(applicantId).get();
@@ -99,11 +94,55 @@ public class ApplicantServiceImpl implements ApplicantService {
         return "success";
     }
 
-    public MyInfoResponseDTO myInfo(Long applicantID){
-        Applicant applicant = applicantRepository.findById(applicantID).get();
-        MyInfoResponseDTO myInfoResponseDTO = new MyInfoResponseDTO(applicant);
-        return myInfoResponseDTO;
+
+
+    @Override
+    public String applyJobpost(Long jobpostId) throws IOException {
+        Long applicantId = 1L; //TODO 개인회원Id 받기
+        Jobpost jobpost = jobpostRepository.findById(jobpostId).get(); //Jobpost 객체 가져오기
+
+        System.out.println(LocalTime.now());
+        System.out.println(jobpost.getDueDate().toLocalTime());
+        if (LocalDate.now().isAfter(jobpost.getDueDate().toLocalDate())) { // 채용공고 마감일이 지났을때, 지원 불가
+            return "due date passed";
+        }
+
+        Application existingApplication = applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId).orElse(null);
+        if(existingApplication != null){ //이미 지원한 채용공고일때, 지원 불가
+            return "applied already";
+
+        }else{ //지원 가능
+            //Application DB에 정보 저장
+            Applicant applicant = applicantRepository.findById(applicantId).get(); //Applicant 객체 가져오기
+            Application application = new Application(applicant, jobpost, jobpostResumeDirectory + jobpostId + "-"  + applicantId + ".pdf"); //Application 객체 생성
+            applicationRepository.save(application); //Application 객체 저장
+
+            //Applicant의 이력서를 채용공고의 이력서 폴더로 복사
+            Path sourcePath = Paths.get(applicant.getFilePath());
+            Path targetPath = Paths.get(jobpostResumeDirectory + jobpostId + "-" + applicantId + ".pdf");
+            Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+            return "success";
+        }
     }
+
+    @Override
+    public String cancelApplyJobpost(Long jobpostId) throws IOException {
+        Long applicantId = 1L; //TODO 개인회원Id 받기
+        Application existingApplication = applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId).orElse(null);
+        if(existingApplication == null){//개인회원이 지원한 채용공고인지 확인
+            return "not applied";
+        }else{
+            //Application DB에서 정보 삭제
+            Application application = applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId).get();
+            applicationRepository.delete(application);
+
+            //Applicant의 이력서를 채용공고의 이력서 폴더에서 삭제
+            Path path = Paths.get(jobpostResumeDirectory + jobpostId + "-"  + applicantId + ".pdf");
+            Files.delete(path);
+            return "success";
+        }
+    }
+
 
 
     @Override
@@ -159,51 +198,6 @@ public class ApplicantServiceImpl implements ApplicantService {
             return "success";
         } else {
             return "failed";
-        }
-    }
-
-    public String applyJobpost(Long jobpostId) throws IOException {
-        Long applicantId = 1L; //TODO 개인회원Id 받기
-        Jobpost jobpost = jobpostRepository.findById(jobpostId).get(); //Jobpost 객체 가져오기
-
-        System.out.println(LocalTime.now());
-        System.out.println(jobpost.getDueDate().toLocalTime());
-        if (LocalDate.now().isAfter(jobpost.getDueDate().toLocalDate())) { // 채용공고 마감일이 지났을때, 지원 불가
-            return "due date passed";
-        }
-
-        Application existingApplication = applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId).orElse(null);
-        if(existingApplication != null){ //이미 지원한 채용공고일때, 지원 불가
-            return "applied already";
-
-        }else{ //지원 가능
-            //Application DB에 정보 저장
-            Applicant applicant = applicantRepository.findById(applicantId).get(); //Applicant 객체 가져오기
-            Application application = new Application(applicant, jobpost, jobpostResumeDirectory + jobpostId + "-"  + applicantId + ".pdf"); //Application 객체 생성
-            applicationRepository.save(application); //Application 객체 저장
-
-            //Applicant의 이력서를 채용공고의 이력서 폴더로 복사
-            Path sourcePath = Paths.get(applicant.getFilePath());
-            Path targetPath = Paths.get(jobpostResumeDirectory + jobpostId + "-" + applicantId + ".pdf");
-            Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
-            return "success";
-        }
-    }
-
-    public String cancelApplyJobpost(Long jobpostId) throws IOException {
-        Long applicantId = 1L; //TODO 개인회원Id 받기
-        Application existingApplication = applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId).orElse(null);
-        if(existingApplication == null){//개인회원이 지원한 채용공고인지 확인
-            return "not applied";
-        }else{
-            //Application DB에서 정보 삭제
-            Application application = applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId).get();
-            applicationRepository.delete(application);
-
-            //Applicant의 이력서를 채용공고의 이력서 폴더에서 삭제
-            Path path = Paths.get(jobpostResumeDirectory + jobpostId + "-"  + applicantId + ".pdf");
-            Files.delete(path);
-            return "success";
         }
     }
 }

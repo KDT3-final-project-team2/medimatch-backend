@@ -52,11 +52,30 @@ public class ApplicantController {
         }
     }
 
+    // 내 정보
+    @GetMapping("/info")
+    public ResponseDTO myInfo(){
+        Long applicantId = 1L;
+        return new ResponseDTO(200, true, applicantService.myInfo(applicantId), "내 정보");
+    }
+
+    // 정보 수정
+    @PutMapping("/me")
+    public ResponseDTO me(@RequestBody InfoUpdateRequestDTO infoUpdateRequestDTO){
+        if (applicantService.infoUpdate(infoUpdateRequestDTO).equals("success")){
+            return new ResponseDTO(200, true, "success", "회원정보 수정 성공");
+        }else{
+            return new ResponseDTO(200, false, "fail", "회원정보 수정 실패");
+        }
+    }
+
     // 메인페이지
     @GetMapping("/main")
     public ResponseDTO main(){
         return new ResponseDTO(200, true, null, "메인페이지");
     }
+
+
 
     // 지원하기
     @PostMapping("/apply")
@@ -82,22 +101,7 @@ public class ApplicantController {
         }
     }
 
-    // 정보 수정
-    @PutMapping("/me")
-    public ResponseDTO me(@RequestBody InfoUpdateRequestDTO infoUpdateRequestDTO){
-        if (applicantService.infoUpdate(infoUpdateRequestDTO).equals("success")){
-            return new ResponseDTO(200, true, "success", "회원정보 수정 성공");
-        }else{
-            return new ResponseDTO(200, false, "fail", "회원정보 수정 실패");
-        }
-    }
 
-    // 내 정보
-    @GetMapping("/info")
-    public ResponseDTO myInfo(){
-        Long applicantId = 1L;
-        return new ResponseDTO(200, true, applicantService.myInfo(applicantId), "내 정보");
-    }
 
     // 이력서 등록
     @PostMapping("/resume")
