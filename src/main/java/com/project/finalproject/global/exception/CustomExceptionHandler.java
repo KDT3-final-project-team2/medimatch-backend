@@ -1,5 +1,7 @@
 package com.project.finalproject.global.exception;
 
+import com.project.finalproject.company.exception.CompanyException;
+import com.project.finalproject.company.exception.CompanyExceptionType;
 import com.project.finalproject.global.dto.ErrorDTO;
 import com.project.finalproject.global.exception.base.CustomException;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -18,5 +20,13 @@ public class CustomExceptionHandler implements ErrorController {
                 .build();
     }
 
+    //Company exception handler
+    @ExceptionHandler(value = CompanyException.class)
+    public ErrorDTO handleCompanyException(CompanyException ce){
+        return ErrorDTO.builder()
+                .errorCode(ce.getExceptionType().getErrorCode())
+                .errorMessage(ce.getExceptionType().getMessage())
+                .build();
+    }
 }
 
