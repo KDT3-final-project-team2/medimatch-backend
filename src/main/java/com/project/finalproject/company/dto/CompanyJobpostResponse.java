@@ -12,7 +12,7 @@ public class CompanyJobpostResponse {
     //채용 공고 목록 보기
     @Getter
     public static class LongDTO{
-        private long postId; //채용 공고 id
+        private Long postId; //채용 공고 id
         private String title; //채용 공고 제목
         private LocalDate startDate; //채용 시작 날짜
         private LocalDate dueDate; //채용 마감 날짜
@@ -35,18 +35,18 @@ public class CompanyJobpostResponse {
     //채용공고 상세 보기
     @Getter
     public static class ShortDTO {
-        private long postId; // 채용공고 id
+        private Long postId; // 채용공고 id
         private String title; // 채용공고 제목
         private String sector; // 채용공고 직무
         private String education; // 채용공고 최소 학력
-        private String workExperience; // 채용공고 최고 경력
+        private String workExperience; // 채용공고 최소 경력
         private String companyNm; // 채용 공고 올린 회사 이름
         private String companyTel; // 채용 공고 연락처
         private LocalDate startDate; // 채용 모집 시작일
         private LocalDate dueDate; // 채용 모집 마감일
         private LocalDateTime createDate; // 채용 공고 생성 시간
         private LocalDateTime editDate; // 채용 공고 수정 시간
-        private int maxApplicants; //모집 인원
+        private Integer maxApplicants; //모집 인원
         private String filePath; //채용 공고 파일 경로
         private String status; //채용 공고 상태
 
