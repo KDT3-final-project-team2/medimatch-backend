@@ -14,7 +14,7 @@ public enum JobpostWorkExperience {
         this.workExperience = workExperience;
     }
 
-    public String JobpostWorkExperience(){
+    public String getWorkExperience(){
         return this.workExperience;
     }
 }
