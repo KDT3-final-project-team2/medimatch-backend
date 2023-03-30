@@ -101,8 +101,6 @@ public class ApplicantServiceImpl implements ApplicantService {
         Long applicantId = 1L; //TODO 개인회원Id 받기
         Jobpost jobpost = jobpostRepository.findById(jobpostId).get(); //Jobpost 객체 가져오기
 
-        System.out.println(LocalTime.now());
-        System.out.println(jobpost.getDueDate().toLocalTime());
         if (LocalDate.now().isAfter(jobpost.getDueDate().toLocalDate())) { // 채용공고 마감일이 지났을때, 지원 불가
             return "due date passed";
         }
@@ -153,7 +151,7 @@ public class ApplicantServiceImpl implements ApplicantService {
         }
         String savePath = applicantResumeDirectory + applicantId + ".pdf"; //이력서 저장 경로. 파일명은 개인회원Id.pdf
         resume.transferTo(new File(savePath));
-        System.out.println(savePath);
+
 
         // 개인회원 filePath 컬럼에 이력서 경로저장
         Applicant applicant = applicantRepository.findById(applicantId).get();
