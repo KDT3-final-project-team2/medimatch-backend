@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
  * 공고
  */
 @Entity
-@Getter
 @Table(name = "tb_jobpost")
+@Getter
 public class Jobpost {
 
     @Id
@@ -40,7 +40,7 @@ public class Jobpost {
 
     @Column(name = "jobpost_work_experience")
     @Enumerated(EnumType.STRING)
-    private JobpostWorkExperience workExperience; //채용공고 최소경력 요구사항
+    private JobpostWorkExperience experience; //채용공고 최소경력 요구사항
 
     @Column(name = "jobpost_start_date")
     private LocalDate startDate; //채용공고 시작일
