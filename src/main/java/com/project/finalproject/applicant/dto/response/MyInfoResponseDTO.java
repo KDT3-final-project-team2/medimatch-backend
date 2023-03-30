@@ -18,6 +18,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class MyInfoResponseDTO {
 
+
     public MyInfoResponseDTO(Applicant applicant){
         this.applicantId = applicant.getId();
         this.applicantEmail = applicant.getEmail();
@@ -25,9 +26,9 @@ public class MyInfoResponseDTO {
         this.applicantBirthDate = applicant.getBirthDate();
         this.applicantGender = applicant.getGender();
         this.applicantContact = applicant.getContact();
-        this.applicantEducation = applicant.getEducation();
-        this.applicantWorkExperience = applicant.getWorkExperience();
-        this.applicantSector = applicant.getSector();
+        this.applicantEducation = applicant.getEducation().getEducation();
+        this.applicantWorkExperience = applicant.getWorkExperience().getWorkExperience();
+        this.applicantSector = applicant.getSector().getSector();
         this.applicant_file_path=applicant.getFilePath();
     }
 
@@ -37,9 +38,9 @@ public class MyInfoResponseDTO {
     private LocalDate applicantBirthDate;
     private Gender applicantGender;
     private String applicantContact;
-    private ApplicantEducation applicantEducation;
-    private ApplicantWorkExperience applicantWorkExperience;
-    private Sector applicantSector;
+    private String applicantEducation;
+    private String applicantWorkExperience;
+    private String applicantSector;
     private String applicant_file_path;
 
 }
