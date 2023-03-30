@@ -47,4 +47,15 @@ public class Application {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "jobpost_id")
     private Jobpost jobpost;
+
+    public Application (Applicant applicant, Jobpost jobpost, String jobpostResumeDirectory) {
+        this.status = ApplicationStatus.APPLY;
+        //this.interviewDate = null;
+        this.filepath = jobpostResumeDirectory + applicant.getId() + ".pdf";
+        //this.memo = null;
+        this.applyDate = LocalDateTime.now();
+        //this.passDate = null;
+        this.applicant = applicant;
+        this.jobpost = jobpost;
+    }
 }

@@ -6,23 +6,30 @@ import com.project.finalproject.applicant.dto.response.MyInfoResponseDTO;
 import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.applicant.repository.ApplicantRepository;
 import com.project.finalproject.applicant.service.ApplicantService;
-import lombok.NoArgsConstructor;
+import com.project.finalproject.application.entity.Application;
+import com.project.finalproject.application.entity.repository.ApplicationRepository;
+import com.project.finalproject.jobpost.entity.Jobpost;
+import com.project.finalproject.jobpost.entity.repository.JobpostRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 
 @Service
@@ -30,10 +37,28 @@ import java.nio.file.Files;
 public class ApplicantServiceImpl implements ApplicantService {
 
     private final ApplicantRepository applicantRepository;
+    private final ApplicationRepository applicationRepository;
+    private final JobpostRepository jobpostRepository;
 
     private final PasswordEncoder passwordEncoder;
 
-    private final String resumeDirectory = "c:/Users/user/"; //이력서 저장 경로
+//    private final String applicantResumeDirectory = "c:/Users/applicant/"; //이력서 저장 경로
+//    private final String jobpostResumeDirectory = "c:/Users/jobpost/resume/"; //이력서 저장 경로
+    private final String applicantResumeDirectory = "c:/Users/user/test/applicant/"; //이력서 저장 경로
+    private final String jobpostResumeDirectory = "c:/Users/user/test/jobpost/resume/"; //이력서 저장 경로
+
+
+    public void createDirectoryIfNotExist(String directoryPath) throws IOException {
+        File directory = new File(directoryPath);
+        if (!directory.exists()) {
+            directory.mkdirs();
+            System.out.println("Directory is created!");
+            System.out.println(directoryPath);
+        }else{
+            System.out.println("Directory already exists.");
+        }
+
+    }
 
 
     @Override
@@ -86,7 +111,7 @@ public class ApplicantServiceImpl implements ApplicantService {
         if (resume.isEmpty()){
             return "empty file";
         }
-        String savePath = resumeDirectory + applicantId + ".pdf"; //이력서 저장 경로. 파일명은 개인회원Id.pdf
+        String savePath = applicantResumeDirectory + applicantId + ".pdf"; //이력서 저장 경로. 파일명은 개인회원Id.pdf
         resume.transferTo(new File(savePath));
         System.out.println(savePath);
 
@@ -112,7 +137,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 
     @Override
     public String resumeDelete() { //이력서 삭제
-        Long applicantId = 1L; //개인회원Id 받기
+        Long applicantId = 1L; //TODO 개인회원Id 받기
 
         // 이력서 경로 가져오기
         Applicant applicant = applicantRepository.findById(applicantId).orElse(null);
@@ -134,5 +159,35 @@ public class ApplicantServiceImpl implements ApplicantService {
         } else {
             return "failed";
         }
+    }
+
+    public String applyJobpost(Long jobpostId) throws IOException {
+        Long applicantId = 1L; //TODO 개인회원Id 받기
+        Jobpost jobpost = jobpostRepository.findById(jobpostId).get(); //Jobpost 객체 가져오기
+
+        if (LocalTime.now().isAfter(jobpost.getDueDate().toLocalTime())) { // 채용공고 마감일이 지났을때, 지원 불가
+            return "due date passed";
+        }
+
+        Application existingApplication = applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId).orElse(null);
+        if(existingApplication != null){ //이미 지원한 채용공고일때, 지원 불가
+            return "applied already";
+
+        }else{ //지원 가능
+            //Application DB에 정보 저장
+            Applicant applicant = applicantRepository.findById(applicantId).get(); //Applicant 객체 가져오기
+            Application application = new Application(applicant, jobpost, jobpostResumeDirectory + jobpostId + "/resume/" + applicantId + ".pdf"); //Application 객체 생성
+            applicationRepository.save(application); //Application 객체 저장
+
+            //Applicant의 이력서를 채용공고의 이력서 폴더로 복사
+            Path sourcePath = Paths.get(applicant.getFilePath());
+            Path targetPath = Paths.get(jobpostResumeDirectory + applicantId + ".pdf");
+            Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+            return "success";
+        }
+    }
+
+    public String cancelApplyJobpost(Long jobpostId){
+        return null;
     }
 }

@@ -24,4 +24,8 @@ public interface ApplicantService {
     public ResponseEntity<Resource> resumeDownload() throws IOException;
 
     public String resumeDelete() throws IOException;
+
+    public String applyJobpost(Long jobpostId) throws IOException;
+
+    public String cancelApplyJobpost(Long jobpostId);
 }

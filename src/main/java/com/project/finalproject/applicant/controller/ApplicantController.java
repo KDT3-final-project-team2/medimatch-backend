@@ -1,10 +1,10 @@
 package com.project.finalproject.applicant.controller;
 
 import com.project.finalproject.applicant.dto.request.InfoUpdateRequestDTO;
+import com.project.finalproject.applicant.dto.request.JobpostIdRequestDTO;
 import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
 import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.core.io.Resource;
@@ -59,7 +59,14 @@ public class ApplicantController {
 
     // 지원하기
     @PostMapping("/apply")
-    public ResponseDTO apply(){
+    public ResponseDTO apply(@RequestBody JobpostIdRequestDTO jobpostId) throws IOException {
+        String message = applicantService.applyJobpost(jobpostId.getJobpostId());
+        if(message.equals("due date passed")){
+            return new ResponseDTO(401, false, "due date passed", "채용공고가 마감되었습니다.");
+        }
+        else if (message.equals("applied already")) {
+            return new ResponseDTO(402, false, "applied already", "이미 지원했습니다.");
+        }
         return new ResponseDTO(200, true, "success", "지원하기 성공");
     }
 
