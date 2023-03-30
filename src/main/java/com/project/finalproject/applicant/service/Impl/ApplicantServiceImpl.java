@@ -179,18 +179,31 @@ public class ApplicantServiceImpl implements ApplicantService {
         }else{ //지원 가능
             //Application DB에 정보 저장
             Applicant applicant = applicantRepository.findById(applicantId).get(); //Applicant 객체 가져오기
-            Application application = new Application(applicant, jobpost, jobpostResumeDirectory + applicantId + ".pdf"); //Application 객체 생성
+            Application application = new Application(applicant, jobpost, jobpostResumeDirectory + jobpostId + "-"  + applicantId + ".pdf"); //Application 객체 생성
             applicationRepository.save(application); //Application 객체 저장
 
             //Applicant의 이력서를 채용공고의 이력서 폴더로 복사
             Path sourcePath = Paths.get(applicant.getFilePath());
-            Path targetPath = Paths.get(jobpostResumeDirectory + applicantId + ".pdf");
+            Path targetPath = Paths.get(jobpostResumeDirectory + jobpostId + "-" + applicantId + ".pdf");
             Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
             return "success";
         }
     }
 
-    public String cancelApplyJobpost(Long jobpostId){
-        return null;
+    public String cancelApplyJobpost(Long jobpostId) throws IOException {
+        Long applicantId = 1L; //TODO 개인회원Id 받기
+        Application existingApplication = applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId).orElse(null);
+        if(existingApplication == null){//개인회원이 지원한 채용공고인지 확인
+            return "not applied";
+        }else{
+            //Application DB에서 정보 삭제
+            Application application = applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId).get();
+            applicationRepository.delete(application);
+
+            //Applicant의 이력서를 채용공고의 이력서 폴더에서 삭제
+            Path path = Paths.get(jobpostResumeDirectory + jobpostId + "-"  + applicantId + ".pdf");
+            Files.delete(path);
+            return "success";
+        }
     }
 }

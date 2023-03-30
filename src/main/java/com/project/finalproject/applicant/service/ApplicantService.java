@@ -27,5 +27,5 @@ public interface ApplicantService {
 
     public String applyJobpost(Long jobpostId) throws IOException;
 
-    public String cancelApplyJobpost(Long jobpostId);
+    public String cancelApplyJobpost(Long jobpostId) throws IOException;
 }

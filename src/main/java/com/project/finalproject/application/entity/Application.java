@@ -53,7 +53,7 @@ public class Application {
     public Application (Applicant applicant, Jobpost jobpost, String jobpostResumeDirectory) {
         this.status = ApplicationStatus.APPLY;
         //this.interviewDate = null;
-        this.filepath = jobpostResumeDirectory + applicant.getId() + ".pdf";
+        this.filepath = jobpostResumeDirectory;
         //this.memo = null;
         this.applyDate = LocalDateTime.now();
         //this.passDate = null;

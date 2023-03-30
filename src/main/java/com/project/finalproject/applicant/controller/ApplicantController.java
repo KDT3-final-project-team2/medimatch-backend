@@ -72,8 +72,13 @@ public class ApplicantController {
 
     // 지원취소
     @DeleteMapping("/apply")
-    public ResponseDTO applyCancel(){
-        return new ResponseDTO(200, true, "success", "지원취소 성공");
+    public ResponseDTO applyCancel(@RequestBody JobpostIdRequestDTO jobpostId) throws IOException {
+        String message = applicantService.cancelApplyJobpost(jobpostId.getJobpostId());
+        if(message.equals("not applied")){
+            return new ResponseDTO(401, false, "not applied", "지원하지 않았습니다.");
+        }else{
+            return new ResponseDTO(200, true, "success", "지원취소 성공");
+        }
     }
 
     // 정보 수정
