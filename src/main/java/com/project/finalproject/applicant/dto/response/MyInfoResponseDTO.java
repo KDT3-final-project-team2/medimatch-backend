@@ -24,7 +24,7 @@ public class MyInfoResponseDTO {
         this.applicantEmail = applicant.getEmail();
         this.applicantName = applicant.getName();
         this.applicantBirthDate = applicant.getBirthDate();
-        this.applicantGender = applicant.getGender();
+        this.applicantGender = applicant.getGender().getGender();
         this.applicantContact = applicant.getContact();
         this.applicantEducation = applicant.getEducation().getEducation();
         this.applicantWorkExperience = applicant.getWorkExperience().getWorkExperience();
@@ -36,7 +36,7 @@ public class MyInfoResponseDTO {
     private String applicantEmail;
     private String applicantName;
     private LocalDate applicantBirthDate;
-    private Gender applicantGender;
+    private String applicantGender;
     private String applicantContact;
     private String applicantEducation;
     private String applicantWorkExperience;
