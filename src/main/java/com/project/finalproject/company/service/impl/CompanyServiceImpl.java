@@ -7,6 +7,8 @@ import com.project.finalproject.company.exception.CompanyExceptionType;
 import com.project.finalproject.company.repository.CompanyRepository;
 import com.project.finalproject.company.service.CompanyService;
 import com.project.finalproject.jobpost.entity.Jobpost;
+import com.project.finalproject.jobpost.exception.JobpostException;
+import com.project.finalproject.jobpost.exception.JobpostExceptionType;
 import com.project.finalproject.jobpost.repository.JobpostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,8 +42,27 @@ public class CompanyServiceImpl implements CompanyService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 채용 공고 단건 조회
+     * @param companyEmail : 회사 이메일
+     * @param postId : 게시글 아이디
+     * @return 채용 공고 내용 상세 출력
+     */
     @Override
     public CompanyJobpostResponse.LongDTO showJobpostDetail(String companyEmail, Long postId) {
-        return null;
+
+        //사용자 확인용
+        Company company = companyRepository.findByEmail(companyEmail).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+
+        //postId로 게시글 조회
+        Jobpost jobpost = jobpostRepository.findById(postId).orElseThrow(
+                () -> new JobpostException(JobpostExceptionType.NOT_FOUND_PAGE)
+        );
+
+        return CompanyJobpostResponse.LongDTO.builder()
+                .jobpost(jobpost)
+                .build();
     }
 }
