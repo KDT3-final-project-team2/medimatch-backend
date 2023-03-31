@@ -2,6 +2,9 @@ package com.project.finalproject.jobpost.entity;
 
 import com.project.finalproject.applicant.entity.enums.Sector;
 import com.project.finalproject.company.entity.Company;
+import com.project.finalproject.jobpost.entity.enums.JobpostEducation;
+import com.project.finalproject.jobpost.entity.enums.JobpostStatus;
+import com.project.finalproject.jobpost.entity.enums.JobpostWorkExperience;
 import com.project.finalproject.term.entity.enums.TermStatus;
 import com.project.finalproject.term.entity.enums.TermType;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,14 +26,15 @@ public class Jobpost {
     private Long id; //채용공고 ID
 
     @Column(name = "jobpost_itle")
-    private String content; //채용공고 내용
+    private String title; //채용공고 제목
 
     @Column(name = "jobpost_education")
     @Enumerated(EnumType.STRING) //"고졸, 초대졸, 대졸, 석박사"
-    private TermType type; //채용공고 최소학력 요구사항
+    private JobpostEducation education;
 
     @Column(name = "jobpost_work_experience")
-    private String version; //채용공고 최소경력 요구사항
+    @Enumerated(EnumType.STRING)
+    private JobpostWorkExperience workExperience; //채용공고 최소경력 요구사항
 
     @Column(name = "jobpost_start_date")
     private LocalDateTime startDate; //채용공고 시작일
@@ -40,23 +44,24 @@ public class Jobpost {
 
     @CreatedDate
     @Column(name = "jobpost_create_date",updatable = false)
-    private String createDate; //채용공고 생성일
+    private LocalDateTime createDate; //채용공고 생성일
 
     @LastModifiedDate
     @Column(name = "jobpost_edit_date")
-    private String editDate; //채용공고 수정일
+    private LocalDateTime editDate; //채용공고 수정일
 
     @Column(name = "jobpost_status")
     @Enumerated(EnumType.STRING)
-    private TermStatus termsStatus; //채용공고 상태
+    private JobpostStatus status; //채용공고 상태
 
     @Column(name = "jobpost_recruit_num")
-    private TermStatus recruitNum; //채용공고 모집인원
+    private Integer recruitNum; //채용공고 모집인원
 
     @Column(name= "jobpost_filepath")
     private String filepath; //채용공고 파일경로
 
     @Column(name= "jobpost_sector")
+    @Enumerated(EnumType.STRING)
     private Sector sector; //채용공고 직무
 
     @ManyToOne(fetch = FetchType.LAZY)
