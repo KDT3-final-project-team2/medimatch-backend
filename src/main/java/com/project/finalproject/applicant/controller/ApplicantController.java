@@ -87,6 +87,10 @@ public class ApplicantController {
         else if (message.equals("applied already")) {
             return new ResponseDTO(402, false, "applied already", "이미 지원했습니다.");
         }
+        else if (message.equals("no resume")) {
+            return new ResponseDTO(403, false, "no resume", "이력서가 없습니다.");
+        }
+
         return new ResponseDTO(200, true, "success", "지원하기 성공");
     }
 

@@ -104,14 +104,15 @@ public class ApplicantServiceImpl implements ApplicantService {
         if (LocalDate.now().isAfter(jobpost.getDueDate().toLocalDate())) { // 채용공고 마감일이 지났을때, 지원 불가
             return "due date passed";
         }
-
         Application existingApplication = applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId).orElse(null);
         if(existingApplication != null){ //이미 지원한 채용공고일때, 지원 불가
             return "applied already";
-
+        }
+        Applicant applicant = applicantRepository.findById(applicantId).get(); //Applicant 객체 가져오기
+        if(applicant.getFilePath()==null){ //이력서가 없을때, 지원 불가
+            return "no resume";
         }else{ //지원 가능
             //Application DB에 정보 저장
-            Applicant applicant = applicantRepository.findById(applicantId).get(); //Applicant 객체 가져오기
             Application application = new Application(applicant, jobpost, jobpostResumeDirectory + jobpostId + "-"  + applicantId + ".pdf"); //Application 객체 생성
             applicationRepository.save(application); //Application 객체 저장
 
