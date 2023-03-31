@@ -2,12 +2,14 @@ package com.project.finalproject.applicant.service.Impl;
 
 import com.project.finalproject.applicant.dto.request.InfoUpdateRequestDTO;
 import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
+import com.project.finalproject.applicant.dto.response.AppliedJobpostResponseDTO;
 import com.project.finalproject.applicant.dto.response.MyInfoResponseDTO;
 import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.applicant.repository.ApplicantRepository;
 import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.application.entity.Application;
 import com.project.finalproject.application.entity.repository.ApplicationRepository;
+import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.jobpost.entity.Jobpost;
 import com.project.finalproject.jobpost.entity.repository.JobpostRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +32,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -81,7 +85,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 
     @Override
     public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO){
-        Long applicantId = 1L;
+        Long applicantId = 1L; //TODO 개인회원Id 받기
         Applicant applicant = applicantRepository.findById(applicantId).get();
         applicant.setPassword(passwordEncoder.encode(infoUpdateRequestDTO.getApplicantPassword()));
         applicant.setName(infoUpdateRequestDTO.getApplicantName());
@@ -94,6 +98,19 @@ public class ApplicantServiceImpl implements ApplicantService {
         return "success";
     }
 
+    @Override
+    public List<AppliedJobpostResponseDTO> appliedJobposts(){
+        Long applicantId = 1L; //TODO 개인회원Id 받기
+        ArrayList<AppliedJobpostResponseDTO> appliedJobpostResponseDTOS = new ArrayList<>();
+        List<Application> applications = applicationRepository.findByApplicantId(applicantId);
+        for (Application application : applications) {
+            Jobpost jobpost = application.getJobpost();
+            Company company = jobpost.getCompany();
+            AppliedJobpostResponseDTO appliedJobpostResponseDTO = new AppliedJobpostResponseDTO(company, jobpost, application);
+            appliedJobpostResponseDTOS.add(appliedJobpostResponseDTO);
+        }
+        return appliedJobpostResponseDTOS;
+    }
 
 
     @Override
