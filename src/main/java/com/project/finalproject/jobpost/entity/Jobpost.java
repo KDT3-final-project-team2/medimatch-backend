@@ -43,10 +43,10 @@ public class Jobpost {
     private JobpostWorkExperience experience; //채용공고 최소경력 요구사항
 
     @Column(name = "jobpost_start_date")
-    private LocalDate startDate; //채용공고 시작일
+    private LocalDateTime startDate; //채용공고 시작일
 
     @Column(name = "jobpost_due_date")
-    private LocalDate dueDate; //채용공고 마감일
+    private LocalDateTime dueDate; //채용공고 마감일
 
     @CreatedDate
     @Column(name = "jobpost_create_date",updatable = false)
