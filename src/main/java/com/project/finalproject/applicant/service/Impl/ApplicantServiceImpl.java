@@ -11,7 +11,7 @@ import com.project.finalproject.application.entity.Application;
 import com.project.finalproject.application.entity.repository.ApplicationRepository;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.jobpost.entity.Jobpost;
-import com.project.finalproject.jobpost.entity.repository.JobpostRepository;
+import com.project.finalproject.jobpost.repository.JobpostRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.core.io.Resource;
