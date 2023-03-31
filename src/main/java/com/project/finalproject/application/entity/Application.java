@@ -4,6 +4,7 @@ import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.application.entity.enums.ApplicationStatus;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.jobpost.entity.Jobpost;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @NoArgsConstructor
+@Getter
 @Table(name = "tb_application")
 public class Application {
 

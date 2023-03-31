@@ -3,6 +3,7 @@ package com.project.finalproject.applicant.controller;
 import com.project.finalproject.applicant.dto.request.InfoUpdateRequestDTO;
 import com.project.finalproject.applicant.dto.request.JobpostIdRequestDTO;
 import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
+import com.project.finalproject.applicant.dto.response.AppliedJobpostResponseDTO;
 import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -72,7 +74,11 @@ public class ApplicantController {
     // 메인페이지
     @GetMapping("/main")
     public ResponseDTO main(){
-        return new ResponseDTO(200, true, null, "메인페이지");
+        List<AppliedJobpostResponseDTO> appliedJobpostResponseDTOList = applicantService.appliedJobposts();
+        if(appliedJobpostResponseDTOList.size() == 0){
+            return new ResponseDTO(401, false, null, "지원한 채용공고가 없습니다.");
+        }
+        return new ResponseDTO(200, true, appliedJobpostResponseDTOList, "지원한 채용공고 목록입니다.");
     }
 
 
