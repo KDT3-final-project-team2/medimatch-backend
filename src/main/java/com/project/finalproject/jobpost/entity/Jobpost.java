@@ -12,14 +12,15 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
  * 공고
  */
 @Entity
-@Getter
 @Table(name = "tb_jobpost")
+@Getter
 public class Jobpost {
 
     @Id
@@ -27,16 +28,19 @@ public class Jobpost {
     @Column(name = "jobpost_id")
     private Long id; //채용공고 ID
 
-    @Column(name = "jobpost_itle")
-    private String title; //채용공고 제목
+    @Column(name = "jobpost_title")
+    private String title; //채용 공고 제목
+
+    @Column(name = "jobpost_content")
+    private String content; //채용공고 내용
 
     @Column(name = "jobpost_education")
     @Enumerated(EnumType.STRING) //"고졸, 초대졸, 대졸, 석박사"
-    private JobpostEducation education;
+    private JobpostEducation education; //채용공고 최소학력 요구사항
 
     @Column(name = "jobpost_work_experience")
     @Enumerated(EnumType.STRING)
-    private JobpostWorkExperience workExperience; //채용공고 최소경력 요구사항
+    private JobpostWorkExperience experience; //채용공고 최소경력 요구사항
 
     @Column(name = "jobpost_start_date")
     private LocalDateTime startDate; //채용공고 시작일
