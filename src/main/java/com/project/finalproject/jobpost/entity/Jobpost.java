@@ -34,9 +34,6 @@ public class Jobpost {
     @Column(name = "jobpost_title")
     private String title; //채용 공고 제목
 
-    @Column(name = "jobpost_content")
-    private String content; //채용공고 내용
-
     @Column(name = "jobpost_education")
     @Enumerated(EnumType.STRING) //"고졸, 초대졸, 대졸, 석박사"
     private JobpostEducation education; //채용공고 최소학력 요구사항
