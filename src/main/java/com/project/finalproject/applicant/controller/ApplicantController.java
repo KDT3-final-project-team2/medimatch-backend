@@ -1,10 +1,10 @@
 package com.project.finalproject.applicant.controller;
 
 import com.project.finalproject.applicant.dto.request.InfoUpdateRequestDTO;
+import com.project.finalproject.applicant.dto.request.JobpostIdRequestDTO;
 import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
 import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.core.io.Resource;
@@ -25,6 +25,7 @@ public class ApplicantController {
     public ResponseDTO test(){
         return new ResponseDTO(200, true, null, "테스트");
     }
+
     // 로그인
     @PostMapping("/login")
     public ResponseDTO login(){
@@ -51,22 +52,11 @@ public class ApplicantController {
         }
     }
 
-    // 메인페이지
-    @GetMapping("/main")
-    public ResponseDTO main(){
-        return new ResponseDTO(200, true, null, "메인페이지");
-    }
-
-    // 지원하기
-    @PostMapping("/apply")
-    public ResponseDTO apply(){
-        return new ResponseDTO(200, true, "success", "지원하기 성공");
-    }
-
-    // 지원취소
-    @DeleteMapping("/apply")
-    public ResponseDTO applyCancel(){
-        return new ResponseDTO(200, true, "success", "지원취소 성공");
+    // 내 정보
+    @GetMapping("/info")
+    public ResponseDTO myInfo(){
+        Long applicantId = 1L;
+        return new ResponseDTO(200, true, applicantService.myInfo(applicantId), "내 정보");
     }
 
     // 정보 수정
@@ -78,6 +68,40 @@ public class ApplicantController {
             return new ResponseDTO(200, false, "fail", "회원정보 수정 실패");
         }
     }
+
+    // 메인페이지
+    @GetMapping("/main")
+    public ResponseDTO main(){
+        return new ResponseDTO(200, true, null, "메인페이지");
+    }
+
+
+
+    // 지원하기
+    @PostMapping("/apply")
+    public ResponseDTO applyJobpost(@RequestBody JobpostIdRequestDTO jobpostId) throws IOException {
+        String message = applicantService.applyJobpost(jobpostId.getJobpostId());
+        if(message.equals("due date passed")){
+            return new ResponseDTO(401, false, "due date passed", "채용공고가 마감되었습니다.");
+        }
+        else if (message.equals("applied already")) {
+            return new ResponseDTO(402, false, "applied already", "이미 지원했습니다.");
+        }
+        return new ResponseDTO(200, true, "success", "지원하기 성공");
+    }
+
+    // 지원취소
+    @DeleteMapping("/apply")
+    public ResponseDTO cancelApplyJobpost(@RequestBody JobpostIdRequestDTO jobpostId) throws IOException {
+        String message = applicantService.cancelApplyJobpost(jobpostId.getJobpostId());
+        if(message.equals("not applied")){
+            return new ResponseDTO(401, false, "not applied", "지원하지 않았습니다.");
+        }else{
+            return new ResponseDTO(200, true, "success", "지원취소 성공");
+        }
+    }
+
+
 
     // 이력서 등록
     @PostMapping("/resume")
@@ -120,12 +144,6 @@ public class ApplicantController {
         }
     }
 
-    // 내 정보
-    @GetMapping("/info")
-    public ResponseDTO myInfo(){
-        Long applicantId = 1L;
-        return new ResponseDTO(200, true, applicantService.myInfo(applicantId), "내 정보");
-    }
 
     // 채용공고 추천
     @GetMapping("/jobpost/suggest")

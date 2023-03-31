@@ -11,17 +11,26 @@ import java.io.IOException;
 
 public interface ApplicantService {
 
+    public String checkEmail(String applicantEmail);
+
     public String signup(SignupRequestDTO signupRequestDTO);
 
-    public String checkEmail(String applicantEmail);
+    public MyInfoResponseDTO myInfo(Long applicantID);
 
     public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO);
 
-    public MyInfoResponseDTO myInfo(Long applicantID);
+
+
+    public String applyJobpost(Long jobpostId) throws IOException;
+
+    public String cancelApplyJobpost(Long jobpostId) throws IOException;
+
+
 
     public String resumeSave(MultipartFile files) throws IOException;
 
     public ResponseEntity<Resource> resumeDownload() throws IOException;
 
     public String resumeDelete() throws IOException;
+
 }

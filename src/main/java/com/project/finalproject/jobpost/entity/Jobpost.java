@@ -7,6 +7,7 @@ import com.project.finalproject.jobpost.entity.enums.JobpostStatus;
 import com.project.finalproject.jobpost.entity.enums.JobpostWorkExperience;
 import com.project.finalproject.term.entity.enums.TermStatus;
 import com.project.finalproject.term.entity.enums.TermType;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
  * 공고
  */
 @Entity
+@Getter
 @Table(name = "tb_jobpost")
 public class Jobpost {
 
