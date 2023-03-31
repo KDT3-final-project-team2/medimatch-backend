@@ -12,7 +12,7 @@ public class CompanyJobpostResponse {
 
     //채용 공고 목록 보기
     @Getter
-    public static class LongDTO{
+    public static class ShortDTO{
         private Long postId; //채용 공고 id
         private String title; //채용 공고 제목
         private LocalDateTime startDate; //채용 시작 날짜
@@ -22,7 +22,7 @@ public class CompanyJobpostResponse {
         private String status; //채용 공고 상태
 
         @Builder
-        public LongDTO(Jobpost jobpost){
+        public ShortDTO(Jobpost jobpost){
             this.postId = jobpost.getId();
             this.title= jobpost.getTitle();
             this.startDate = jobpost.getStartDate();
@@ -35,7 +35,7 @@ public class CompanyJobpostResponse {
 
     //채용공고 상세 보기
     @Getter
-    public static class ShortDTO {
+    public static class LongDTO {
         private Long postId; // 채용공고 id
         private String title; // 채용공고 제목
         private String sector; // 채용공고 직무
@@ -52,7 +52,7 @@ public class CompanyJobpostResponse {
         private String status; //채용 공고 상태
 
         @Builder
-        public ShortDTO(Jobpost jobpost){
+        public LongDTO(Jobpost jobpost){
             this.postId = jobpost.getId();
             this.title = jobpost.getTitle();
             this.sector = jobpost.getSector().getSector();
