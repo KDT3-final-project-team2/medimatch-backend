@@ -8,7 +8,7 @@ import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.applicant.repository.ApplicantRepository;
 import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.application.entity.Application;
-import com.project.finalproject.application.entity.repository.ApplicationRepository;
+import com.project.finalproject.application.repository.ApplicationRepository;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.jobpost.entity.Jobpost;
 import com.project.finalproject.jobpost.repository.JobpostRepository;
@@ -29,11 +29,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
