@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface ApplicantService {
 
-    public String checkEmail(String applicantEmail);
+    public String checkEmail(SignupRequestDTO signupRequestDTO);
 
     public String signup(SignupRequestDTO signupRequestDTO);
 

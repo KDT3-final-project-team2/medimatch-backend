@@ -53,9 +53,10 @@ public class ApplicantServiceImpl implements ApplicantService {
     private final String jobpostResumeDirectory = "c:/Users/user/test/jobpost/resume/"; //이력서 저장 경로
 
     @Override
-    public String checkEmail(String applicantEmail){
+    public String checkEmail(SignupRequestDTO signupRequestDTO){
+        String applicantEmail = signupRequestDTO.getApplicantEmail();
         if(applicantRepository.findByEmail(applicantEmail).isPresent()){
-            return "duplicate ID";
+            return "duplicate id";
         }
         else{
             return "success";
@@ -65,7 +66,7 @@ public class ApplicantServiceImpl implements ApplicantService {
     @Override
     public String signup(SignupRequestDTO signupRequestDTO){
         if(applicantRepository.findByEmail(signupRequestDTO.getApplicantEmail()).isPresent()){
-            return "duplicate ID";
+            return "duplicate id";
         }
         else{
             //TODO: 개인회원 회원가입시 비밀번호 암호화 추가
@@ -154,7 +155,9 @@ public class ApplicantServiceImpl implements ApplicantService {
 
             //Applicant의 이력서를 채용공고의 이력서 폴더에서 삭제
             Path path = Paths.get(jobpostResumeDirectory + jobpostId + "-"  + applicantId + ".pdf");
-            Files.delete(path);
+            if (path.toFile().exists()) {
+                Files.delete(path);
+            }
             return "success";
         }
     }

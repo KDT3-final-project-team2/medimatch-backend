@@ -36,9 +36,8 @@ public class ApplicantController {
 
     @PostMapping("/checkemail")
     public ResponseDTO checkEmail(@RequestBody SignupRequestDTO signupRequestDTO){
-        System.out.println(signupRequestDTO.getApplicantEmail());
-        if(applicantService.checkEmail(signupRequestDTO.getApplicantEmail()).equals("duplicate ID")){
-            return new ResponseDTO(401, false, "duplicate ID", "이미 존재하는 이메일입니다.");
+        if(applicantService.checkEmail(signupRequestDTO).equals("duplicate id")){
+            return new ResponseDTO(401, false, "duplicate id", "이미 존재하는 이메일입니다.");
         }else{
             return new ResponseDTO(200, true, "success", "사용 가능한 이메일입니다.");
         }
@@ -47,8 +46,8 @@ public class ApplicantController {
     // 회원가입
     @PostMapping("/signup")
     public ResponseDTO signup(@RequestBody SignupRequestDTO signupRequestDTO){
-        if(applicantService.signup(signupRequestDTO).equals("duplicate ID")){
-            return new ResponseDTO(401, false, "duplicate ID", "이미 존재하는 이메일입니다.");
+        if(applicantService.signup(signupRequestDTO).equals("duplicate id")){
+            return new ResponseDTO(401, false, "duplicate id", "이미 존재하는 이메일입니다.");
         }else{
             return new ResponseDTO(200, true, "success", "회원가입 성공");
         }
@@ -67,7 +66,7 @@ public class ApplicantController {
         if (applicantService.infoUpdate(infoUpdateRequestDTO).equals("success")){
             return new ResponseDTO(200, true, "success", "회원정보 수정 성공");
         }else{
-            return new ResponseDTO(200, false, "fail", "회원정보 수정 실패");
+            return new ResponseDTO(401, false, "fail", "회원정보 수정 실패");
         }
     }
 
@@ -96,7 +95,6 @@ public class ApplicantController {
         else if (message.equals("no resume")) {
             return new ResponseDTO(403, false, "no resume", "이력서가 없습니다.");
         }
-
         return new ResponseDTO(200, true, "success", "지원하기 성공");
     }
 
@@ -118,7 +116,7 @@ public class ApplicantController {
     public ResponseDTO resumeSave(MultipartFile resume) throws IOException {
         String message = applicantService.resumeSave(resume);
         if (message.equals("empty file")) {
-            return new ResponseDTO(401, true, "empty file", "빈 파일입니다.");
+            return new ResponseDTO(401, false, "empty file", "빈 파일입니다.");
         } else {
             return new ResponseDTO(200, true, "success", "이력서 등록 성공");
         }
@@ -146,9 +144,9 @@ public class ApplicantController {
     public ResponseDTO resumeDelete() throws IOException {
         String message = applicantService.resumeDelete();
         if (message.equals("file not found")) {
-            return new ResponseDTO(401, true, "file not found", "이력서가 존재하지 않습니다.");
+            return new ResponseDTO(401, false, "file not found", "이력서가 존재하지 않습니다.");
         }else if(message.equals("fail")){
-            return new ResponseDTO(401, true, "delete fail", "이력서 삭제 실패");
+            return new ResponseDTO(402, false, "fail", "이력서 삭제 실패");
         }else{
             return new ResponseDTO(200, true, "success", "이력서 삭제 성공");
         }

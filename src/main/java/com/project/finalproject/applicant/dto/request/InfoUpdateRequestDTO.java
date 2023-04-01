@@ -5,12 +5,14 @@ import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
 import com.project.finalproject.applicant.entity.enums.ApplicantWorkExperience;
 import com.project.finalproject.applicant.entity.enums.Sector;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class InfoUpdateRequestDTO {
   /*
     "applicantPassword", string
