@@ -1,10 +1,13 @@
 package com.project.finalproject.term.entity;
 
 import com.project.finalproject.company.entity.Company;
+import com.project.finalproject.term.dto.TermResDTO;
 import com.project.finalproject.term.entity.enums.TermStatus;
 import com.project.finalproject.term.entity.enums.TermType;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,10 +16,18 @@ import java.time.LocalDateTime;
  * 약관
  */
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
+@ToString
+@EntityListeners(value = {AuditingEntityListener.class})
 @Table(name = "tb_term")
 public class Term {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "term_id")
     private Long id; //PK
 
@@ -46,4 +57,19 @@ public class Term {
     @JoinColumn(name = "company_id")
     private Company company;
 
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public static Term createTerm(TermResDTO termResDTO, Company company) {
+        Term term = Term.builder()
+                .content(termResDTO.getContent())
+                .type(termResDTO.getType())
+                .version(termResDTO.getVersion())
+                .status(termResDTO.getStatus())
+                .company(company)
+                .build();
+
+        return term;
+    }
 }
