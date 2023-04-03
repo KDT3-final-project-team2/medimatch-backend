@@ -12,9 +12,11 @@ import java.time.LocalDateTime;
 
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class AppliedJobpostResponseDTO {
 
+    private Long applicationId;
     private String companyName;
     private String jobpostTitle;
     private Long jobpostId;
@@ -24,6 +26,7 @@ public class AppliedJobpostResponseDTO {
     private String applicationFilepath;
 
     public AppliedJobpostResponseDTO(Company company, Jobpost jobpost, Application application) {
+        this.applicationId = application.getId();
         this.companyName = company.getName();
         this.jobpostTitle = jobpost.getTitle();
         this.jobpostId = jobpost.getId();

@@ -4,8 +4,10 @@ import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.application.entity.enums.ApplicationStatus;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.jobpost.entity.Jobpost;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "tb_application")
 public class Application {
 
@@ -51,6 +54,22 @@ public class Application {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "jobpost_id")
     private Jobpost jobpost;
+
+
+    @Builder
+    public Application(Long id, ApplicationStatus status, LocalDateTime interviewDate,
+                       String filepath, String memo, LocalDateTime applyDate,
+                       LocalDateTime passDate, Applicant applicant, Jobpost jobpost) {
+        this.id = id;
+        this.status = status;
+        this.interviewDate = interviewDate;
+        this.filepath = filepath;
+        this.memo = memo;
+        this.applyDate = applyDate;
+        this.passDate = passDate;
+        this.applicant = applicant;
+        this.jobpost = jobpost;
+    }
 
     public Application (Applicant applicant, Jobpost jobpost, String jobpostResumeDirectory) {
         this.status = ApplicationStatus.APPLY;
