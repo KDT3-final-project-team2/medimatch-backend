@@ -42,7 +42,6 @@
 - jwt 0.11.5
 - JAVA 11
 - JDK 11
-- thymeleaf 2.7.9
 - lombok 1.18.26
 - RDS MySQL 8.0.28
 - AWS EC2 Ubuntu 20.04
