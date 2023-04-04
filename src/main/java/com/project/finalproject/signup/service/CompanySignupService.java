@@ -1,6 +1,7 @@
 package com.project.finalproject.signup.service;
 
 import com.project.finalproject.company.entity.Company;
+import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtUtil;
 import com.project.finalproject.signup.dto.CompanySignupReqDTO;
 import com.project.finalproject.signup.repository.CompanySignupRepository;
@@ -23,18 +24,18 @@ public class CompanySignupService {
     /**
      * 회원가입
      */
-    public String signUp(CompanySignupReqDTO reqDTO){
-        if(companySignupRepository.existsCompanyByEmail(reqDTO.getEmail())){
-            return reqDTO.getEmail() + "는 이미 존재하는 아이디 입니다.";
+    public ResponseDTO signUp(CompanySignupReqDTO reqDTO){
+        if(companySignupRepository.existsCompanyByEmail(reqDTO.getCompanyEmail())){
+            return new ResponseDTO(401,false,null,reqDTO.getCompanyEmail() + "는 이미 존재하는 아이디 입니다.");
         }
 
-        reqDTO.setPassword(passwordEncoding(reqDTO.getPassword()));
+        reqDTO.setCompanyPassword(passwordEncoding(reqDTO.getCompanyPassword()));
 
         Company company = reqDTO.toEntity();
 
         companySignupRepository.save(company);
 
-        return "회원가입이 완료되었습니다.";
+        return new ResponseDTO(200, true, null, "회원가입이 완료되었습니다.");
     }
 
     /**

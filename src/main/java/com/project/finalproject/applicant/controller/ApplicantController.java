@@ -28,12 +28,6 @@ public class ApplicantController {
         return new ResponseDTO(200, true, null, "테스트");
     }
 
-    // 로그인
-    @PostMapping("/login")
-    public ResponseDTO login(){
-        return new ResponseDTO(200, true, null, "로그인 성공");
-    }
-
     @PostMapping("/checkemail")
     public ResponseDTO checkEmail(@RequestBody SignupRequestDTO signupRequestDTO){
         if(applicantService.checkEmail(signupRequestDTO).equals("duplicate id")){
