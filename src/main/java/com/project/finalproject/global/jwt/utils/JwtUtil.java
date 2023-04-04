@@ -7,27 +7,26 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
 import java.time.Duration;
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtil {
 
     private final JwtProperties jwtProperties;
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public JwtUtil(JwtProperties jwtProperties) {
-        this.jwtProperties = jwtProperties;
-    }
+//    public JwtUtil(JwtProperties jwtProperties) {
+//        this.jwtProperties = jwtProperties;
+//    }
 
     /**
      * 헤더로부터 LoginResDTO 생성
      */
     public LoginResDTO getResDTO(String authorizationHeader) {
-        checkAuthorizationHeader(authorizationHeader);
+        checkHeader(authorizationHeader);
         String token = "";
         Claims claims = null;
         try {
@@ -43,11 +42,12 @@ public class JwtUtil {
     /**
      * 헤더값이 유효한지 검증
      */
-    private boolean checkAuthorizationHeader(String header) {
+    boolean checkHeader(String header) {
         if (header == null || !header.startsWith(jwtProperties.getTokenPrefix())) {
-            logger.error("토큰이 없습니다.(1)");
+            logger.error("없는 토큰 또는 잘못된 형식의 토큰입니다.");
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -76,11 +76,25 @@ public class JwtUtil {
     }
 
     /**
+     * 토큰에서 role 추출
+     */
+    public String getRole(String token) {
+        return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
+                .getBody().get("role", String.class);
+    }
+
+    /**
      * Access 토큰 만료 확인
      */
     public static boolean isAccessExpired(String token, String secretKey) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().getExpiration().before(new Date());
+        try{
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                    .getBody().getExpiration().before(new Date());
+            return false;
+        }
+        catch(Exception e){
+            return true;
+        }
     }
 
     /**
@@ -95,7 +109,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + Duration.ofMinutes(5).toMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + Duration.ofMinutes(1).toMillis())) //테스트를 위해 1분으로 해놓음. 원랜 5분
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
@@ -112,8 +126,14 @@ public class JwtUtil {
      * Refresh 토큰 만료 확인
      */
     public static boolean isRefreshExpired(String token, String secretKey) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().getExpiration().before(new Date());
+        try{
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                    .getBody().getExpiration().before(new Date());
+            return false;
+        }
+        catch(Exception e){
+            return true;
+        }
     }
 
     /**
