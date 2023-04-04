@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class SignupController {
+public class CompanySignupController {
     private final CompanySignupService companySignupService;
 
     /**
@@ -17,7 +17,7 @@ public class SignupController {
      */
     @PostMapping("/company/signup")
     public String signUp(@RequestBody CompanySignupReqDTO companySignupReqDTO){
-        if(companySignupReqDTO.getEmail() == null || companySignupReqDTO.getPassword() == null){
+        if(companySignupReqDTO.getCompanyEmail() == null || companySignupReqDTO.getCompanyPassword() == null){
             return "아이디와 비밀번호를 정확히 입력해주세요";
         }
 

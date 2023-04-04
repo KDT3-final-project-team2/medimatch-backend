@@ -24,11 +24,11 @@ public class CompanySignupService {
      * 회원가입
      */
     public String signUp(CompanySignupReqDTO reqDTO){
-        if(companySignupRepository.existsCompanyByEmail(reqDTO.getEmail())){
-            return reqDTO.getEmail() + "는 이미 존재하는 아이디 입니다.";
+        if(companySignupRepository.existsCompanyByEmail(reqDTO.getCompanyEmail())){
+            return reqDTO.getCompanyEmail() + "는 이미 존재하는 아이디 입니다.";
         }
 
-        reqDTO.setPassword(passwordEncoding(reqDTO.getPassword()));
+        reqDTO.setCompanyPassword(passwordEncoding(reqDTO.getCompanyPassword()));
 
         Company company = reqDTO.toEntity();
 
