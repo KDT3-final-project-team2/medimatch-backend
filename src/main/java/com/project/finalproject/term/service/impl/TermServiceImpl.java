@@ -58,7 +58,7 @@ public class TermServiceImpl implements TermService {
                 () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
         );
 
-        Optional<Term> terms = termRepository.findByCompanyId(company.getId());
+        List<Term> terms = termRepository.findByCompanyId(company.getId());
 
         return terms.stream()
                 .map(TermResDTO.TermList::new)
