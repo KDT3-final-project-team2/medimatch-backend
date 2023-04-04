@@ -60,7 +60,8 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
             String refreshToken = utilException.getErrorMsg();
             String email = jwtutil.getRefreshUserEmail(refreshToken);
             String role = jwtutil.getRole(refreshToken);
-            String accessToken = jwtutil.createAccessToken(email, jwtProperties.getSecretKey(), role);
+            Long id = jwtutil.getId(refreshToken);
+            String accessToken = jwtutil.createAccessToken(email, jwtProperties.getSecretKey(), role, id);
             response.getWriter().println("{ \"stateCode\" : " + utilException.getErrorCode()
                     + ", \"success\" : \"" + "false"
                     + "\", \"message\" : \"" + "새로운 AccessToken입니다."

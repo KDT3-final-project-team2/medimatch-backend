@@ -98,10 +98,11 @@ public class JwtUtil {
     /**
      * Access 토큰 생성
      */
-    public String createAccessToken(String userEmail, String secretKey, String role) {
+    public String createAccessToken(String userEmail, String secretKey, String role, Long id) {
         Claims claims = Jwts.claims().setSubject(userEmail);
         claims.put("userEmail", userEmail);
         claims.put("role", role);
+        claims.put("id", id);
         claims.put("issuer", jwtProperties.getIssuer());
 
         return Jwts.builder()
@@ -137,10 +138,11 @@ public class JwtUtil {
     /**
      * Refresh 토큰 생성
      */
-    public String createRefreshToken(String userEmail, String secretKey, String role) {
+    public String createRefreshToken(String userEmail, String secretKey, String role, Long id) {
         Claims claims = Jwts.claims().setSubject(userEmail);
         claims.put("userEmail", userEmail);
         claims.put("role", role);
+        claims.put("id", id);
         claims.put("issuer", jwtProperties.getIssuer());
 
         return Jwts.builder()
@@ -164,6 +166,14 @@ public class JwtUtil {
         info.put(role, "role");
 
         return info;
+    }
+
+    /**
+     * 토큰에서 id값 추출
+     */
+    public Long getId(String token) {
+        return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
+                .getBody().get("id", Long.class);
     }
 
 }
