@@ -45,7 +45,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 @Import(ApplicantServiceImpl.class)
 //@TestPropertySource(locations = "classpath:application-local.properties")
-@TestPropertySource(locations = "classpath:application.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class 지원하기 {
 
 

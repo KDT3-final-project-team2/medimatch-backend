@@ -42,7 +42,7 @@ import org.springframework.core.io.Resource;
 @SpringBootTest
 @Import(ApplicantServiceImpl.class)
 //@TestPropertySource(locations = "classpath:application-local.properties")
-@TestPropertySource(locations = "classpath:application.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class 이력서_조회 {
 
 

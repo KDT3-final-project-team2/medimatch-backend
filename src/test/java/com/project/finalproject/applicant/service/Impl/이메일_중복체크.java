@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest
 @Import(ApplicantServiceImpl.class)
 //@TestPropertySource(locations = "classpath:application-local.properties")
-@TestPropertySource(locations = "classpath:application.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class 이메일_중복체크 {
 
 
