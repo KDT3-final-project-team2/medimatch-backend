@@ -4,8 +4,10 @@ import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.company.exception.CompanyException;
 import com.project.finalproject.company.exception.CompanyExceptionType;
 import com.project.finalproject.company.repository.CompanyRepository;
+import com.project.finalproject.term.dto.TermDetailResponseDTO;
 import com.project.finalproject.term.dto.TermResDTO;
 import com.project.finalproject.term.entity.Term;
+import com.project.finalproject.term.entity.enums.TermStatus;
 import com.project.finalproject.term.exception.TermException;
 import com.project.finalproject.term.exception.TermExceptionType;
 import com.project.finalproject.term.repository.TermRepository;
@@ -85,5 +87,18 @@ public class TermServiceImpl implements TermService {
         return TermResDTO.TermDetail.builder()
                 .term(term)
                 .build();
+    }
+
+    @Override
+    public List<TermDetailResponseDTO> getRunningTerms(Long companyId, TermStatus status) {
+        List<Term> terms = termRepository.findByCompanyIdAndStatus(companyId, status);
+        for (Term term : terms) {
+            if (term.getStatus().equals(TermStatus.USE)) {
+                return terms.stream()
+                        .map(TermDetailResponseDTO::new)
+                        .collect(Collectors.toList());
+            }
+        }
+        return null;
     }
 }

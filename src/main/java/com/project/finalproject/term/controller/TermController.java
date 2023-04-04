@@ -1,8 +1,10 @@
 package com.project.finalproject.term.controller;
 
 import com.project.finalproject.global.dto.ResponseDTO;
+import com.project.finalproject.term.dto.TermDetailResponseDTO;
 import com.project.finalproject.term.dto.TermResDTO;
 import com.project.finalproject.term.entity.Term;
+import com.project.finalproject.term.entity.enums.TermStatus;
 import com.project.finalproject.term.service.TermService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -61,4 +63,12 @@ public class TermController {
         return new ResponseDTO<>().ok(termDetail, "termDetail success");
     }
 
+    /*
+    * 약관 목록 불러오기
+     */
+    @GetMapping(value = "/terms/{companyId}")
+    public ResponseDTO<?> showTerms(@PathVariable Long companyId) {
+        List<TermDetailResponseDTO> termList = termService.getRunningTerms(companyId, TermStatus.USE);
+        return new ResponseDTO(200, true, termList, "사용중인 약관 목록");
+    }
 }
