@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.util.Date;
+import java.util.HashMap;
 
 @Component
 @RequiredArgsConstructor
@@ -18,9 +19,6 @@ public class JwtUtil {
     private final JwtProperties jwtProperties;
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-//    public JwtUtil(JwtProperties jwtProperties) {
-//        this.jwtProperties = jwtProperties;
-//    }
 
     /**
      * 헤더로부터 LoginResDTO 생성
@@ -152,4 +150,20 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
+
+    /**
+     * 헤더에서 토큰을 추출하고 토큰으로 부터 Email, role을 추출해주는 메서드
+     */
+    public HashMap<String, String> allInOne(String authorizationHeader){
+        HashMap<String, String> info = new HashMap<>();
+        String token = authorizationHeader.substring(jwtProperties.getTokenPrefix().length());
+        String email = getAccessUserEmail(token);
+        String role = getRole(token);
+
+        info.put(email,"email");
+        info.put(role, "role");
+
+        return info;
+    }
+
 }
