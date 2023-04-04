@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @Import(ApplicantServiceImpl.class)
 //@TestPropertySource(locations = "classpath:application-local.properties")
-@TestPropertySource(locations = "classpath:application.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class 내_정보 {
 
 
