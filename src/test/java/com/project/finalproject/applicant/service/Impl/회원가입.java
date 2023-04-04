@@ -23,7 +23,8 @@ import static org.mockito.Mockito.when;
 @AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
 @SpringBootTest
 @Import(ApplicantServiceImpl.class)
-@TestPropertySource(locations = "classpath:application-local.properties")
+//@TestPropertySource(locations = "classpath:application-local.properties")
+@TestPropertySource(locations = "classpath:application.properties")
 public class 회원가입 {
 
 
