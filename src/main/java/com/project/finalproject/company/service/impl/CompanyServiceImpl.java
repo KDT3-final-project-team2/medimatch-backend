@@ -180,12 +180,30 @@ public class CompanyServiceImpl implements CompanyService {
     /**
      * 채용공고 수정
      * @param email : 채용 공고 수정할 기업 email
+     * @param postId : 수정할 게시글 id
      * @param updateRequestDTO : 수정하는데 필요한 데이터
      * @return 수정 후 수정된 jobpostId
      */
     @Override
-    public Long updateJobpost(String email, CompanyJobpostRequest.UpdateDTO updateRequestDTO) {
-        return null;
+    public CompanyJobpostResponse.LongDTO updateJobpost(String email, Long postId, CompanyJobpostRequest.UpdateDTO updateRequestDTO, MultipartFile jobpostFile) throws IOException {
+        Company company = companyRepository.findByEmail(email).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+
+        Jobpost jobpost = jobpostRepository.findById(postId).orElseThrow(
+                () -> new JobpostException(JobpostExceptionType.NOT_FOUND_PAGE)
+        );
+
+        // 기존 파일 덮어 쓰기
+        String filePath = jobpost.getFilepath();
+        if(jobpostFile != null) {
+            jobpostFile.transferTo(new File(filePath));
+        }
+
+        jobpost.updateJobpost(updateRequestDTO, company);
+
+        return new CompanyJobpostResponse.LongDTO( jobpostRepository.save(jobpost) );
+
     }
 
     @Override

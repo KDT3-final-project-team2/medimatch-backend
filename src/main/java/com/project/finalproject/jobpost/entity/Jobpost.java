@@ -6,6 +6,7 @@ import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.jobpost.entity.enums.JobpostEducation;
 import com.project.finalproject.jobpost.entity.enums.JobpostStatus;
 import com.project.finalproject.jobpost.entity.enums.JobpostWorkExperience;
+import lombok.*;
 import com.project.finalproject.term.entity.enums.TermStatus;
 import com.project.finalproject.term.entity.enums.TermType;
 import lombok.*;
@@ -17,7 +18,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "tb_jobpost")
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -99,4 +100,29 @@ public class Jobpost {
     public void changeStatus(){
         this.status = JobpostStatus.DISCARD;
     }
+
+    public Jobpost updateJobpost(CompanyJobpostRequest.UpdateDTO updateDTO, Company company){
+        if(!updateDTO.getTitle().isEmpty()) this.title = updateDTO.getTitle();
+        if(updateDTO.getStartDate() != null) this.startDate = updateDTO.getStartDate();
+        if(updateDTO.getDueDate() != null) this.dueDate = updateDTO.getDueDate();
+        if(updateDTO.getSector() != null) this.sector = updateDTO.getSector();
+        if(updateDTO.getEducation() != null) this.education = updateDTO.getEducation();
+        if(updateDTO.getWorkExperience() != null) this.experience = updateDTO.getWorkExperience();
+        if(updateDTO.getRecruitNum() != null) this.recruitNum = updateDTO.getRecruitNum();
+        if(updateDTO.getJobpostStatus() != null) this.status = updateDTO.getJobpostStatus();
+
+        return Jobpost.builder()
+                .title(title)
+                .startDate(startDate)
+                .dueDate(dueDate)
+                .sector(sector)
+                .education(education)
+                .experience(experience)
+                .recruitNum(recruitNum)
+                .filepath(filepath)
+                .status(status)
+                .company(company)
+                .build();
+    }
+
 }

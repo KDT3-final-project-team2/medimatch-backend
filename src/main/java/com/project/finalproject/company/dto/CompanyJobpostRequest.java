@@ -19,11 +19,9 @@ public class CompanyJobpostRequest {
      * 공고 생성시 사용 하는 DTO
      */
     @Getter
-    @Setter
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    @ToString
     public static class CreateDTO{
         private String title; //공고 제목
         private LocalDateTime startDate; //공고 시작 날짜
@@ -34,8 +32,20 @@ public class CompanyJobpostRequest {
         private Integer recruitNum; // 모집 인원
         private String filePath; // 채용 공고 파일 (== 내용)
 
+        public void setFilePath(String filePath){
+            this.filePath = filePath;
+        }
+
     }
 
+    /**
+     * 공고 수정시 사용하는 DTO
+     */
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
     public static class UpdateDTO{
         private String title; //공고 제목
         private LocalDateTime startDate; //공고 시작 날짜
@@ -44,7 +54,6 @@ public class CompanyJobpostRequest {
         private JobpostEducation education; // 학력
         private JobpostWorkExperience workExperience; // 경력
         private Integer recruitNum; // 모집 인원
-        private String filePath; // 채용 공고 파일 (== 내용)
         private JobpostStatus jobpostStatus; // 채용 공고 상태 (모집중, 마감, 폐기)
 
     }

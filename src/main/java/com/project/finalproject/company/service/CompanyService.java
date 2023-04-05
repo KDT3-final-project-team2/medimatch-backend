@@ -25,7 +25,7 @@ public interface CompanyService {
     public ApplicationsForCompanyResponseDTO statisticsForApplicationsForCompany(Long companyId);
 
     //채용공고 수정
-    Long updateJobpost(String email, CompanyJobpostRequest.UpdateDTO updateRequestDTO);
+    CompanyJobpostResponse.LongDTO updateJobpost(String email, Long postId, CompanyJobpostRequest.UpdateDTO updateRequestDTO, MultipartFile jobpostFile) throws IOException;
 
     //채용공고 삭제
     CompanyJobpostResponse.LongDTO deleteJobpost(String email, Long jobpostId);

@@ -42,7 +42,7 @@ public class CompanyController {
      */
     @PostMapping("/jobposts")
     public ResponseDTO<?> createJobpost(@AuthenticationPrincipal LoginResDTO userDetails,
-                                        @RequestParam("reqeustDTO") String jsonList, MultipartFile jobpostFile) throws IOException {
+                                        @RequestParam("requestDTO") String jsonList, MultipartFile jobpostFile) throws IOException {
         String email = userDetails.getEmail();
 
         ObjectMapper om = new ObjectMapper();
@@ -84,6 +84,25 @@ public class CompanyController {
         CompanyJobpostResponse.LongDTO jobpost = companyService.showJobpostDetail(email, postId);
 
         return new ResponseDTO<>().ok(jobpost,"데이터 출력 성공");
+    }
+
+    @PutMapping("/jobposts/{postId}")
+    public ResponseDTO<?> updateJobpost(@AuthenticationPrincipal LoginResDTO userDetails,
+                                        @PathVariable Long postId,
+                                        @RequestParam("requestDTO") String jsonList, MultipartFile jobpostFile) throws IOException {
+        String email = userDetails.getEmail();
+
+        ObjectMapper om = new ObjectMapper();
+        om.registerModule(new JavaTimeModule());
+        om.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false);
+        om.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT,true); // Object로 가져올 때 빈 문자열을 null로 처리.
+        om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,true);
+        CompanyJobpostRequest.UpdateDTO requestDTO = om.readValue(jsonList, CompanyJobpostRequest.UpdateDTO.class);
+
+        System.out.println(requestDTO.toString());
+        CompanyJobpostResponse.LongDTO updateJobpost = companyService.updateJobpost(email,postId,requestDTO,jobpostFile);
+
+        return new ResponseDTO<>().ok(updateJobpost,"수정 성공");
     }
 
     /**
