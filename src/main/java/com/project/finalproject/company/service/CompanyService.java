@@ -14,7 +14,7 @@ import java.util.List;
 public interface CompanyService {
 
     //채용공고 생성
-    Jobpost createJobpost(String email, CompanyJobpostRequest.CreateDTO createRequestDTO, MultipartFile jobpostFile) throws IOException;
+    CompanyJobpostResponse.LongDTO createJobpost(String email, CompanyJobpostRequest.CreateDTO createRequestDTO, MultipartFile jobpostFile) throws IOException;
 
     //채용공고 목록 조회
     List<CompanyJobpostResponse.ShortDTO> showJobpostList(String companyEmail);

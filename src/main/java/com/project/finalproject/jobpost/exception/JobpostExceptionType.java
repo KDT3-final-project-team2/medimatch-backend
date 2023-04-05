@@ -3,7 +3,8 @@ package com.project.finalproject.jobpost.exception;
 import com.project.finalproject.global.exception.base.CustomExceptionType;
 
 public enum JobpostExceptionType implements CustomExceptionType {
-    NOT_FOUND_PAGE(-301, "없는 게시글 입니다.");
+    NOT_FOUND_PAGE(-301, "없는 게시글 입니다."),
+    NOT_FOUND_FILE(-302, "첨부 파일이 없습니다.");
 
     private int errorCode;
     private String errorMsg;

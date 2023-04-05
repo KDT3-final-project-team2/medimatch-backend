@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,10 +35,10 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
     private final JobpostRepository jobpostRepository;
-//    @Value("${jobpost.file.path.server}")
-//    private final String JOBPOST_FILE_PATH;
-    @Value("${jobpost.file.path.local}")
+    @Value("${jobpost.file.path.server}")
     private String JOBPOST_FILE_PATH;
+//    @Value("${jobpost.file.path.local}")
+//    private String JOBPOST_FILE_PATH;
 
     /**
      * 채용 공고 생성
@@ -47,21 +48,23 @@ public class CompanyServiceImpl implements CompanyService {
      * @return
      */
     @Override
-    public Jobpost createJobpost(String email, CompanyJobpostRequest.CreateDTO createRequestDTO, MultipartFile jobpostFile) throws IOException {
+    public CompanyJobpostResponse.LongDTO createJobpost(String email, CompanyJobpostRequest.CreateDTO createRequestDTO, MultipartFile jobpostFile) throws IOException {
         Company company = companyRepository.findByEmail(email).orElseThrow(
                 () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
         );
-        LocalDateTime now = LocalDateTime.now();
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         String filePath = JOBPOST_FILE_PATH + now + "_" + company.getName() + ".pdf"; // 파일명 날짜_회사이름.pdf
-        System.out.println(filePath);
 
+        if(jobpostFile.isEmpty()){
+            throw new JobpostException(JobpostExceptionType.NOT_FOUND_FILE);
+        }
         jobpostFile.transferTo(new File(filePath));
 
         createRequestDTO.setFilePath(filePath);
 
         Jobpost creatJobpost = new Jobpost().createJobpost(createRequestDTO, company);
 
-        return jobpostRepository.save(creatJobpost);
+        return new CompanyJobpostResponse.LongDTO(jobpostRepository.save(creatJobpost));
     }
 
     /**

@@ -44,7 +44,7 @@ public class CompanyController {
         om.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false); // WRITE_DATES_AS_TIMSTAMPS(date를 timestamps로 찍는 기능) 해제
         CompanyJobpostRequest.CreateDTO requestDTO = om.readValue(jsonList, CompanyJobpostRequest.CreateDTO.class); //json DTO로 직렬화
 
-        Jobpost newJobpost = companyService.createJobpost(email,requestDTO,jobpostFile);
+        CompanyJobpostResponse.LongDTO newJobpost = companyService.createJobpost(email,requestDTO,jobpostFile);
 
         return new ResponseDTO<>().ok(newJobpost,"채용 공고 생성 완료");
 
