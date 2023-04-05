@@ -26,4 +26,7 @@ public interface CompanyService {
 
     //채용공고 수정
     Long updateJobpost(String email, CompanyJobpostRequest.UpdateDTO updateRequestDTO);
+
+    //채용공고 삭제
+    CompanyJobpostResponse.LongDTO deleteJobpost(String email, Long jobpostId);
 }

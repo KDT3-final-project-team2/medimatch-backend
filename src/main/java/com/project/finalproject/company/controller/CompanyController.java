@@ -32,10 +32,17 @@ public class CompanyController {
 
     private final CompanyService companyService;
 
+    /**
+     * 채용 공고 생성
+     * @param userDetails 토큰
+     * @param jsonList 안에 채울 json 데이터
+     * @param jobpostFile 채용 공고 pdf 파일
+     * @return 채용공고 상세 조회
+     * @throws IOException
+     */
     @PostMapping("/jobposts")
     public ResponseDTO<?> createJobpost(@AuthenticationPrincipal LoginResDTO userDetails,
                                         @RequestParam("reqeustDTO") String jsonList, MultipartFile jobpostFile) throws IOException {
-        //TODO : 토큰 완성되면 수정하기
         String email = userDetails.getEmail();
 
         ObjectMapper om = new ObjectMapper();
@@ -50,9 +57,13 @@ public class CompanyController {
 
     }
 
+    /**
+     * 채용공고 리스트 조회
+     * @param userDetails 토큰
+     * @return 채용공고 간략한 정보 리스트
+     */
     @GetMapping("/jobposts")
     public ResponseDTO<?> showJobpostList(@AuthenticationPrincipal LoginResDTO userDetails){
-        //TODO : 토큰 완성되면 수정하기
         String email = userDetails.getEmail();
 
         List<CompanyJobpostResponse.ShortDTO> jobpostList = companyService.showJobpostList(email);
@@ -60,14 +71,34 @@ public class CompanyController {
         return new ResponseDTO<>().ok(jobpostList,"리스트 출력 성공");
     }
 
+    /**
+     * 채용공고 상세 조회
+     * @param userDetails 토큰
+     * @param postId 상세 조회할 게시글 아이디
+     * @return 상세 조회 데이터
+     */
     @GetMapping("/jobposts/{postId}")
     public ResponseDTO<?> showJobpostDetail(@AuthenticationPrincipal LoginResDTO userDetails, @PathVariable Long postId){
-        //TODO : 토큰 완성되면 수정하기
         String email = userDetails.getEmail();
 
         CompanyJobpostResponse.LongDTO jobpost = companyService.showJobpostDetail(email, postId);
 
         return new ResponseDTO<>().ok(jobpost,"데이터 출력 성공");
+    }
+
+    /**
+     * 채용공고 삭제 (실제로 삭제 x 상태만 폐기로 변경)
+     * @param userDetails 토큰
+     * @param postId 상태 변경할 게시글 아이디
+     * @return 변경 완료 메세지만 출력
+     */
+    @DeleteMapping("/jobposts/{postId}")
+    public ResponseDTO<?> deleteJobpost(@AuthenticationPrincipal LoginResDTO userDetails, @PathVariable Long postId){
+        String email = userDetails.getEmail();
+
+        CompanyJobpostResponse.LongDTO newJobpost = companyService.deleteJobpost(email, postId);
+
+        return new ResponseDTO<>().ok(newJobpost, "상태 변경 완료");
     }
 
     @GetMapping("/applications/statistics")

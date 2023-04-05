@@ -187,4 +187,28 @@ public class CompanyServiceImpl implements CompanyService {
     public Long updateJobpost(String email, CompanyJobpostRequest.UpdateDTO updateRequestDTO) {
         return null;
     }
+
+    @Override
+    public CompanyJobpostResponse.LongDTO deleteJobpost(String email, Long jobpostId) {
+        //사용자 2차 검증
+        Company company = companyRepository.findByEmail(email).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+
+        //변경할 데이터 불러오기
+        Jobpost jobpost = jobpostRepository.findById(jobpostId).orElseThrow(
+                () -> new JobpostException(JobpostExceptionType.NOT_FOUND_PAGE)
+        );
+
+        if(jobpost.getStatus().getStatus().equals("DISCARD")){
+            throw new JobpostException(JobpostExceptionType.POSTS_DISCARD_ALREADY);
+        }
+
+        //상태 변경하기
+        jobpost.changeStatus();
+
+        Jobpost newJobpost = jobpostRepository.save(jobpost);
+
+        return new CompanyJobpostResponse.LongDTO(newJobpost);
+    }
 }
