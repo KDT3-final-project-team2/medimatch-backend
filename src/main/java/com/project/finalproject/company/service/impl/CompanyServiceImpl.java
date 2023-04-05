@@ -3,6 +3,7 @@ package com.project.finalproject.company.service.impl;
 import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
 import com.project.finalproject.applicant.entity.enums.Gender;
 import com.project.finalproject.company.dto.ApplicationsForCompanyResponseDTO;
+import com.project.finalproject.company.dto.CompanyJobpostRequest;
 import com.project.finalproject.company.dto.CompanyJobpostResponse;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.company.exception.CompanyException;
@@ -14,10 +15,16 @@ import com.project.finalproject.jobpost.exception.JobpostException;
 import com.project.finalproject.jobpost.exception.JobpostExceptionType;
 import com.project.finalproject.jobpost.repository.JobpostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +34,35 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
     private final JobpostRepository jobpostRepository;
+//    @Value("${jobpost.file.path.server}")
+//    private final String JOBPOST_FILE_PATH;
+    @Value("${jobpost.file.path.local}")
+    private String JOBPOST_FILE_PATH;
+
+    /**
+     * 채용 공고 생성
+     * @param email : 작성자 이메일
+     * @param createRequestDTO : 채용공고에 입력할 내용
+     * @param jobpostFile : 채용공고 내용 파일 (pdf)
+     * @return
+     */
+    @Override
+    public Jobpost createJobpost(String email, CompanyJobpostRequest.CreateDTO createRequestDTO, MultipartFile jobpostFile) throws IOException {
+        Company company = companyRepository.findByEmail(email).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+        LocalDateTime now = LocalDateTime.now();
+        String filePath = JOBPOST_FILE_PATH + now + "_" + company.getName() + ".pdf"; // 파일명 날짜_회사이름.pdf
+        System.out.println(filePath);
+
+        jobpostFile.transferTo(new File(filePath));
+
+        createRequestDTO.setFilePath(filePath);
+
+        Jobpost creatJobpost = new Jobpost().createJobpost(createRequestDTO, company);
+
+        return jobpostRepository.save(creatJobpost);
+    }
 
     /**
      * 기업 본인이 작성한 채용공고 목록 조회
@@ -136,5 +172,16 @@ public class CompanyServiceImpl implements CompanyService {
                 .applicantEducationCount(applicantEducation)
                 .jobpostTitleCount(jobpostTitle)
                 .build();
+    }
+
+    /**
+     * 채용공고 수정
+     * @param email : 채용 공고 수정할 기업 email
+     * @param updateRequestDTO : 수정하는데 필요한 데이터
+     * @return 수정 후 수정된 jobpostId
+     */
+    @Override
+    public Long updateJobpost(String email, CompanyJobpostRequest.UpdateDTO updateRequestDTO) {
+        return null;
     }
 }

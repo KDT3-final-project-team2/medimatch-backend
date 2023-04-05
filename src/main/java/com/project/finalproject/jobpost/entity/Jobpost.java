@@ -1,6 +1,7 @@
 package com.project.finalproject.jobpost.entity;
 
 import com.project.finalproject.applicant.entity.enums.Sector;
+import com.project.finalproject.company.dto.CompanyJobpostRequest;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.jobpost.entity.enums.JobpostEducation;
 import com.project.finalproject.jobpost.entity.enums.JobpostStatus;
@@ -8,6 +9,10 @@ import com.project.finalproject.jobpost.entity.enums.JobpostWorkExperience;
 import com.project.finalproject.term.entity.enums.TermStatus;
 import com.project.finalproject.term.entity.enums.TermType;
 import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -24,6 +29,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class Jobpost {
 
     @Id
@@ -73,4 +80,30 @@ public class Jobpost {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company; //채용공고를 작성한 기업회원
+
+    public Jobpost createJobpost(CompanyJobpostRequest.CreateDTO createDTO, Company company){
+//        this.title = createDTO.getTitle();
+//        this.education = createDTO.getEducation();
+//        this.experience = createDTO.getWorkExperience();
+//        this.startDate = createDTO.getStartDate();
+//        this.dueDate = createDTO.getDueDate();
+//        this.status = JobpostStatus.OPEN;
+//        this.recruitNum = createDTO.getRecruitNum();
+//        this.filepath = filepath;
+//        this.sector = createDTO.getSector();
+//        this.company = company;
+
+        return Jobpost.builder()
+                .title(createDTO.getTitle())
+                .education(createDTO.getEducation())
+                .experience(createDTO.getWorkExperience())
+                .startDate(createDTO.getStartDate())
+                .dueDate(createDTO.getDueDate())
+                .status(JobpostStatus.OPEN)
+                .recruitNum(createDTO.getRecruitNum())
+                .filepath(createDTO.getFilePath())
+                .sector(createDTO.getSector())
+                .company(company)
+                .build();
+    }
 }
