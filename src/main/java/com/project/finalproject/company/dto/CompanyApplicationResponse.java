@@ -10,11 +10,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 /**
  * 기업 회원 지원자 출력 DTO
  */
-public class CompanyApplicantResponse {
+public class CompanyApplicationResponse {
 
     /**
      * 지원자 정보 출력
@@ -68,5 +69,19 @@ public class CompanyApplicantResponse {
             this.applyDate = application.getApplyDate();
             this.interviewDate = application.getInterviewDate();
         }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class ApplicationsForCompanyResponseDTO {
+
+
+        private HashMap<String, Integer> applicantAgeCount;
+        private HashMap<String, Integer> applicantGenderCount;
+        private HashMap<String, Integer> applicantEducationCount;
+        private HashMap<String, Integer> jobpostTitleCount;
+
+
     }
 }

@@ -4,16 +4,14 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.project.finalproject.company.dto.ApplicationsForCompanyResponseDTO;
 import com.project.finalproject.company.dto.CompanyJobpostRequest;
-import com.project.finalproject.company.dto.CompanyApplicantResponse;
+import com.project.finalproject.company.dto.CompanyApplicationResponse;
 import com.project.finalproject.company.dto.CompanyJobpostResponse;
 import com.project.finalproject.company.service.CompanyService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.login.dto.LoginResDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -129,7 +127,7 @@ public class CompanyController {
     @GetMapping("/applications/statistics")
     public ResponseDTO companyApplicationsStatistics(){
         //#Todo 회사 ID 가져오기
-        ApplicationsForCompanyResponseDTO responseDTO = companyService.statisticsForApplicationsForCompany(1L);
+        CompanyApplicationResponse.StatisticsDTO responseDTO = companyService.statisticsForApplicationsForCompany(1L);
         if(responseDTO.getApplicantAgeCount().size() == 0){
             return new ResponseDTO(401, false, "fail", "지원한 지원자가 없습니다.");
         }
@@ -140,7 +138,7 @@ public class CompanyController {
     public ResponseDTO<?> showApplicants(@AuthenticationPrincipal LoginResDTO userDetail){
         String email = userDetail.getEmail();
 
-        List<CompanyApplicantResponse.ApplicantInfoDTO> applicantInfoDTOList = companyService.showApplicantInfo(email);
+        List<CompanyApplicationResponse.ApplicantInfoDTO> applicantInfoDTOList = companyService.showApplicantInfo(email);
 
         return new ResponseDTO<>().ok(applicantInfoDTOList,"지원자 목록 출력 완료");
     }

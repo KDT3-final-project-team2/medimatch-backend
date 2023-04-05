@@ -1,14 +1,8 @@
 package com.project.finalproject.company.service.impl;
 
-import com.project.finalproject.applicant.dto.response.MyInfoResponseDTO;
-import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
-import com.project.finalproject.applicant.entity.enums.ApplicantWorkExperience;
 import com.project.finalproject.applicant.entity.enums.Gender;
-import com.project.finalproject.applicant.entity.enums.Sector;
-import com.project.finalproject.applicant.repository.ApplicantRepository;
-import com.project.finalproject.applicant.service.Impl.ApplicantServiceImpl;
-import com.project.finalproject.company.dto.ApplicationsForCompanyResponseDTO;
+import com.project.finalproject.company.dto.CompanyApplicationResponse;
 import com.project.finalproject.company.repository.CompanyRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,14 +11,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
@@ -58,7 +49,7 @@ public class 지원자_통계_조회 {
         when(companyRepository.findApplicationsForCompany(companyId))
                 .thenReturn(mockResults);
 
-        ApplicationsForCompanyResponseDTO applicationsForCompanyResponseDTO = companyService.statisticsForApplicationsForCompany(companyId);
+        CompanyApplicationResponse.ApplicationsForCompanyResponseDTO applicationsForCompanyResponseDTO = companyService.statisticsForApplicationsForCompany(companyId);
 
         assertNotNull(applicationsForCompanyResponseDTO);
 

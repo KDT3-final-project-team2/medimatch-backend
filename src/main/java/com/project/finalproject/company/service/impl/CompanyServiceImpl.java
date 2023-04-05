@@ -1,13 +1,11 @@
 package com.project.finalproject.company.service.impl;
 
-import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
 import com.project.finalproject.applicant.entity.enums.Gender;
 import com.project.finalproject.application.entity.Application;
-import com.project.finalproject.application.entity.repository.ApplicationRepository;
-import com.project.finalproject.company.dto.ApplicationsForCompanyResponseDTO;
+import com.project.finalproject.application.repository.ApplicationRepository;
 import com.project.finalproject.company.dto.CompanyJobpostRequest;
-import com.project.finalproject.company.dto.CompanyApplicantResponse;
+import com.project.finalproject.company.dto.CompanyApplicationResponse;
 import com.project.finalproject.company.dto.CompanyJobpostResponse;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.company.exception.CompanyException;
@@ -173,7 +171,7 @@ public class CompanyServiceImpl implements CompanyService {
         return new CompanyJobpostResponse.LongDTO(newJobpost);
     }
 
-    public ApplicationsForCompanyResponseDTO statisticsForApplicationsForCompany(Long companyId) {
+    public CompanyApplicationResponse.StatisticsDTO statisticsForApplicationsForCompany(Long companyId) {
         HashMap<String, Integer> applicantAge = new HashMap<>();
         HashMap<String, Integer> applicantGender = new HashMap<>();
         HashMap<String, Integer> applicantEducation = new HashMap<>();
@@ -223,7 +221,8 @@ public class CompanyServiceImpl implements CompanyService {
         }
 
 
-        return ApplicationsForCompanyResponseDTO.builder()
+
+        return CompanyApplicationResponse.StatisticsDTO.builder()
                 .applicantAgeCount(applicantAge)
                 .applicantGenderCount(applicantGender)
                 .applicantEducationCount(applicantEducation)
@@ -233,13 +232,13 @@ public class CompanyServiceImpl implements CompanyService {
 
 
     @Override
-    public List<CompanyApplicantResponse.ApplicantInfoDTO> showApplicantInfo(String companyEmail) {
+    public List<CompanyApplicationResponse.ApplicantInfoDTO> showApplicantInfo(String companyEmail) {
         Company company = companyRepository.findByEmail(companyEmail).orElseThrow(
                 () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
         );
 
         List<Application> application = applicationRepository.findAll();
 
-        return application.stream().map(CompanyApplicantResponse.ApplicantInfoDTO::new).collect(Collectors.toList());
+        return application.stream().map(CompanyApplicationResponse.ApplicantInfoDTO::new).collect(Collectors.toList());
     }
 }
