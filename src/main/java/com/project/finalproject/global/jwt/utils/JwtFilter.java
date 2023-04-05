@@ -61,7 +61,7 @@ public class JwtFilter extends OncePerRequestFilter {
          * Authorization 헤더값이 유효한지 검증
          */
         if(jwtUtil.checkHeader(authorizationHeader)){
-            if(permitUrl.containsKey(uri)){
+            if(permitUrl.containsKey(uri) || uri.startsWith("/terms/")){
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -76,17 +76,14 @@ public class JwtFilter extends OncePerRequestFilter {
             //login페이지로 redirect하라는 response
             if(jwtUtil.getRole(accessToken).equals("USER")){
                 response.sendRedirect("/applicant/login");
-                filterChain.doFilter(request, response);
                 return;
             }
             else if(jwtUtil.getRole(accessToken).equals("COMPANY")){
                 response.sendRedirect("/company/login");
-                filterChain.doFilter(request, response);
                 return;
             }
             else {
                 response.sendRedirect("/admin/login");
-                filterChain.doFilter(request, response);
                 return;
             }
         }
@@ -101,31 +98,48 @@ public class JwtFilter extends OncePerRequestFilter {
              */
             String refreshHeader = request.getHeader("REFRESH");
             if(jwtUtil.checkHeader(refreshHeader)){
-                if(permitUrl.containsKey(request.getRequestURI())){
+                if(permitUrl.containsKey(request.getRequestURI()) || uri.startsWith("/terms/")){
                     filterChain.doFilter(request,response);
                     return;
                 }
                 throw new UtilException(403, HttpStatus.FORBIDDEN, "REFRESH");
             }
             String refreshToken = jwtUtil.extractToken(refreshHeader);
+
             /**
-             * AccessToken 유효하지 않고, Refresh 토큰을 받았을 때
+             * AccessToken 유효하지 않고, Refresh 토큰을 받았을 때, RefreshToken도 먼저 Redis에 있는지 확인
+             */
+            if(stringRedisTemplate.hasKey(refreshToken)){
+                //login페이지로 redirect하라는 response
+                if(jwtUtil.getRole(refreshToken).equals("USER")){
+                    response.sendRedirect("/applicant/login");
+                    return;
+                }
+                else if(jwtUtil.getRole(refreshToken).equals("COMPANY")){
+                    response.sendRedirect("/company/login");
+                    return;
+                }
+                else {
+                    response.sendRedirect("/admin/login");
+                    return;
+                }
+            }
+
+            /**
+             * Refresh토큰이 Redis에 없다면, 유효성 확인
              */
             if(jwtUtil.isRefreshExpired(refreshToken, jwtProperties.getSecretKey())){
                 //login페이지로 redirect 하라는 response
                 if(jwtUtil.getRole(refreshToken).equals("USER")){
                     response.sendRedirect("/applicant/login");
-                    filterChain.doFilter(request, response);
                     return;
                 }
                 else if(jwtUtil.getRole(refreshToken).equals("COMPANY")){
                     response.sendRedirect("/company/login");
-                    filterChain.doFilter(request, response);
                     return;
                 }
                 else {
                     response.sendRedirect("/admin/login");
-                    filterChain.doFilter(request, response);
                     return;
                 }
             }
