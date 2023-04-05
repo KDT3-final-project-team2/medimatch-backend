@@ -16,4 +16,12 @@ public interface CompanyRepository extends JpaRepository< Company, Long > {
     @Query("SELECT c FROM Company c WHERE c.companyType = 'COMPANY'")
     List<Company> findByCompanyType(@Param("companyType") CompanyType companyType);
 
+    @Query("SELECT a.birthDate, a.gender, a.education, j.title " +
+            "FROM Application ap " +
+            "INNER JOIN Jobpost j ON ap.jobpost.id = j.id " +
+            "INNER JOIN Company c ON j.company.id = c.id " +
+            "INNER JOIN Applicant a ON ap.applicant.id = a.id " +
+            "WHERE c.id = :companyId")
+    List<Object[]> findApplicationsForCompany(@Param("companyId") Long companyId);
+
 }

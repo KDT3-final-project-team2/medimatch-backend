@@ -1,5 +1,6 @@
 package com.project.finalproject.company.controller;
 
+import com.project.finalproject.company.dto.ApplicationsForCompanyResponseDTO;
 import com.project.finalproject.company.dto.CompanyJobpostResponse;
 import com.project.finalproject.company.service.CompanyService;
 import com.project.finalproject.global.dto.ResponseDTO;
@@ -14,6 +15,7 @@ import java.util.List;
 public class CompanyController {
 
     private final CompanyService companyService;
+
 
     @GetMapping("/jobposts")
     public ResponseDTO<?> showJobpostList(){
@@ -33,5 +35,15 @@ public class CompanyController {
         CompanyJobpostResponse.LongDTO jobpost = companyService.showJobpostDetail(email, postId);
 
         return new ResponseDTO<>().ok(jobpost,"데이터 출력 성공");
+    }
+
+    @GetMapping("/applications/statistics")
+    public ResponseDTO companyApplicationsStatistics(){
+        //#Todo 회사 ID 가져오기
+        ApplicationsForCompanyResponseDTO responseDTO = companyService.statisticsForApplicationsForCompany(1L);
+        if(responseDTO == null){
+            return new ResponseDTO(401, false, "fail", "지원한 지원자가 없습니다.");
+        }
+        return new ResponseDTO(200, true, responseDTO, "지원한 지원자 통계입니다.");
     }
 }

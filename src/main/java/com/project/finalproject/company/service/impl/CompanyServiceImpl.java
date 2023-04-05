@@ -1,5 +1,8 @@
 package com.project.finalproject.company.service.impl;
 
+import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
+import com.project.finalproject.applicant.entity.enums.Gender;
+import com.project.finalproject.company.dto.ApplicationsForCompanyResponseDTO;
 import com.project.finalproject.company.dto.CompanyJobpostResponse;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.company.exception.CompanyException;
@@ -13,6 +16,8 @@ import com.project.finalproject.jobpost.repository.JobpostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,6 +68,73 @@ public class CompanyServiceImpl implements CompanyService {
 
         return CompanyJobpostResponse.LongDTO.builder()
                 .jobpost(jobpost)
+                .build();
+    }
+
+    public ApplicationsForCompanyResponseDTO statisticsForApplicationsForCompany(Long companyId) {
+        HashMap<String, Integer> applicantAge = new HashMap<>();
+        HashMap<String, Integer> applicantGender = new HashMap<>();
+        HashMap<String, Integer> applicantEducation = new HashMap<>();
+        HashMap<String, Integer> jobpostTitle = new HashMap<>();
+
+        List<Object[]> results = companyRepository.findApplicationsForCompany(companyId);
+
+        for (Object[] row : results){
+            //연령
+            int age = LocalDate.now().getYear() - Integer.parseInt(row[0].toString().substring(0, 4));
+            String ageRange;
+            if(age>50){
+                ageRange = "50대 이상";
+            } else if (age>40){
+                ageRange = "40대";
+            } else if (age>30){
+                ageRange = "30대";
+            } else if (age>20){
+                ageRange = "20대";
+            } else {
+                ageRange = "10대";
+            }
+            String gender = Gender.valueOf(row[1].toString()).getGender();
+            String education = ApplicantEducation.valueOf(row[2].toString()).getEducation();
+            String title = row[3].toString();
+
+            if (applicantAge.containsKey(ageRange)){
+                applicantAge.put(ageRange, applicantAge.get(ageRange)+1);
+            } else {
+                applicantAge.put(ageRange, 1);
+            }
+            if (applicantGender.containsKey(gender)){
+                applicantGender.put(gender, applicantGender.get(gender)+1);
+            } else {
+                applicantGender.put(gender, 1);
+            }
+            if (applicantEducation.containsKey(education)){
+                applicantEducation.put(education, applicantEducation.get(education)+1);
+            } else {
+                applicantEducation.put(education, 1);
+            }
+            if (jobpostTitle.containsKey(title)){
+                jobpostTitle.put(title, jobpostTitle.get(title)+1);
+            } else {
+                jobpostTitle.put(title, 1);
+            }
+        }
+
+
+
+        for (Object[] row : results) {
+            System.out.println(row[0] + " " + row[1] + " " + row[2] + " " + row[3]);
+            System.out.println(row[0]); //생년월일
+            System.out.println(row[1]); //성별
+            System.out.println(row[2]); //학력
+            System.out.println(row[3]); //채용공고 제목
+        }
+
+        return ApplicationsForCompanyResponseDTO.builder()
+                .applicantAgeCount(applicantAge)
+                .applicantGenderCount(applicantGender)
+                .applicantEducationCount(applicantEducation)
+                .jobpostTitleCount(jobpostTitle)
                 .build();
     }
 }
