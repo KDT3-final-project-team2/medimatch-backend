@@ -1,5 +1,6 @@
 package com.project.finalproject.company.service;
 
+import com.project.finalproject.company.dto.ApplicationsForCompanyResponseDTO;
 import com.project.finalproject.company.dto.CompanyJobpostResponse;
 import org.springframework.stereotype.Service;
 
@@ -13,4 +14,6 @@ public interface CompanyService {
 
     //채용공고 단건 조회
     CompanyJobpostResponse.LongDTO showJobpostDetail(String companyEmail, Long postId);
+
+    public ApplicationsForCompanyResponseDTO statisticsForApplicationsForCompany(Long companyId);
 }
