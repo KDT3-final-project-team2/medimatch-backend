@@ -1,9 +1,13 @@
 package com.project.finalproject.company.service.impl;
 
+import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
 import com.project.finalproject.applicant.entity.enums.Gender;
+import com.project.finalproject.application.entity.Application;
+import com.project.finalproject.application.entity.repository.ApplicationRepository;
 import com.project.finalproject.company.dto.ApplicationsForCompanyResponseDTO;
 import com.project.finalproject.company.dto.CompanyJobpostRequest;
+import com.project.finalproject.company.dto.CompanyApplicantResponse;
 import com.project.finalproject.company.dto.CompanyJobpostResponse;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.company.exception.CompanyException;
@@ -65,6 +69,7 @@ public class CompanyServiceImpl implements CompanyService {
 
         return new CompanyJobpostResponse.LongDTO(jobpostRepository.save(creatJobpost));
     }
+    private final ApplicationRepository applicationRepository;
 
     /**
      * 기업 본인이 작성한 채용공고 목록 조회
@@ -226,4 +231,15 @@ public class CompanyServiceImpl implements CompanyService {
                 .build();
     }
 
+
+    @Override
+    public List<CompanyApplicantResponse.ApplicantInfoDTO> showApplicantInfo(String companyEmail) {
+        Company company = companyRepository.findByEmail(companyEmail).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+
+        List<Application> application = applicationRepository.findAll();
+
+        return application.stream().map(CompanyApplicantResponse.ApplicantInfoDTO::new).collect(Collectors.toList());
+    }
 }
