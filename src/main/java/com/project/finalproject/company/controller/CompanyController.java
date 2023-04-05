@@ -1,16 +1,14 @@
 package com.project.finalproject.company.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.project.finalproject.applicant.entity.enums.Sector;
+import com.project.finalproject.company.dto.ApplicationsForCompanyResponseDTO;
 import com.project.finalproject.company.dto.CompanyJobpostRequest;
 import com.project.finalproject.company.dto.CompanyJobpostResponse;
 import com.project.finalproject.company.service.CompanyService;
 import com.project.finalproject.global.dto.ResponseDTO;
-import com.project.finalproject.jobpost.entity.Jobpost;
 import com.project.finalproject.login.dto.LoginResDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -86,6 +81,15 @@ public class CompanyController {
         return new ResponseDTO<>().ok(jobpost,"데이터 출력 성공");
     }
 
+    /**
+     * 채용 공고 수정
+     * @param userDetails 토큰
+     * @param postId 수정할 게시글 아이디
+     * @param jsonList 수정할 내용
+     * @param jobpostFile 수정할 파일
+     * @return 채용공고 상세보기
+     * @throws IOException
+     */
     @PutMapping("/jobposts/{postId}")
     public ResponseDTO<?> updateJobpost(@AuthenticationPrincipal LoginResDTO userDetails,
                                         @PathVariable Long postId,

@@ -7,9 +7,6 @@ import com.project.finalproject.jobpost.entity.enums.JobpostEducation;
 import com.project.finalproject.jobpost.entity.enums.JobpostStatus;
 import com.project.finalproject.jobpost.entity.enums.JobpostWorkExperience;
 import lombok.*;
-import com.project.finalproject.term.entity.enums.TermStatus;
-import com.project.finalproject.term.entity.enums.TermType;
-import lombok.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,8 +27,6 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@AllArgsConstructor
-@NoArgsConstructor
 public class Jobpost {
 
     @Id

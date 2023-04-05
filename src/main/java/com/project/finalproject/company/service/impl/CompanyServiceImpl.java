@@ -23,7 +23,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -110,6 +109,65 @@ public class CompanyServiceImpl implements CompanyService {
                 .build();
     }
 
+    /**
+     * 채용공고 수정
+     * @param email : 채용 공고 수정할 기업 email
+     * @param postId : 수정할 게시글 id
+     * @param updateRequestDTO : 수정하는데 필요한 데이터
+     * @return 수정 후 수정된 jobpostId
+     */
+    @Override
+    public CompanyJobpostResponse.LongDTO updateJobpost(String email, Long postId, CompanyJobpostRequest.UpdateDTO updateRequestDTO, MultipartFile jobpostFile) throws IOException {
+        Company company = companyRepository.findByEmail(email).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+
+        Jobpost jobpost = jobpostRepository.findById(postId).orElseThrow(
+                () -> new JobpostException(JobpostExceptionType.NOT_FOUND_PAGE)
+        );
+
+        // 기존 파일 덮어 쓰기
+        String filePath = jobpost.getFilepath();
+        if(jobpostFile != null) {
+            jobpostFile.transferTo(new File(filePath));
+        }
+
+        jobpost.updateJobpost(updateRequestDTO, company);
+
+        return new CompanyJobpostResponse.LongDTO( jobpostRepository.save(jobpost) );
+
+    }
+
+    /**
+     * 채용공고 폐기 상태 변경
+     * @param email 바꾸는 사람 이메일
+     * @param jobpostId 바꿀 게시글 아이디
+     * @return
+     */
+    @Override
+    public CompanyJobpostResponse.LongDTO deleteJobpost(String email, Long jobpostId) {
+        //사용자 2차 검증
+        Company company = companyRepository.findByEmail(email).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+
+        //변경할 데이터 불러오기
+        Jobpost jobpost = jobpostRepository.findById(jobpostId).orElseThrow(
+                () -> new JobpostException(JobpostExceptionType.NOT_FOUND_PAGE)
+        );
+
+        if(jobpost.getStatus().getStatus().equals("DISCARD")){
+            throw new JobpostException(JobpostExceptionType.POSTS_DISCARD_ALREADY);
+        }
+
+        //상태 변경하기
+        jobpost.changeStatus();
+
+        Jobpost newJobpost = jobpostRepository.save(jobpost);
+
+        return new CompanyJobpostResponse.LongDTO(newJobpost);
+    }
+
     public ApplicationsForCompanyResponseDTO statisticsForApplicationsForCompany(Long companyId) {
         HashMap<String, Integer> applicantAge = new HashMap<>();
         HashMap<String, Integer> applicantGender = new HashMap<>();
@@ -177,56 +235,4 @@ public class CompanyServiceImpl implements CompanyService {
                 .build();
     }
 
-    /**
-     * 채용공고 수정
-     * @param email : 채용 공고 수정할 기업 email
-     * @param postId : 수정할 게시글 id
-     * @param updateRequestDTO : 수정하는데 필요한 데이터
-     * @return 수정 후 수정된 jobpostId
-     */
-    @Override
-    public CompanyJobpostResponse.LongDTO updateJobpost(String email, Long postId, CompanyJobpostRequest.UpdateDTO updateRequestDTO, MultipartFile jobpostFile) throws IOException {
-        Company company = companyRepository.findByEmail(email).orElseThrow(
-                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
-        );
-
-        Jobpost jobpost = jobpostRepository.findById(postId).orElseThrow(
-                () -> new JobpostException(JobpostExceptionType.NOT_FOUND_PAGE)
-        );
-
-        // 기존 파일 덮어 쓰기
-        String filePath = jobpost.getFilepath();
-        if(jobpostFile != null) {
-            jobpostFile.transferTo(new File(filePath));
-        }
-
-        jobpost.updateJobpost(updateRequestDTO, company);
-
-        return new CompanyJobpostResponse.LongDTO( jobpostRepository.save(jobpost) );
-
-    }
-
-    @Override
-    public CompanyJobpostResponse.LongDTO deleteJobpost(String email, Long jobpostId) {
-        //사용자 2차 검증
-        Company company = companyRepository.findByEmail(email).orElseThrow(
-                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
-        );
-
-        //변경할 데이터 불러오기
-        Jobpost jobpost = jobpostRepository.findById(jobpostId).orElseThrow(
-                () -> new JobpostException(JobpostExceptionType.NOT_FOUND_PAGE)
-        );
-
-        if(jobpost.getStatus().getStatus().equals("DISCARD")){
-            throw new JobpostException(JobpostExceptionType.POSTS_DISCARD_ALREADY);
-        }
-
-        //상태 변경하기
-        jobpost.changeStatus();
-
-        Jobpost newJobpost = jobpostRepository.save(jobpost);
-
-        return new CompanyJobpostResponse.LongDTO(newJobpost);
-    }
 }
