@@ -82,17 +82,6 @@ public class Jobpost {
     private Company company; //채용공고를 작성한 기업회원
 
     public Jobpost createJobpost(CompanyJobpostRequest.CreateDTO createDTO, Company company){
-//        this.title = createDTO.getTitle();
-//        this.education = createDTO.getEducation();
-//        this.experience = createDTO.getWorkExperience();
-//        this.startDate = createDTO.getStartDate();
-//        this.dueDate = createDTO.getDueDate();
-//        this.status = JobpostStatus.OPEN;
-//        this.recruitNum = createDTO.getRecruitNum();
-//        this.filepath = filepath;
-//        this.sector = createDTO.getSector();
-//        this.company = company;
-
         return Jobpost.builder()
                 .title(createDTO.getTitle())
                 .education(createDTO.getEducation())
@@ -105,5 +94,9 @@ public class Jobpost {
                 .sector(createDTO.getSector())
                 .company(company)
                 .build();
+    }
+
+    public void changeStatus(){
+        this.status = JobpostStatus.DISCARD;
     }
 }
