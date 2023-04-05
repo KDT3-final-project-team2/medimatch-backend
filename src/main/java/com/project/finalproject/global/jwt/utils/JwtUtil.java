@@ -176,4 +176,12 @@ public class JwtUtil {
                 .getBody().get("id", Long.class);
     }
 
+    /**
+     * 토큰에서 유효기간 일시 추출
+     */
+    public Date getExpiration(String token) {
+        return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
+                .getBody().getExpiration();
+    }
+
 }
