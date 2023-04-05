@@ -44,6 +44,6 @@ public class CompanyController {
         if(responseDTO == null){
             return new ResponseDTO(401, false, "fail", "지원한 지원자가 없습니다.");
         }
-        return new ResponseDTO(200, true, companyService.statisticsForApplicationsForCompany(1L), "지원한 지원자 통계입니다.");
+        return new ResponseDTO(200, true, responseDTO, "지원한 지원자 통계입니다.");
     }
 }
