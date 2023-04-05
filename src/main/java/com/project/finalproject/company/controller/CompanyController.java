@@ -38,7 +38,7 @@ public class CompanyController {
     }
 
     @GetMapping("/applications/statistics")
-    public ResponseDTO companytest(){
+    public ResponseDTO companyApplicationsStatistics(){
         //#Todo 회사 ID 가져오기
         ApplicationsForCompanyResponseDTO responseDTO = companyService.statisticsForApplicationsForCompany(1L);
         if(responseDTO == null){
