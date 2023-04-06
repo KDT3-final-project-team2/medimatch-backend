@@ -1,18 +1,20 @@
 package com.project.finalproject.term.controller;
 
 import com.project.finalproject.global.dto.ResponseDTO;
+import com.project.finalproject.login.dto.LoginResDTO;
 import com.project.finalproject.term.dto.TermDetailResponseDTO;
+import com.project.finalproject.term.dto.TermFormDTO;
 import com.project.finalproject.term.dto.TermResDTO;
-import com.project.finalproject.term.entity.Term;
 import com.project.finalproject.term.entity.enums.TermStatus;
 import com.project.finalproject.term.service.TermService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,19 +23,20 @@ public class TermController {
     private final TermService termService;
 
     /**
-     * 약관등록
+     * 관리자 약관 등록
+     * @param userDetails 토큰
+     * @param termFormDTO
+     * @return 등록한 약관 상세 조회
+     * @throws IOException
      */
     @PostMapping(value = "/admin/term", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseDTO<?> register(@Valid @RequestBody TermResDTO termResDTO) {
-        //Todo token생성 후 약관등록 파라미터 수정하기
-        String admin = "admin@admin.com";
-        Long termId = termService.register(termResDTO, admin);
+    public ResponseDTO<?> adminRegister(@AuthenticationPrincipal LoginResDTO userDetails, @Valid @RequestBody TermFormDTO termFormDTO) throws IOException {
 
-        if (termId == null) {
-            return new ResponseDTO<>().ok("유요하지않은 Id입니다");
-        } else {
-            return new ResponseDTO<>().ok(termId, "생성완료된 약관Id");
-        }
+        String email = userDetails.getEmail();
+
+        TermResDTO.TermDetail newTerm = termService.registerTerm(email, TermFormDTO.builder().build());
+
+        return new ResponseDTO<>().ok(newTerm, "약관 등록 성공");
     }
 
     /**
