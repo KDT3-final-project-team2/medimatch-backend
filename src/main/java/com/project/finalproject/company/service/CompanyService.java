@@ -1,9 +1,6 @@
 package com.project.finalproject.company.service;
 
-import com.project.finalproject.company.dto.CompanyJobpostRequest;
-import com.project.finalproject.company.dto.CompanyApplicationResponse;
-import com.project.finalproject.company.dto.CompanyApplicationRequest;
-import com.project.finalproject.company.dto.CompanyJobpostResponse;
+import com.project.finalproject.company.dto.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,4 +34,9 @@ public interface CompanyService {
     //지원자 상태 변경
     void changeApplicationStatus(String companyEmail, CompanyApplicationRequest.StatusReqDTO applicationStatus);
 
+    //기업회원 내정보 출력
+    CompanyResponse.InfoDTO showCompanyInfo(String companyEmail);
+
+    //기업회원 내정보 수정
+    CompanyResponse.InfoDTO updateCompanyInfo(String companyEmail, CompanyRequest.UpdateInfoDTO requestDTO);
 }
