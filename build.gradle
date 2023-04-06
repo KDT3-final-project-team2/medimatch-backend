@@ -29,6 +29,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    //mail
+    implementation 'javax.mail:javax.mail-api:1.6.2'
+    //random
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
     // security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
