@@ -1,15 +1,11 @@
 package com.project.finalproject.company.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.finalproject.applicant.controller.ApplicantController;
-import com.project.finalproject.applicant.dto.response.MyInfoResponseDTO;
-import com.project.finalproject.applicant.service.ApplicantService;
-import com.project.finalproject.company.dto.ApplicationsForCompanyResponseDTO;
+import com.project.finalproject.company.dto.CompanyApplicationResponse;
 import com.project.finalproject.company.service.CompanyService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
 import com.project.finalproject.global.jwt.utils.JwtFilter;
-import org.apache.catalina.core.ApplicationContext;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +55,7 @@ public class 지원자_통계_조회 {
         HashMap<String, Integer> mockHashMap = new HashMap<>();
         mockHashMap.put("20대", 1);
 
-        ApplicationsForCompanyResponseDTO mockDTO = ApplicationsForCompanyResponseDTO.builder()
+        CompanyApplicationResponse.StatisticsDTO mockDTO = CompanyApplicationResponse.StatisticsDTO.builder()
                 .applicantAgeCount(mockHashMap)
                 .applicantGenderCount(new HashMap<String, Integer>())
                 .applicantEducationCount(new HashMap<String, Integer>())
@@ -88,7 +84,7 @@ public class 지원자_통계_조회 {
     @DisplayName("지원자 통계 조회 실패 : 지원자가 없습니다.")
     @WithMockUser
     public void companyApplicationsStatisticsFail() throws Exception {
-        ApplicationsForCompanyResponseDTO mockDTO = ApplicationsForCompanyResponseDTO.builder()
+        CompanyApplicationResponse.StatisticsDTO mockDTO = CompanyApplicationResponse.StatisticsDTO.builder()
                 .applicantAgeCount(new HashMap<String, Integer>())
                 .applicantGenderCount(new HashMap<String, Integer>())
                 .applicantEducationCount(new HashMap<String, Integer>())

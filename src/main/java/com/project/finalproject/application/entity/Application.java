@@ -2,7 +2,7 @@ package com.project.finalproject.application.entity;
 
 import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.application.entity.enums.ApplicationStatus;
-import com.project.finalproject.company.entity.Company;
+import com.project.finalproject.company.dto.CompanyApplicationRequest;
 import com.project.finalproject.jobpost.entity.Jobpost;
 import lombok.Builder;
 import lombok.Getter;
@@ -81,4 +81,26 @@ public class Application {
         this.applicant = applicant;
         this.jobpost = jobpost;
     }
+
+    //지원서 상태변경
+    public Application updateStatus(CompanyApplicationRequest.StatusReqDTO statusReqDTO){
+        this.status = statusReqDTO.getStatus();
+        if(statusReqDTO.getInterviewDate() != null) this.interviewDate = statusReqDTO.getInterviewDate();
+        if(statusReqDTO.getPassDate() != null) this.passDate = statusReqDTO.getPassDate();
+
+        return Application.builder()
+                .id(id)
+                .status(status)
+                .interviewDate(interviewDate)
+                .filepath(filepath)
+                .memo(memo)
+                .applyDate(applyDate)
+                .applicant(applicant)
+                .passDate(passDate)
+                .applicant(applicant)
+                .jobpost(jobpost)
+                .build();
+    }
+
+
 }

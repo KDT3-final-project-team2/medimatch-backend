@@ -4,8 +4,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.project.finalproject.company.dto.ApplicationsForCompanyResponseDTO;
 import com.project.finalproject.company.dto.CompanyJobpostRequest;
+import com.project.finalproject.company.dto.CompanyApplicationResponse;
+import com.project.finalproject.company.dto.CompanyApplicationRequest;
 import com.project.finalproject.company.dto.CompanyJobpostResponse;
 import com.project.finalproject.company.service.CompanyService;
 import com.project.finalproject.global.dto.ResponseDTO;
@@ -103,7 +104,6 @@ public class CompanyController {
         om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,true);
         CompanyJobpostRequest.UpdateDTO requestDTO = om.readValue(jsonList, CompanyJobpostRequest.UpdateDTO.class);
 
-        System.out.println(requestDTO.toString());
         CompanyJobpostResponse.LongDTO updateJobpost = companyService.updateJobpost(email,postId,requestDTO,jobpostFile);
 
         return new ResponseDTO<>().ok(updateJobpost,"수정 성공");
@@ -127,10 +127,39 @@ public class CompanyController {
     @GetMapping("/applications/statistics")
     public ResponseDTO companyApplicationsStatistics(){
         //#Todo 회사 ID 가져오기
-        ApplicationsForCompanyResponseDTO responseDTO = companyService.statisticsForApplicationsForCompany(1L);
+        CompanyApplicationResponse.StatisticsDTO responseDTO = companyService.statisticsForApplicationsForCompany(1L);
         if(responseDTO.getApplicantAgeCount().size() == 0){
             return new ResponseDTO(401, false, "fail", "지원한 지원자가 없습니다.");
         }
         return new ResponseDTO(200, true, responseDTO, "지원한 지원자 통계입니다.");
+    }
+
+    /**
+     * 지원자 목록 출력
+     * @param userDetail : 토큰
+     * @return 지원자 리스트
+     */
+    @GetMapping("/applications")
+    public ResponseDTO<?> showApplicants(@AuthenticationPrincipal LoginResDTO userDetail){
+        String email = userDetail.getEmail();
+
+        List<CompanyApplicationResponse.ApplicantInfoDTO> applicantInfoDTOList = companyService.showApplicantInfo(email);
+
+        return new ResponseDTO<>().ok(applicantInfoDTOList,"지원자 목록 출력 완료");
+    }
+
+    /**
+     * 지원서 상태 변경
+     * @param userDetail : 토큰
+     * @param statusReqDTO 상태 변경에 필요한 데이터
+     * @return 성공 메세지
+     */
+    @PostMapping("/applications")
+    public ResponseDTO<?> changeApplicationStatus(@AuthenticationPrincipal LoginResDTO userDetail, @RequestBody CompanyApplicationRequest.StatusReqDTO statusReqDTO){
+        String email = userDetail.getEmail();
+
+        companyService.changeApplicationStatus(email, statusReqDTO);
+
+        return new ResponseDTO<>().ok("지원자 상태 변경 성공");
     }
 }
