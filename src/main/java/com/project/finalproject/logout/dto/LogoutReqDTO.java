@@ -1,7 +1,6 @@
 package com.project.finalproject.logout.dto;
 
 import lombok.*;
-import org.springframework.web.HttpRequestHandler;
 
 @Getter
 @Setter
