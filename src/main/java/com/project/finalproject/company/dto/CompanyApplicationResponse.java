@@ -71,10 +71,13 @@ public class CompanyApplicationResponse {
         }
     }
 
+    /**
+     * 통계 출력용 DTO
+     */
     @Getter
     @AllArgsConstructor
     @Builder
-    public static class ApplicationsForCompanyResponseDTO {
+    public static class StatisticsDTO {
 
 
         private HashMap<String, Integer> applicantAgeCount;

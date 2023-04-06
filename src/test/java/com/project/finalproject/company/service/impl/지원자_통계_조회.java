@@ -49,9 +49,9 @@ public class 지원자_통계_조회 {
         when(companyRepository.findApplicationsForCompany(companyId))
                 .thenReturn(mockResults);
 
-        CompanyApplicationResponse.ApplicationsForCompanyResponseDTO applicationsForCompanyResponseDTO = companyService.statisticsForApplicationsForCompany(companyId);
+        CompanyApplicationResponse.StatisticsDTO statisticsDTO = companyService.statisticsForApplicationsForCompany(companyId);
 
-        assertNotNull(applicationsForCompanyResponseDTO);
+        assertNotNull(statisticsDTO);
 
         verify(companyRepository).findApplicationsForCompany(companyId);
     }

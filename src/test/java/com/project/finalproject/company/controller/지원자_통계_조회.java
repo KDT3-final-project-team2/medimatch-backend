@@ -55,7 +55,7 @@ public class 지원자_통계_조회 {
         HashMap<String, Integer> mockHashMap = new HashMap<>();
         mockHashMap.put("20대", 1);
 
-        CompanyApplicationResponse.ApplicationsForCompanyResponseDTO mockDTO = CompanyApplicationResponse.ApplicationsForCompanyResponseDTO.builder()
+        CompanyApplicationResponse.StatisticsDTO mockDTO = CompanyApplicationResponse.StatisticsDTO.builder()
                 .applicantAgeCount(mockHashMap)
                 .applicantGenderCount(new HashMap<String, Integer>())
                 .applicantEducationCount(new HashMap<String, Integer>())
@@ -84,7 +84,7 @@ public class 지원자_통계_조회 {
     @DisplayName("지원자 통계 조회 실패 : 지원자가 없습니다.")
     @WithMockUser
     public void companyApplicationsStatisticsFail() throws Exception {
-        CompanyApplicationResponse.ApplicationsForCompanyResponseDTO mockDTO = CompanyApplicationResponse.ApplicationsForCompanyResponseDTO.builder()
+        CompanyApplicationResponse.StatisticsDTO mockDTO = CompanyApplicationResponse.StatisticsDTO.builder()
                 .applicantAgeCount(new HashMap<String, Integer>())
                 .applicantGenderCount(new HashMap<String, Integer>())
                 .applicantEducationCount(new HashMap<String, Integer>())
