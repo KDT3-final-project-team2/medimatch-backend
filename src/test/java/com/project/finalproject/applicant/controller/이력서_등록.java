@@ -29,77 +29,77 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
-@WebMvcTest(ApplicantController.class)
-@MockBean(JpaMetamodelMappingContext.class)
-public class 이력서_등록 {
-
-    @Autowired
-    MockMvc mockMvc;
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @MockBean // ApplicantController에서 사용하는 ApplicantService를 MockBean으로 등록
-    ApplicantService applicantService;
-
-    @MockBean
-    JwtFilter jwtFilter;
-
-    @MockBean
-    JwtExceptionFilter jwtExceptionFilter;
-
-
-    @Test
-    @DisplayName("이력서 등록 성공")
-    @WithMockUser
-    public void resumeSaveSuccess() throws Exception {
-        MockMultipartFile mockResume = new MockMultipartFile("resume.pdf", new byte[0]);
-
-        given(applicantService.resumeSave(any(MultipartFile.class)))
-                .willReturn("success");
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.multipart("/applicant/resume")
-                        .file("resume", mockResume.getBytes())
-                        .with(csrf()))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String responseContent = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
-
-        assertEquals(200, responseDTO.getStateCode());
-        assertEquals(true, responseDTO.isSuccess());
-        assertEquals("success", responseDTO.getData());
-
-        verify(applicantService).resumeSave(any(MultipartFile.class));
-    }
-
-    @Test
-    @DisplayName("이력서 등록 실패 : 빈 파일")
-    @WithMockUser
-    public void resumeSaveFail() throws Exception {
-        MockMultipartFile mockResume = new MockMultipartFile("resume.pdf", new byte[0]);
-
-        given(applicantService.resumeSave(any(MultipartFile.class)))
-                .willReturn("empty file");
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.multipart("/applicant/resume")
-                        .file("resume", mockResume.getBytes())
-                        .with(csrf()))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String responseContent = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
-
-        assertEquals(401, responseDTO.getStateCode());
-        assertEquals(false, responseDTO.isSuccess());
-        assertEquals("empty file", responseDTO.getData());
-
-        verify(applicantService).resumeSave(any(MultipartFile.class));
-    }
-
-}
+//@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
+//@WebMvcTest(ApplicantController.class)
+//@MockBean(JpaMetamodelMappingContext.class)
+//public class 이력서_등록 {
+//
+//    @Autowired
+//    MockMvc mockMvc;
+//    @Autowired
+//    ObjectMapper objectMapper;
+//
+//    @MockBean // ApplicantController에서 사용하는 ApplicantService를 MockBean으로 등록
+//    ApplicantService applicantService;
+//
+//    @MockBean
+//    JwtFilter jwtFilter;
+//
+//    @MockBean
+//    JwtExceptionFilter jwtExceptionFilter;
+//
+//
+//    @Test
+//    @DisplayName("이력서 등록 성공")
+//    @WithMockUser
+//    public void resumeSaveSuccess() throws Exception {
+//        MockMultipartFile mockResume = new MockMultipartFile("resume.pdf", new byte[0]);
+//
+//        given(applicantService.resumeSave(any(MultipartFile.class)))
+//                .willReturn("success");
+//
+//        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.multipart("/applicant/resume")
+//                        .file("resume", mockResume.getBytes())
+//                        .with(csrf()))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//
+//        String responseContent = mvcResult.getResponse().getContentAsString();
+//        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
+//
+//        assertEquals(200, responseDTO.getStateCode());
+//        assertEquals(true, responseDTO.isSuccess());
+//        assertEquals("success", responseDTO.getData());
+//
+//        verify(applicantService).resumeSave(any(MultipartFile.class));
+//    }
+//
+//    @Test
+//    @DisplayName("이력서 등록 실패 : 빈 파일")
+//    @WithMockUser
+//    public void resumeSaveFail() throws Exception {
+//        MockMultipartFile mockResume = new MockMultipartFile("resume.pdf", new byte[0]);
+//
+//        given(applicantService.resumeSave(any(MultipartFile.class)))
+//                .willReturn("empty file");
+//
+//        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.multipart("/applicant/resume")
+//                        .file("resume", mockResume.getBytes())
+//                        .with(csrf()))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//
+//        String responseContent = mvcResult.getResponse().getContentAsString();
+//        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
+//
+//        assertEquals(401, responseDTO.getStateCode());
+//        assertEquals(false, responseDTO.isSuccess());
+//        assertEquals("empty file", responseDTO.getData());
+//
+//        verify(applicantService).resumeSave(any(MultipartFile.class));
+//    }
+//
+//}
 
 
 

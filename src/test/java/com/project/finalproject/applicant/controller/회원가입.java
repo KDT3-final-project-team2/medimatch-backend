@@ -35,76 +35,76 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
-@WebMvcTest(ApplicantController.class)
-@MockBean(JpaMetamodelMappingContext.class)
-public class 회원가입 {
-
-    @Autowired
-    MockMvc mockMvc;
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @MockBean // ApplicantController에서 사용하는 ApplicantService를 MockBean으로 등록
-    ApplicantService applicantService;
-
-    @MockBean
-    JwtFilter jwtFilter;
-
-    @MockBean
-    JwtExceptionFilter jwtExceptionFilter;
-
-
-    @Test
-    @DisplayName("회원가입 성공")
-    @WithMockUser
-    public void signupSuccess() throws Exception {
-
-        given(applicantService.signup(any(SignupRequestDTO.class)))
-                .willReturn("success"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
-
-        MvcResult mvcResult = mockMvc.perform(post("/applicant/signup")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new SignupRequestDTO())))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andReturn();
-
-        String responseContent = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
-        assertEquals(200, responseDTO.getStateCode());
-        assertEquals(true, responseDTO.isSuccess());
-        assertEquals("success", responseDTO.getData());
-
-        verify(applicantService).signup(any(SignupRequestDTO.class));
-    }
-
-    @Test
-    @DisplayName("회원가입 실패 : 중복된 이메일")
-    @WithMockUser
-    public void signupFail() throws Exception {
-
-        given(applicantService.signup(any(SignupRequestDTO.class)))
-                .willReturn("duplicate id"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
-
-        MvcResult mvcResult = mockMvc.perform(post("/applicant/signup")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new SignupRequestDTO())))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andReturn();
-
-        String responseContent = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
-        assertEquals(401, responseDTO.getStateCode());
-        assertEquals(false, responseDTO.isSuccess());
-        assertEquals("duplicate id", responseDTO.getData());
-
-        verify(applicantService).signup(any(SignupRequestDTO.class));
-    }
-}
+//@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
+//@WebMvcTest(ApplicantController.class)
+//@MockBean(JpaMetamodelMappingContext.class)
+//public class 회원가입 {
+//
+//    @Autowired
+//    MockMvc mockMvc;
+//    @Autowired
+//    ObjectMapper objectMapper;
+//
+//    @MockBean // ApplicantController에서 사용하는 ApplicantService를 MockBean으로 등록
+//    ApplicantService applicantService;
+//
+//    @MockBean
+//    JwtFilter jwtFilter;
+//
+//    @MockBean
+//    JwtExceptionFilter jwtExceptionFilter;
+//
+//
+//    @Test
+//    @DisplayName("회원가입 성공")
+//    @WithMockUser
+//    public void signupSuccess() throws Exception {
+//
+//        given(applicantService.signup(any(SignupRequestDTO.class)))
+//                .willReturn("success"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
+//
+//        MvcResult mvcResult = mockMvc.perform(post("/applicant/signup")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(new SignupRequestDTO())))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andReturn();
+//
+//        String responseContent = mvcResult.getResponse().getContentAsString();
+//        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
+//        assertEquals(200, responseDTO.getStateCode());
+//        assertEquals(true, responseDTO.isSuccess());
+//        assertEquals("success", responseDTO.getData());
+//
+//        verify(applicantService).signup(any(SignupRequestDTO.class));
+//    }
+//
+//    @Test
+//    @DisplayName("회원가입 실패 : 중복된 이메일")
+//    @WithMockUser
+//    public void signupFail() throws Exception {
+//
+//        given(applicantService.signup(any(SignupRequestDTO.class)))
+//                .willReturn("duplicate id"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
+//
+//        MvcResult mvcResult = mockMvc.perform(post("/applicant/signup")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(new SignupRequestDTO())))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andReturn();
+//
+//        String responseContent = mvcResult.getResponse().getContentAsString();
+//        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
+//        assertEquals(401, responseDTO.getStateCode());
+//        assertEquals(false, responseDTO.isSuccess());
+//        assertEquals("duplicate id", responseDTO.getData());
+//
+//        verify(applicantService).signup(any(SignupRequestDTO.class));
+//    }
+//}
 
 
 

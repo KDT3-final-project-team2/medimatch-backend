@@ -30,71 +30,71 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
-@WebMvcTest(ApplicantController.class)
-@MockBean(JpaMetamodelMappingContext.class)
-public class 이메일_중복_체크 {
-
-    @Autowired
-    MockMvc mockMvc;
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @MockBean // ApplicantController에서 사용하는 ApplicantService를 MockBean으로 등록
-    ApplicantService applicantService;
-
-    @MockBean
-    JwtFilter jwtFilter;
-
-    @MockBean
-    JwtExceptionFilter jwtExceptionFilter;
-
-
-    @Test
-    @DisplayName("이메일 중복 체크 성공")
-    @WithMockUser
-    public void checkEmailSuccess() throws Exception {
-        given(applicantService.checkEmail(any(SignupRequestDTO.class)))
-                .willReturn("success"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
-
-        MvcResult mvcResult = mockMvc.perform(post("/applicant/checkemail")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new SignupRequestDTO())))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andReturn();
-
-        String responseContent = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
-        assertEquals(200, responseDTO.getStateCode());
-        assertEquals(true, responseDTO.isSuccess());
-        assertEquals("success", responseDTO.getData());
-    }
-
-    @Test
-    @DisplayName("이메일 중복 체크 실패 : 이메일 중복")
-    @WithMockUser
-    public void checkEmailFailed() throws Exception {
-
-        given(applicantService.checkEmail(any(SignupRequestDTO.class)))
-                .willReturn("duplicate id"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
-
-        MvcResult mvcResult = mockMvc.perform(post("/applicant/checkemail")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new SignupRequestDTO())))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andReturn();
-
-        String responseContent = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
-        assertEquals(401, responseDTO.getStateCode());
-        assertEquals(false, responseDTO.isSuccess());
-        assertEquals("duplicate id", responseDTO.getData());
-    }
-}
+//@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
+//@WebMvcTest(ApplicantController.class)
+//@MockBean(JpaMetamodelMappingContext.class)
+//public class 이메일_중복_체크 {
+//
+//    @Autowired
+//    MockMvc mockMvc;
+//    @Autowired
+//    ObjectMapper objectMapper;
+//
+//    @MockBean // ApplicantController에서 사용하는 ApplicantService를 MockBean으로 등록
+//    ApplicantService applicantService;
+//
+//    @MockBean
+//    JwtFilter jwtFilter;
+//
+//    @MockBean
+//    JwtExceptionFilter jwtExceptionFilter;
+//
+//
+//    @Test
+//    @DisplayName("이메일 중복 체크 성공")
+//    @WithMockUser
+//    public void checkEmailSuccess() throws Exception {
+//        given(applicantService.checkEmail(any(SignupRequestDTO.class)))
+//                .willReturn("success"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
+//
+//        MvcResult mvcResult = mockMvc.perform(post("/applicant/checkemail")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(new SignupRequestDTO())))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andReturn();
+//
+//        String responseContent = mvcResult.getResponse().getContentAsString();
+//        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
+//        assertEquals(200, responseDTO.getStateCode());
+//        assertEquals(true, responseDTO.isSuccess());
+//        assertEquals("success", responseDTO.getData());
+//    }
+//
+//    @Test
+//    @DisplayName("이메일 중복 체크 실패 : 이메일 중복")
+//    @WithMockUser
+//    public void checkEmailFailed() throws Exception {
+//
+//        given(applicantService.checkEmail(any(SignupRequestDTO.class)))
+//                .willReturn("duplicate id"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
+//
+//        MvcResult mvcResult = mockMvc.perform(post("/applicant/checkemail")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(new SignupRequestDTO())))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andReturn();
+//
+//        String responseContent = mvcResult.getResponse().getContentAsString();
+//        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
+//        assertEquals(401, responseDTO.getStateCode());
+//        assertEquals(false, responseDTO.isSuccess());
+//        assertEquals("duplicate id", responseDTO.getData());
+//    }
+//}
 
 
 

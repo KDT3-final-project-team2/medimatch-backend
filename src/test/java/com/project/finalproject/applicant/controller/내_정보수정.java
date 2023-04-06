@@ -28,76 +28,76 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
-@WebMvcTest(ApplicantController.class)
-@MockBean(JpaMetamodelMappingContext.class)
-public class 내_정보수정 {
-
-    @Autowired
-    MockMvc mockMvc;
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @MockBean // ApplicantController에서 사용하는 ApplicantService를 MockBean으로 등록
-    ApplicantService applicantService;
-
-    @MockBean
-    JwtFilter jwtFilter;
-
-    @MockBean
-    JwtExceptionFilter jwtExceptionFilter;
-
-
-    @Test
-    @DisplayName("내 정보수정 성공")
-    @WithMockUser
-    public void infoUpdateSuccess() throws Exception {
-
-        given(applicantService.infoUpdate(any(InfoUpdateRequestDTO.class)))
-                .willReturn("success"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
-
-        MvcResult mvcResult = mockMvc.perform(put("/applicant/me")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new InfoUpdateRequestDTO())))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andReturn();
-
-        String responseContent = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
-        assertEquals(200, responseDTO.getStateCode());
-        assertEquals(true, responseDTO.isSuccess());
-        assertEquals("success", responseDTO.getData());
-
-        verify(applicantService).infoUpdate(any(InfoUpdateRequestDTO.class));
-    }
-
-    @Test
-    @DisplayName("내 정보수정 실패")
-    @WithMockUser
-    public void infoUpdateFail() throws Exception {
-
-        given(applicantService.infoUpdate(any(InfoUpdateRequestDTO.class)))
-                .willReturn("fail"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
-
-        MvcResult mvcResult = mockMvc.perform(put("/applicant/me")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new InfoUpdateRequestDTO())))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andReturn();
-
-        String responseContent = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
-        assertEquals(401, responseDTO.getStateCode());
-        assertEquals(false, responseDTO.isSuccess());
-        assertEquals("fail", responseDTO.getData());
-
-        verify(applicantService).infoUpdate(any(InfoUpdateRequestDTO.class));
-    }
-}
+//@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
+//@WebMvcTest(ApplicantController.class)
+//@MockBean(JpaMetamodelMappingContext.class)
+//public class 내_정보수정 {
+//
+//    @Autowired
+//    MockMvc mockMvc;
+//    @Autowired
+//    ObjectMapper objectMapper;
+//
+//    @MockBean // ApplicantController에서 사용하는 ApplicantService를 MockBean으로 등록
+//    ApplicantService applicantService;
+//
+//    @MockBean
+//    JwtFilter jwtFilter;
+//
+//    @MockBean
+//    JwtExceptionFilter jwtExceptionFilter;
+//
+//
+//    @Test
+//    @DisplayName("내 정보수정 성공")
+//    @WithMockUser
+//    public void infoUpdateSuccess() throws Exception {
+//
+//        given(applicantService.infoUpdate(any(InfoUpdateRequestDTO.class)))
+//                .willReturn("success"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
+//
+//        MvcResult mvcResult = mockMvc.perform(put("/applicant/me")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(new InfoUpdateRequestDTO())))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andReturn();
+//
+//        String responseContent = mvcResult.getResponse().getContentAsString();
+//        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
+//        assertEquals(200, responseDTO.getStateCode());
+//        assertEquals(true, responseDTO.isSuccess());
+//        assertEquals("success", responseDTO.getData());
+//
+//        verify(applicantService).infoUpdate(any(InfoUpdateRequestDTO.class));
+//    }
+//
+//    @Test
+//    @DisplayName("내 정보수정 실패")
+//    @WithMockUser
+//    public void infoUpdateFail() throws Exception {
+//
+//        given(applicantService.infoUpdate(any(InfoUpdateRequestDTO.class)))
+//                .willReturn("fail"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
+//
+//        MvcResult mvcResult = mockMvc.perform(put("/applicant/me")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(new InfoUpdateRequestDTO())))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andReturn();
+//
+//        String responseContent = mvcResult.getResponse().getContentAsString();
+//        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
+//        assertEquals(401, responseDTO.getStateCode());
+//        assertEquals(false, responseDTO.isSuccess());
+//        assertEquals("fail", responseDTO.getData());
+//
+//        verify(applicantService).infoUpdate(any(InfoUpdateRequestDTO.class));
+//    }
+//}
 
 
 

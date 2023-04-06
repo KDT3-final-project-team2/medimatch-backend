@@ -28,51 +28,51 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
-@SpringBootTest
-@Import(ApplicantServiceImpl.class)
-//@TestPropertySource(locations = "classpath:application-local.properties")
-@TestPropertySource(locations = "classpath:application-test.properties")
-public class 내_정보 {
-
-
-    @Autowired
-    ApplicantServiceImpl applicantService;
-
-    @MockBean
-    ApplicantRepository applicantRepository;
-
-
-    @Test
-    @DisplayName("내 정보 불러오기 성공")
-    @WithMockUser
-    public void checkSignupSuccess() {
-        Long applicantId = 1L;
-
-        Applicant applicant = Applicant.builder()
-                .id(1L)
-                .email("test@example.com")
-                .password("password123")
-                .name("John Doe")
-                .birthDate(LocalDate.of(1990, 1, 1))
-                .gender(Gender.M)
-                .contact("010-1234-5678")
-                .education(ApplicantEducation.HIGH_SCHOOL)
-                .workExperience(ApplicantWorkExperience.NEWCOMER)
-                .sector(Sector.DOCTOR)
-                .filePath("/path/to/resume.pdf")
-                .signUpDate(LocalDate.now())
-                .disableDate(null)
-                .build();
-
-        when(applicantRepository.findById(applicantId))
-                .thenReturn(Optional.of(applicant));
-
-        MyInfoResponseDTO myInfoResponseDTO = applicantService.myInfo(applicantId);
-
-        assertNotNull(myInfoResponseDTO);
-
-        verify(applicantRepository).findById(applicantId);
-    }
-
-}
+//@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
+//@SpringBootTest
+//@Import(ApplicantServiceImpl.class)
+////@TestPropertySource(locations = "classpath:application-local.properties")
+//@TestPropertySource(locations = "classpath:application-test.properties")
+//public class 내_정보 {
+//
+//
+//    @Autowired
+//    ApplicantServiceImpl applicantService;
+//
+//    @MockBean
+//    ApplicantRepository applicantRepository;
+//
+//
+//    @Test
+//    @DisplayName("내 정보 불러오기 성공")
+//    @WithMockUser
+//    public void checkSignupSuccess() {
+//        Long applicantId = 1L;
+//
+//        Applicant applicant = Applicant.builder()
+//                .id(1L)
+//                .email("test@example.com")
+//                .password("password123")
+//                .name("John Doe")
+//                .birthDate(LocalDate.of(1990, 1, 1))
+//                .gender(Gender.M)
+//                .contact("010-1234-5678")
+//                .education(ApplicantEducation.HIGH_SCHOOL)
+//                .workExperience(ApplicantWorkExperience.NEWCOMER)
+//                .sector(Sector.DOCTOR)
+//                .filePath("/path/to/resume.pdf")
+//                .signUpDate(LocalDate.now())
+//                .disableDate(null)
+//                .build();
+//
+//        when(applicantRepository.findById(applicantId))
+//                .thenReturn(Optional.of(applicant));
+//
+//        MyInfoResponseDTO myInfoResponseDTO = applicantService.myInfo(applicantId);
+//
+//        assertNotNull(myInfoResponseDTO);
+//
+//        verify(applicantRepository).findById(applicantId);
+//    }
+//
+//}

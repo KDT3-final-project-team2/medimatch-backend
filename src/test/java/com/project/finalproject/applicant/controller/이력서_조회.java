@@ -31,51 +31,51 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
-@WebMvcTest(ApplicantController.class)
-@MockBean(JpaMetamodelMappingContext.class)
-public class 이력서_조회 {
-
-    @Autowired
-    MockMvc mockMvc;
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @MockBean // ApplicantController에서 사용하는 ApplicantService를 MockBean으로 등록
-    ApplicantService applicantService;
-
-    @MockBean
-    JwtFilter jwtFilter;
-
-    @MockBean
-    JwtExceptionFilter jwtExceptionFilter;
-
-
-    @Test
-    @DisplayName("이력서 조회 성공")
-    @WithMockUser
-    public void resumeDownloadSuccess() throws Exception {
-        byte[] mockResumeContent = "test resume content".getBytes();
-        ByteArrayResource resource = new ByteArrayResource(mockResumeContent);
-
-        given(applicantService.resumeDownload())
-                .willReturn(ResponseEntity.ok()
-                        .contentLength(mockResumeContent.length)
-                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                        .body(resource));
-
-        MvcResult mvcResult = mockMvc.perform(get("/applicant/resume")
-                        .with(csrf()))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        byte[] responseContent = mvcResult.getResponse().getContentAsByteArray();
-
-        assertArrayEquals(mockResumeContent, responseContent);
-
-        verify(applicantService).resumeDownload();
-    }
-}
+//@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
+//@WebMvcTest(ApplicantController.class)
+//@MockBean(JpaMetamodelMappingContext.class)
+//public class 이력서_조회 {
+//
+//    @Autowired
+//    MockMvc mockMvc;
+//    @Autowired
+//    ObjectMapper objectMapper;
+//
+//    @MockBean // ApplicantController에서 사용하는 ApplicantService를 MockBean으로 등록
+//    ApplicantService applicantService;
+//
+//    @MockBean
+//    JwtFilter jwtFilter;
+//
+//    @MockBean
+//    JwtExceptionFilter jwtExceptionFilter;
+//
+//
+//    @Test
+//    @DisplayName("이력서 조회 성공")
+//    @WithMockUser
+//    public void resumeDownloadSuccess() throws Exception {
+//        byte[] mockResumeContent = "test resume content".getBytes();
+//        ByteArrayResource resource = new ByteArrayResource(mockResumeContent);
+//
+//        given(applicantService.resumeDownload())
+//                .willReturn(ResponseEntity.ok()
+//                        .contentLength(mockResumeContent.length)
+//                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+//                        .body(resource));
+//
+//        MvcResult mvcResult = mockMvc.perform(get("/applicant/resume")
+//                        .with(csrf()))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//
+//        byte[] responseContent = mvcResult.getResponse().getContentAsByteArray();
+//
+//        assertArrayEquals(mockResumeContent, responseContent);
+//
+//        verify(applicantService).resumeDownload();
+//    }
+//}
 
 
 

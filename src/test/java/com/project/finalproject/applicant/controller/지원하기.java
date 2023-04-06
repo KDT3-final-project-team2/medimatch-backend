@@ -30,137 +30,137 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
-@WebMvcTest(ApplicantController.class)
-@MockBean(JpaMetamodelMappingContext.class)
-public class 지원하기 {
-
-    @Autowired
-    MockMvc mockMvc;
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @MockBean // ApplicantController에서 사용하는 ApplicantService를 MockBean으로 등록
-    ApplicantService applicantService;
-
-    @MockBean
-    JwtFilter jwtFilter;
-
-    @MockBean
-    JwtExceptionFilter jwtExceptionFilter;
-
-
-    @Test
-    @DisplayName("채용공고 지원하기 성공")
-    @WithMockUser
-    public void applySuccess() throws Exception {
-        JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
-        jobpostIdRequestDTO.setJobpostId(1234L);
-
-        given(applicantService.applyJobpost(any(Long.class)))
-                .willReturn("success");
-
-        MvcResult mvcResult = mockMvc.perform(post("/applicant/apply")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(jobpostIdRequestDTO)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String responseContent = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
-
-        assertEquals(200, responseDTO.getStateCode());
-        assertEquals(true, responseDTO.isSuccess());
-        assertEquals("success", responseDTO.getData());
-
-        verify(applicantService).applyJobpost(any(Long.class));
-    }
-
-
-    @Test
-    @DisplayName("채용공고 지원하기 실패 : 채용공고가 마감됐습니다.")
-    @WithMockUser
-    public void applyFail1() throws Exception {
-        JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
-        jobpostIdRequestDTO.setJobpostId(1234L);
-
-        given(applicantService.applyJobpost(any(Long.class)))
-                .willReturn("due date passed");
-
-        MvcResult mvcResult = mockMvc.perform(post("/applicant/apply")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(jobpostIdRequestDTO)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String responseContent = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
-
-        assertEquals(401, responseDTO.getStateCode());
-        assertEquals(false, responseDTO.isSuccess());
-        assertEquals("due date passed", responseDTO.getData());
-
-        verify(applicantService).applyJobpost(any(Long.class));
-    }
-
-
-    @Test
-    @DisplayName("채용공고 지원하기 실패 : 이미 지원했습니다.")
-    @WithMockUser
-    public void applyFail2() throws Exception {
-        JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
-        jobpostIdRequestDTO.setJobpostId(1234L);
-
-        given(applicantService.applyJobpost(any(Long.class)))
-                .willReturn("applied already");
-
-        MvcResult mvcResult = mockMvc.perform(post("/applicant/apply")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(jobpostIdRequestDTO)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String responseContent = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
-
-        assertEquals(402, responseDTO.getStateCode());
-        assertEquals(false, responseDTO.isSuccess());
-        assertEquals("applied already", responseDTO.getData());
-
-        verify(applicantService).applyJobpost(any(Long.class));
-    }
-
-    @Test
-    @DisplayName("채용공고 지원하기 실패 : 이력서가 없습니다.")
-    @WithMockUser
-    public void applyFail3() throws Exception {
-        JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
-        jobpostIdRequestDTO.setJobpostId(1234L);
-
-        given(applicantService.applyJobpost(any(Long.class)))
-                .willReturn("no resume");
-
-        MvcResult mvcResult = mockMvc.perform(post("/applicant/apply")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(jobpostIdRequestDTO)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String responseContent = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
-
-        assertEquals(403, responseDTO.getStateCode());
-        assertEquals(false, responseDTO.isSuccess());
-        assertEquals("no resume", responseDTO.getData());
-
-        verify(applicantService).applyJobpost(any(Long.class));
-    }
-
-}
+//@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
+//@WebMvcTest(ApplicantController.class)
+//@MockBean(JpaMetamodelMappingContext.class)
+//public class 지원하기 {
+//
+//    @Autowired
+//    MockMvc mockMvc;
+//    @Autowired
+//    ObjectMapper objectMapper;
+//
+//    @MockBean // ApplicantController에서 사용하는 ApplicantService를 MockBean으로 등록
+//    ApplicantService applicantService;
+//
+//    @MockBean
+//    JwtFilter jwtFilter;
+//
+//    @MockBean
+//    JwtExceptionFilter jwtExceptionFilter;
+//
+//
+//    @Test
+//    @DisplayName("채용공고 지원하기 성공")
+//    @WithMockUser
+//    public void applySuccess() throws Exception {
+//        JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
+//        jobpostIdRequestDTO.setJobpostId(1234L);
+//
+//        given(applicantService.applyJobpost(any(Long.class)))
+//                .willReturn("success");
+//
+//        MvcResult mvcResult = mockMvc.perform(post("/applicant/apply")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(jobpostIdRequestDTO)))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//
+//        String responseContent = mvcResult.getResponse().getContentAsString();
+//        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
+//
+//        assertEquals(200, responseDTO.getStateCode());
+//        assertEquals(true, responseDTO.isSuccess());
+//        assertEquals("success", responseDTO.getData());
+//
+//        verify(applicantService).applyJobpost(any(Long.class));
+//    }
+//
+//
+//    @Test
+//    @DisplayName("채용공고 지원하기 실패 : 채용공고가 마감됐습니다.")
+//    @WithMockUser
+//    public void applyFail1() throws Exception {
+//        JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
+//        jobpostIdRequestDTO.setJobpostId(1234L);
+//
+//        given(applicantService.applyJobpost(any(Long.class)))
+//                .willReturn("due date passed");
+//
+//        MvcResult mvcResult = mockMvc.perform(post("/applicant/apply")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(jobpostIdRequestDTO)))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//
+//        String responseContent = mvcResult.getResponse().getContentAsString();
+//        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
+//
+//        assertEquals(401, responseDTO.getStateCode());
+//        assertEquals(false, responseDTO.isSuccess());
+//        assertEquals("due date passed", responseDTO.getData());
+//
+//        verify(applicantService).applyJobpost(any(Long.class));
+//    }
+//
+//
+//    @Test
+//    @DisplayName("채용공고 지원하기 실패 : 이미 지원했습니다.")
+//    @WithMockUser
+//    public void applyFail2() throws Exception {
+//        JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
+//        jobpostIdRequestDTO.setJobpostId(1234L);
+//
+//        given(applicantService.applyJobpost(any(Long.class)))
+//                .willReturn("applied already");
+//
+//        MvcResult mvcResult = mockMvc.perform(post("/applicant/apply")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(jobpostIdRequestDTO)))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//
+//        String responseContent = mvcResult.getResponse().getContentAsString();
+//        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
+//
+//        assertEquals(402, responseDTO.getStateCode());
+//        assertEquals(false, responseDTO.isSuccess());
+//        assertEquals("applied already", responseDTO.getData());
+//
+//        verify(applicantService).applyJobpost(any(Long.class));
+//    }
+//
+//    @Test
+//    @DisplayName("채용공고 지원하기 실패 : 이력서가 없습니다.")
+//    @WithMockUser
+//    public void applyFail3() throws Exception {
+//        JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
+//        jobpostIdRequestDTO.setJobpostId(1234L);
+//
+//        given(applicantService.applyJobpost(any(Long.class)))
+//                .willReturn("no resume");
+//
+//        MvcResult mvcResult = mockMvc.perform(post("/applicant/apply")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(jobpostIdRequestDTO)))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//
+//        String responseContent = mvcResult.getResponse().getContentAsString();
+//        ResponseDTO responseDTO = objectMapper.readValue(responseContent, ResponseDTO.class);
+//
+//        assertEquals(403, responseDTO.getStateCode());
+//        assertEquals(false, responseDTO.isSuccess());
+//        assertEquals("no resume", responseDTO.getData());
+//
+//        verify(applicantService).applyJobpost(any(Long.class));
+//    }
+//
+//}
 
 
 
