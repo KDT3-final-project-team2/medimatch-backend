@@ -6,7 +6,7 @@ import com.project.finalproject.applicant.entity.enums.ApplicantWorkExperience;
 import com.project.finalproject.applicant.entity.enums.Gender;
 import com.project.finalproject.applicant.entity.enums.Sector;
 import com.project.finalproject.applicant.repository.ApplicantRepository;
-import com.project.finalproject.application.entity.repository.ApplicationRepository;
+import com.project.finalproject.application.repository.ApplicationRepository;
 import com.project.finalproject.jobpost.repository.JobpostRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -3,6 +3,7 @@ package com.project.finalproject.term.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.finalproject.global.dto.ResponseDTO;
+import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
 import com.project.finalproject.global.jwt.utils.JwtFilter;
 import com.project.finalproject.term.dto.TermDetailResponseDTO;
 import com.project.finalproject.term.entity.enums.TermStatus;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -32,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
 @WebMvcTest(TermController.class)
+@MockBean(JpaMetamodelMappingContext.class)
 public class 사용중인_약관_불러오기 {
 
     @Autowired
@@ -45,6 +48,8 @@ public class 사용중인_약관_불러오기 {
     @MockBean
     JwtFilter jwtFilter;
 
+    @MockBean
+    JwtExceptionFilter jwtExceptionFilter;
 
     @Test
     @DisplayName("사용중인 약관 불러오기 성공")

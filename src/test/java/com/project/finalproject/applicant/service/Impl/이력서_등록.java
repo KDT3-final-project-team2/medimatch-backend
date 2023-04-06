@@ -7,7 +7,7 @@ import com.project.finalproject.applicant.entity.enums.Gender;
 import com.project.finalproject.applicant.entity.enums.Sector;
 import com.project.finalproject.applicant.repository.ApplicantRepository;
 import com.project.finalproject.application.entity.Application;
-import com.project.finalproject.application.entity.repository.ApplicationRepository;
+import com.project.finalproject.application.repository.ApplicationRepository;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.jobpost.entity.Jobpost;
 import com.project.finalproject.jobpost.entity.enums.JobpostEducation;
