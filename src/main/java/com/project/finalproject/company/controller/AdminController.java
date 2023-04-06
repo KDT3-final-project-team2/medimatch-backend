@@ -1,5 +1,6 @@
 package com.project.finalproject.company.controller;
 
+import com.project.finalproject.company.dto.AdminApplicantRes;
 import com.project.finalproject.company.dto.AdminCompanyRes;
 import com.project.finalproject.company.entity.enums.CompanyType;
 import com.project.finalproject.company.service.AdminService;
@@ -28,4 +29,14 @@ public class AdminController {
 
         return new ResponseDTO<>().ok(companyList, "companyList success");
     }
+
+    @GetMapping("/applicants")
+    public ResponseDTO<?> showApplicantList(@AuthenticationPrincipal LoginResDTO userDetails) {
+        String email = userDetails.getEmail();
+
+        List<AdminApplicantRes.ApplicantListDTO> applicantList = adminService.showApplicantList();
+
+        return new ResponseDTO<>().ok(applicantList, "applicantList success");
+    }
+
 }
