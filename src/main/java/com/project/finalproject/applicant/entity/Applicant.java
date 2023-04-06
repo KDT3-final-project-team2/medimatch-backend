@@ -71,4 +71,7 @@ public class Applicant {
         this.email = email;
         this.disableDate = disableDate;
     }
+    public void changeApplicantPassword(String password){
+        this.password = password;
+    }
 }

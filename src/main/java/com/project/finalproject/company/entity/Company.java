@@ -90,4 +90,8 @@ public class Company {
                 .disableDate(disableDate)
                 .build();
     }
+
+    public void changeCompanyPassword(String password){
+        this.password = password;
+    }
 }
