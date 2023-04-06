@@ -1,4 +1,4 @@
-package com.project.finalproject.application.entity.repository;
+package com.project.finalproject.application.repository;
 
 import com.project.finalproject.application.entity.Application;
 import com.project.finalproject.company.entity.Company;
