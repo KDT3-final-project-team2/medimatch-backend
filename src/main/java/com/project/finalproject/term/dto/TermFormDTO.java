@@ -1,16 +1,15 @@
 package com.project.finalproject.term.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.project.finalproject.term.entity.Term;
 import com.project.finalproject.term.entity.enums.TermStatus;
 import com.project.finalproject.term.entity.enums.TermType;
 import lombok.*;
-import org.modelmapper.ModelMapper;
+
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class TermFormDTO {
