@@ -218,15 +218,6 @@ public class CompanyServiceImpl implements CompanyService {
         }
 
 
-
-        for (Object[] row : results) {
-            System.out.println(row[0] + " " + row[1] + " " + row[2] + " " + row[3]);
-            System.out.println(row[0]); //생년월일
-            System.out.println(row[1]); //성별
-            System.out.println(row[2]); //학력
-            System.out.println(row[3]); //채용공고 제목
-        }
-
         return ApplicationsForCompanyResponseDTO.builder()
                 .applicantAgeCount(applicantAge)
                 .applicantGenderCount(applicantGender)

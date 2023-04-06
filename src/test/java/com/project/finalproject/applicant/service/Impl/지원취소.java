@@ -7,7 +7,7 @@ import com.project.finalproject.applicant.entity.enums.Gender;
 import com.project.finalproject.applicant.entity.enums.Sector;
 import com.project.finalproject.applicant.repository.ApplicantRepository;
 import com.project.finalproject.application.entity.Application;
-import com.project.finalproject.application.entity.repository.ApplicationRepository;
+import com.project.finalproject.application.repository.ApplicationRepository;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.jobpost.entity.Jobpost;
 import com.project.finalproject.jobpost.entity.enums.JobpostEducation;
@@ -88,7 +88,6 @@ public class 지원취소 {
         Jobpost jobpost = Jobpost.builder()
                 .id(1L)
                 .title("Test Job")
-                .content("Test Content")
                 .education(JobpostEducation.UNIVERSITY)
                 .experience(JobpostWorkExperience.NEWCOMER)
                 .startDate(LocalDateTime.now())

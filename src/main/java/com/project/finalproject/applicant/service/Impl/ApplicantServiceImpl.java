@@ -14,6 +14,7 @@ import com.project.finalproject.jobpost.entity.Jobpost;
 import com.project.finalproject.jobpost.repository.JobpostRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -43,10 +44,12 @@ public class ApplicantServiceImpl implements ApplicantService {
 
     private final PasswordEncoder passwordEncoder;
 
-//    private final String applicantResumeDirectory = "c:/Users/applicant/"; //이력서 저장 경로
-//    private final String jobpostResumeDirectory = "c:/Users/jobpost/resume/"; //이력서 저장 경로
-    private final String applicantResumeDirectory = "c:/Users/user/test/applicant/"; //이력서 저장 경로
-    private final String jobpostResumeDirectory = "c:/Users/user/test/jobpost/resume/"; //이력서 저장 경로
+    @Value("${applicant.resume.file.path.server}")
+    private String APPLICANT_RESUME_FILE_PATH_SERVER;
+
+    @Value("${application.resume.file.path.server}")
+    private String APPLICATION_RESUME_FILE_PATH_SERVER;
+
 
     @Override
     public String checkEmail(SignupRequestDTO signupRequestDTO){
@@ -127,12 +130,12 @@ public class ApplicantServiceImpl implements ApplicantService {
             return "no resume";
         }else{ //지원 가능
             //Application DB에 정보 저장
-            Application application = new Application(applicant, jobpost, jobpostResumeDirectory + jobpostId + "-"  + applicantId + ".pdf"); //Application 객체 생성
+            Application application = new Application(applicant, jobpost, APPLICATION_RESUME_FILE_PATH_SERVER + jobpostId + "-"  + applicantId + ".pdf"); //Application 객체 생성
             applicationRepository.save(application); //Application 객체 저장
 
             //Applicant의 이력서를 채용공고의 이력서 폴더로 복사
             Path sourcePath = Paths.get(applicant.getFilePath());
-            Path targetPath = Paths.get(jobpostResumeDirectory + jobpostId + "-" + applicantId + ".pdf");
+            Path targetPath = Paths.get(APPLICATION_RESUME_FILE_PATH_SERVER + jobpostId + "-" + applicantId + ".pdf");
             Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
             return "success";
         }
@@ -150,7 +153,7 @@ public class ApplicantServiceImpl implements ApplicantService {
             applicationRepository.delete(application);
 
             //Applicant의 이력서를 채용공고의 이력서 폴더에서 삭제
-            Path path = Paths.get(jobpostResumeDirectory + jobpostId + "-"  + applicantId + ".pdf");
+            Path path = Paths.get(APPLICATION_RESUME_FILE_PATH_SERVER + jobpostId + "-"  + applicantId + ".pdf");
             if (path.toFile().exists()) {
                 Files.delete(path);
             }
@@ -166,7 +169,7 @@ public class ApplicantServiceImpl implements ApplicantService {
         if (resume.isEmpty()){
             return "empty file";
         }
-        String savePath = applicantResumeDirectory + applicantId + ".pdf"; //이력서 저장 경로. 파일명은 개인회원Id.pdf
+        String savePath = APPLICANT_RESUME_FILE_PATH_SERVER + applicantId + ".pdf"; //이력서 저장 경로. 파일명은 개인회원Id.pdf
         resume.transferTo(new File(savePath));
 
 

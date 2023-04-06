@@ -128,7 +128,7 @@ public class CompanyController {
     public ResponseDTO companyApplicationsStatistics(){
         //#Todo 회사 ID 가져오기
         ApplicationsForCompanyResponseDTO responseDTO = companyService.statisticsForApplicationsForCompany(1L);
-        if(responseDTO == null){
+        if(responseDTO.getApplicantAgeCount().size() == 0){
             return new ResponseDTO(401, false, "fail", "지원한 지원자가 없습니다.");
         }
         return new ResponseDTO(200, true, responseDTO, "지원한 지원자 통계입니다.");
