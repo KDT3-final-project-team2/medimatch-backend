@@ -173,4 +173,13 @@ public class CompanyController {
 
         return new ResponseDTO<>().ok(companyInfo,"기업회원 정보 출력 완료");
     }
+
+    @PutMapping("/me")
+    public ResponseDTO<?> updateCompanyInfo(@AuthenticationPrincipal LoginResDTO userDetail, @RequestBody CompanyRequest.UpdateInfoDTO updateReqDTO){
+        String email = userDetail.getEmail();
+
+        CompanyResponse.InfoDTO companyInfo = companyService.updateCompanyInfo(email, updateReqDTO);
+
+        return new ResponseDTO<>().ok(companyInfo,"기업회원 정보 수정 완료");
+    }
 }

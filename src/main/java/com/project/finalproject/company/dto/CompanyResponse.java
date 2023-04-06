@@ -16,8 +16,8 @@ public class CompanyResponse {
      */
     @Getter
     @Builder
-    @AllArgsConstructor
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class InfoDTO{
         Long companyId; // 기업 아이디
         String email; // 기업 이메일
@@ -27,6 +27,17 @@ public class CompanyResponse {
         String companyAddr; // 기업 주소
         String ceoName; //대표자 이름
         String url; //회사 홈페이지 주소
+
+        public InfoDTO(Company company){
+            this.companyId = company.getId();
+            this.email = company.getEmail();
+            this.companyNm = company.getName();
+            this.contact = company.getContact();
+            this.regNum = company.getRegNum();
+            this.companyAddr = company.getAddress();
+            this.ceoName = company.getRepresentativeName();
+            this.url = company.getUrl();
+        }
 
     }
 }

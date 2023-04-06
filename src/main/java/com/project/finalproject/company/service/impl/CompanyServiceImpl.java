@@ -299,6 +299,14 @@ public class CompanyServiceImpl implements CompanyService {
      */
     @Override
     public CompanyResponse.InfoDTO updateCompanyInfo(String companyEmail, CompanyRequest.UpdateInfoDTO requestDTO) {
-        return null;
+        Company company = companyRepository.findByEmail(companyEmail).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+
+        company.updateData(requestDTO);
+
+        CompanyResponse.InfoDTO updateCompany = new CompanyResponse.InfoDTO(companyRepository.save(company));
+
+        return updateCompany;
     }
 }
