@@ -67,5 +67,8 @@ public class Applicant {
 
     @Column(name = "applicant_disable_date")
     private LocalDate disableDate; //휴면 전환 날짜
-
+    public void applicantResign(String email, LocalDate disableDate) {
+        this.email = email;
+        this.disableDate = disableDate;
+    }
 }
