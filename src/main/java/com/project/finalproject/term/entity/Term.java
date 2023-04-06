@@ -61,12 +61,12 @@ public class Term {
         this.company = company;
     }
 
-    public static Term createTerm(TermFormDTO termFormDTO, Company company) {
+    public static Term createTerm(TermFormDTO.registerDTO registerDTO, Company company) {
         Term term = Term.builder()
-                .content(termFormDTO.getContent())
-                .type(termFormDTO.getType())
-                .version(termFormDTO.getVersion())
-                .status(termFormDTO.getStatus())
+                .content(registerDTO.getContent())
+                .type(registerDTO.getType())
+                .version(registerDTO.getVersion())
+                .status(registerDTO.getStatus())
                 .company(company)
                 .build();
 
