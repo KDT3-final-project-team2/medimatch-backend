@@ -31,8 +31,9 @@ public class AdminController {
     }
 
     @GetMapping("/applicants")
-    public ResponseDTO<?> showApplicantList() {
-        //TODO : 토큰 완성되면 개인회원목록조회 파라미터 수정하기
+    public ResponseDTO<?> showApplicantList(@AuthenticationPrincipal LoginResDTO userDetails) {
+        String email = userDetails.getEmail();
+
         List<AdminApplicantRes.ApplicantListDTO> applicantList = adminService.showApplicantList();
 
         return new ResponseDTO<>().ok(applicantList, "applicantList success");
