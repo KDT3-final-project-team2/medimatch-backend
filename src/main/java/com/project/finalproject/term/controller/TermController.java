@@ -25,16 +25,16 @@ public class TermController {
     /**
      * 관리자 약관 등록
      * @param userDetails 토큰
-     * @param termFormDTO
-     * @return 등록한 약관 상세 조회
+     * @param registerDTO 약관등록dto
+     * @return 등록한약관 상세조회
      * @throws IOException
      */
     @PostMapping(value = "/admin/term", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseDTO<?> adminRegister(@AuthenticationPrincipal LoginResDTO userDetails, @Valid @RequestBody TermFormDTO termFormDTO) throws IOException {
+    public ResponseDTO<?> adminRegister(@AuthenticationPrincipal LoginResDTO userDetails, @Valid @RequestBody TermFormDTO.registerDTO registerDTO) throws IOException {
 
         String email = userDetails.getEmail();
 
-        TermResDTO.TermDetail newTerm = termService.registerTerm(email, TermFormDTO.builder().build());
+        TermResDTO.TermDetail newTerm = termService.registerTerm(email,registerDTO);
 
         return new ResponseDTO<>().ok(newTerm, "약관 등록 성공");
     }
