@@ -28,9 +28,13 @@ public interface CompanyService {
     //채용공고 삭제
     CompanyJobpostResponse.LongDTO deleteJobpost(String email, Long jobpostId);
 
+    //지원자 통계 출력
     public CompanyApplicationResponse.StatisticsDTO statisticsForApplicationsForCompany(Long companyId);
 
+    //지원자 정보 출력
     List<CompanyApplicationResponse.ApplicantInfoDTO> showApplicantInfo(String companyEmail);
 
+    //지원자 상태 변경
     void changeApplicationStatus(String companyEmail, CompanyApplicationRequest.StatusReqDTO applicationStatus);
+
 }
