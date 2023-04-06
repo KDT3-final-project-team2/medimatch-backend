@@ -7,21 +7,20 @@ import lombok.*;
 
 
 import java.time.LocalDateTime;
-
-@Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class TermFormDTO {
-    private String content;
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class registerDTO{
+        private String content; // 약관내용
+        private TermType type;  // 약관 타입
+        private String version; // 약관 버전
 
-    private TermType type;
-    private String version;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+        private LocalDateTime createDate;   //약관등록일
+        private LocalDateTime editDate;     //약관수정일
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime createDate;
-    private LocalDateTime editDate;
-
-    private TermStatus status;
-
+        private TermStatus status;  //약관상태(사용,임시저장,폐기)
+    }
 }
