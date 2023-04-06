@@ -3,6 +3,7 @@ package com.project.finalproject.applicant.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
+import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
 import com.project.finalproject.global.jwt.utils.JwtFilter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
 @WebMvcTest(ApplicantController.class)
+@MockBean(JpaMetamodelMappingContext.class)
 public class 이력서_삭제 {
 
     @Autowired
@@ -39,6 +42,9 @@ public class 이력서_삭제 {
 
     @MockBean
     JwtFilter jwtFilter;
+
+    @MockBean
+    JwtExceptionFilter jwtExceptionFilter;
 
 
     @Test
