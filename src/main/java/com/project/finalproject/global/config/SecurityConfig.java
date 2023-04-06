@@ -29,7 +29,7 @@ public class SecurityConfig {
      */
     String[] permitUrl = {"/**",
             "/company/login","/applicant/signup","applicant/checkemail",
-            "/applicant/login","/company/signup", "/refresh","/terms/**"};
+            "/applicant/login","/company/signup", "/refresh","/terms/**","/reset"};
 
     private final JwtUtil jwtUtil;
     private final JwtProperties jwtProperties;
