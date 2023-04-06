@@ -28,23 +28,22 @@ public class TermServiceImpl implements TermService {
     private final CompanyRepository companyRepository;
 
     /**
-     * 슈퍼관리자(admin) 약관 등록
+     * 관리자 약관 등록
      * @param email
-     * @param createTermFormDTO
-     * @return 약관 상세 조회
+     * @param registerDTO
+     * @return 생성한약관 상세조회
      * @throws IOException
      */
     @Override
-    public TermResDTO.TermDetail registerTerm(String email, TermFormDTO createTermFormDTO) throws IOException {
+    public TermResDTO.TermDetail registerTerm(String email, TermFormDTO.registerDTO registerDTO) throws IOException {
 
         Company company = companyRepository.findByEmail(email).orElseThrow(
                 () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
         );
 
-        Term createTerm = new Term().createTerm(createTermFormDTO, company);
+        Term createTerm = new Term().createTerm(registerDTO, company);
 
         return new TermResDTO.TermDetail(termRepository.save(createTerm));
-
     }
 
     /**
