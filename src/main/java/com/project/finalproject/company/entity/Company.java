@@ -58,8 +58,11 @@ public class Company {
     @Column(name = "company_signup_date", updatable = false)
     private LocalDate signupDate; //가입날짜
 
-    @Column(name = "company_url")
+    @Column(name = "company_disable_date")
     private LocalDate disableDate; //탈퇴날짜
 
-
+    public void companyResign(String email, LocalDate disableDate) {
+        this.email = email;
+        this.disableDate = disableDate;
+    }
 }
