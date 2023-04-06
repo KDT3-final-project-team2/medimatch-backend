@@ -1,11 +1,9 @@
 package com.project.finalproject.company.service;
 
-import com.project.finalproject.company.dto.ApplicationsForCompanyResponseDTO;
 import com.project.finalproject.company.dto.CompanyJobpostRequest;
-import com.project.finalproject.company.dto.CompanyApplicantResponse;
 import com.project.finalproject.company.dto.CompanyApplicationResponse;
+import com.project.finalproject.company.dto.CompanyApplicationRequest;
 import com.project.finalproject.company.dto.CompanyJobpostResponse;
-import com.project.finalproject.jobpost.entity.Jobpost;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,13 +22,15 @@ public interface CompanyService {
     //채용공고 단건 조회
     CompanyJobpostResponse.LongDTO showJobpostDetail(String companyEmail, Long postId);
 
-    public CompanyApplicationResponse.ApplicationsForCompanyResponseDTO statisticsForApplicationsForCompany(Long companyId);
-
     //채용공고 수정
     CompanyJobpostResponse.LongDTO updateJobpost(String email, Long postId, CompanyJobpostRequest.UpdateDTO updateRequestDTO, MultipartFile jobpostFile) throws IOException;
 
     //채용공고 삭제
     CompanyJobpostResponse.LongDTO deleteJobpost(String email, Long jobpostId);
 
+    public CompanyApplicationResponse.StatisticsDTO statisticsForApplicationsForCompany(Long companyId);
+
     List<CompanyApplicationResponse.ApplicantInfoDTO> showApplicantInfo(String companyEmail);
+
+    void changeApplicationStatus(String companyEmail, CompanyApplicationRequest.StatusReqDTO applicationStatus);
 }

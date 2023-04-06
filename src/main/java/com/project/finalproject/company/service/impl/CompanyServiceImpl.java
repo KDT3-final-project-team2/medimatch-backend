@@ -6,6 +6,7 @@ import com.project.finalproject.application.entity.Application;
 import com.project.finalproject.application.repository.ApplicationRepository;
 import com.project.finalproject.company.dto.CompanyJobpostRequest;
 import com.project.finalproject.company.dto.CompanyApplicationResponse;
+import com.project.finalproject.company.dto.CompanyApplicationRequest;
 import com.project.finalproject.company.dto.CompanyJobpostResponse;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.company.exception.CompanyException;
@@ -36,6 +37,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
     private final JobpostRepository jobpostRepository;
+    private final ApplicationRepository applicationRepository;
     @Value("${jobpost.file.path.server}")
     private String JOBPOST_FILE_PATH;
 //    @Value("${jobpost.file.path.local}")
@@ -67,7 +69,6 @@ public class CompanyServiceImpl implements CompanyService {
 
         return new CompanyJobpostResponse.LongDTO(jobpostRepository.save(creatJobpost));
     }
-    private final ApplicationRepository applicationRepository;
 
     /**
      * 기업 본인이 작성한 채용공고 목록 조회
@@ -171,6 +172,7 @@ public class CompanyServiceImpl implements CompanyService {
         return new CompanyJobpostResponse.LongDTO(newJobpost);
     }
 
+
     public CompanyApplicationResponse.StatisticsDTO statisticsForApplicationsForCompany(Long companyId) {
         HashMap<String, Integer> applicantAge = new HashMap<>();
         HashMap<String, Integer> applicantGender = new HashMap<>();
@@ -231,6 +233,11 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
 
+    /**
+     * 지원자 목록 조회
+     * @param companyEmail : 기업 회원 이메일
+     * @return 지원자 리스트 출력
+     */
     @Override
     public List<CompanyApplicationResponse.ApplicantInfoDTO> showApplicantInfo(String companyEmail) {
         Company company = companyRepository.findByEmail(companyEmail).orElseThrow(
@@ -240,5 +247,25 @@ public class CompanyServiceImpl implements CompanyService {
         List<Application> application = applicationRepository.findAll();
 
         return application.stream().map(CompanyApplicationResponse.ApplicantInfoDTO::new).collect(Collectors.toList());
+    }
+
+    /**
+     * 지원자 상태 변경
+     * @param email : 기업 회원 이메일
+     * @param applicationStatusReqDTO : 변경할 상태
+     */
+    public void changeApplicationStatus(String email, CompanyApplicationRequest.StatusReqDTO applicationStatusReqDTO){
+        Company company = companyRepository.findByEmail(email).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+
+        Application application = applicationRepository.findById(applicationStatusReqDTO.getApplicationId()).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_APPLICATION)
+        );
+
+        Application updateApplication = application.updateStatus(applicationStatusReqDTO);
+
+        applicationRepository.save(updateApplication);
+
     }
 }
