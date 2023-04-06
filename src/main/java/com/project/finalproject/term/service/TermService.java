@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional
 public interface TermService {
     // 약관등록
-    TermResDTO.TermDetail registerTerm(String email, TermFormDTO termFormDTO) throws IOException;
+    TermResDTO.TermDetail registerTerm(String email, TermFormDTO.registerDTO registerDTO) throws IOException;
 
     // 약관 전체목록 조회
     List<TermResDTO.TermList> showTermList(String adminEmail);
