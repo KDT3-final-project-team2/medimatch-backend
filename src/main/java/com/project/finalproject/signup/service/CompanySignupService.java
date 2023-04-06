@@ -2,7 +2,6 @@ package com.project.finalproject.signup.service;
 
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.global.dto.ResponseDTO;
-import com.project.finalproject.global.jwt.utils.JwtUtil;
 import com.project.finalproject.signup.dto.CompanySignupReqDTO;
 import com.project.finalproject.signup.repository.CompanySignupRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import javax.transaction.Transactional;
 public class CompanySignupService {
 
     private final CompanySignupRepository companySignupRepository;
-    private final JwtUtil jwtUtil;
 
     private final PasswordEncoder passwordEncoder;
 
