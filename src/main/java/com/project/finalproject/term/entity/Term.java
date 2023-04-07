@@ -72,4 +72,23 @@ public class Term {
 
         return term;
     }
+
+    public Term updateTerm(TermFormDTO.updateDTO updateDTO, Company company) {
+        if(!updateDTO.getContent().isEmpty())
+            this.content = updateDTO.getContent();
+        if (updateDTO.getStatus() != null)
+            this.status = updateDTO.getStatus();
+        if (updateDTO.getType() != null)
+            this.type = updateDTO.getType();
+        if (!updateDTO.getVersion().isEmpty())
+            this.version = updateDTO.getVersion();
+
+        return Term.builder()
+                .content(content)
+                .status(status)
+                .type(type)
+                .version(version)
+                .company(company)
+                .build();
+    }
 }
