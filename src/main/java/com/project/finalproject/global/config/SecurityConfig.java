@@ -49,9 +49,9 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http    .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
                 .mvcMatchers(permitUrl)
                 .permitAll()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated();
