@@ -29,9 +29,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    //mail
-    implementation 'javax.mail:javax.mail-api:1.6.2'
-    //random
+    //이메일 발송 관련
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    //임시비밀번호 생성 관련
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     // security
     implementation 'org.springframework.boot:spring-boot-starter-security'
