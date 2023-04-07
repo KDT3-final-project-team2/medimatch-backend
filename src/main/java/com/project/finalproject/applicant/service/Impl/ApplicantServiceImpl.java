@@ -44,10 +44,10 @@ public class ApplicantServiceImpl implements ApplicantService {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${applicant.resume.file.path.local}")
+    @Value("${applicant.resume.file.path.server}")
     private String APPLICANT_RESUME_FILE_PATH_SERVER;
 
-    @Value("${application.resume.file.path.local}")
+    @Value("${application.resume.file.path.server}")
     private String APPLICATION_RESUME_FILE_PATH_SERVER;
 
 
