@@ -15,10 +15,16 @@ import com.project.finalproject.jobpost.exception.JobpostException;
 import com.project.finalproject.jobpost.exception.JobpostExceptionType;
 import com.project.finalproject.jobpost.repository.JobpostRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.io.File;
@@ -30,6 +36,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
@@ -48,20 +55,29 @@ public class CompanyServiceImpl implements CompanyService {
      * @return
      */
     @Override
-    public CompanyJobpostResponse.LongDTO createJobpost(String email, CompanyJobpostRequest.CreateDTO createRequestDTO, MultipartFile jobpostFile) throws IOException {
+    public CompanyJobpostResponse.LongDTO createJobpost(String email,
+                                                        CompanyJobpostRequest.CreateDTO createRequestDTO,
+                                                        MultipartFile jobpostFile) {
+        //사용자 2차 검증
         Company company = companyRepository.findByEmail(email).orElseThrow(
                 () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
         );
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        String filePath = JOBPOST_FILE_PATH + now + "_" + company.getName() + ".pdf"; // 파일명 날짜_회사이름.pdf
 
-        if(jobpostFile.isEmpty()){
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")); //파일 저장 시간
+        String fileName = now + "_" + company.getName() + ".pdf"; // 파일명 날짜_회사이름.pdf
+        Path serverPath = Paths.get(JOBPOST_FILE_PATH + fileName); // ubuntu path
+//
+        try{
+            //파일 저장
+            Files.copy(jobpostFile.getInputStream(), serverPath, StandardCopyOption.REPLACE_EXISTING);
+        }catch(IOException e){
+            log.error("fail to store file : name = {}, exception = {}",
+                    jobpostFile.getOriginalFilename(),
+                    e.getMessage());
             throw new JobpostException(JobpostExceptionType.NOT_FOUND_FILE);
         }
-        jobpostFile.transferTo(new File(filePath));
 
-        createRequestDTO.setFilePath(filePath);
-
+        createRequestDTO.setFilePath(serverPath.toString());
         Jobpost creatJobpost = new Jobpost().createJobpost(createRequestDTO, company);
 
         return new CompanyJobpostResponse.LongDTO(jobpostRepository.save(creatJobpost));
