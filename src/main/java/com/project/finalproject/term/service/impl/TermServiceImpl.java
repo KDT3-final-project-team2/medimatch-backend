@@ -5,6 +5,7 @@ import com.project.finalproject.company.exception.CompanyException;
 import com.project.finalproject.company.exception.CompanyExceptionType;
 import com.project.finalproject.company.repository.CompanyRepository;
 import com.project.finalproject.term.dto.TermDetailResponseDTO;
+import com.project.finalproject.term.dto.TermFormDTO;
 import com.project.finalproject.term.dto.TermResDTO;
 import com.project.finalproject.term.entity.Term;
 import com.project.finalproject.term.entity.enums.TermStatus;
@@ -15,9 +16,8 @@ import com.project.finalproject.term.service.TermService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,24 +28,22 @@ public class TermServiceImpl implements TermService {
     private final CompanyRepository companyRepository;
 
     /**
-     * 슈퍼관리자(admin) 약관 등록
-     * @param termResDTO
-     * @param adminEmail
-     * @return termId
+     * 관리자 약관 등록
+     * @param email
+     * @param registerDTO
+     * @return 생성한약관 상세조회
+     * @throws IOException
      */
     @Override
-    public Long register(TermResDTO termResDTO, String adminEmail) {
+    public TermResDTO.TermDetail registerTerm(String email, TermFormDTO.registerDTO registerDTO) throws IOException {
 
-        Optional<Company> company = companyRepository.findByEmail(adminEmail);
+        Company company = companyRepository.findByEmail(email).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
 
-        if (company.isEmpty()) {
-            return null;
-        } else {
-            Term term = Term.createTerm(termResDTO,company.get());
-            termRepository.save(term);
+        Term createTerm = new Term().createTerm(registerDTO, company);
 
-            return term.getId();
-        }
+        return new TermResDTO.TermDetail(termRepository.save(createTerm));
     }
 
     /**

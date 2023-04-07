@@ -1,17 +1,19 @@
 package com.project.finalproject.term.service;
 
 import com.project.finalproject.term.dto.TermDetailResponseDTO;
+import com.project.finalproject.term.dto.TermFormDTO;
 import com.project.finalproject.term.dto.TermResDTO;
 import com.project.finalproject.term.entity.enums.TermStatus;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 @Transactional
 public interface TermService {
     // 약관등록
-    Long register(TermResDTO termResDTO, String adminEmail);
+    TermResDTO.TermDetail registerTerm(String email, TermFormDTO.registerDTO registerDTO) throws IOException;
 
     // 약관 전체목록 조회
     List<TermResDTO.TermList> showTermList(String adminEmail);
