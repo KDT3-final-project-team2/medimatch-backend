@@ -4,10 +4,7 @@ import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
 import com.project.finalproject.applicant.entity.enums.Gender;
 import com.project.finalproject.application.entity.Application;
 import com.project.finalproject.application.repository.ApplicationRepository;
-import com.project.finalproject.company.dto.CompanyJobpostRequest;
-import com.project.finalproject.company.dto.CompanyApplicationResponse;
-import com.project.finalproject.company.dto.CompanyApplicationRequest;
-import com.project.finalproject.company.dto.CompanyJobpostResponse;
+import com.project.finalproject.company.dto.*;
 import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.company.exception.CompanyException;
 import com.project.finalproject.company.exception.CompanyExceptionType;
@@ -18,10 +15,16 @@ import com.project.finalproject.jobpost.exception.JobpostException;
 import com.project.finalproject.jobpost.exception.JobpostExceptionType;
 import com.project.finalproject.jobpost.repository.JobpostRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.io.File;
@@ -33,6 +36,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
@@ -51,20 +55,29 @@ public class CompanyServiceImpl implements CompanyService {
      * @return
      */
     @Override
-    public CompanyJobpostResponse.LongDTO createJobpost(String email, CompanyJobpostRequest.CreateDTO createRequestDTO, MultipartFile jobpostFile) throws IOException {
+    public CompanyJobpostResponse.LongDTO createJobpost(String email,
+                                                        CompanyJobpostRequest.CreateDTO createRequestDTO,
+                                                        MultipartFile jobpostFile) {
+        //사용자 2차 검증
         Company company = companyRepository.findByEmail(email).orElseThrow(
                 () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
         );
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        String filePath = JOBPOST_FILE_PATH + now + "_" + company.getName() + ".pdf"; // 파일명 날짜_회사이름.pdf
 
-        if(jobpostFile.isEmpty()){
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")); //파일 저장 시간
+        String fileName = now + "_" + company.getName() + ".pdf"; // 파일명 날짜_회사이름.pdf
+        Path serverPath = Paths.get(JOBPOST_FILE_PATH + fileName); // ubuntu path
+//
+        try{
+            //파일 저장
+            Files.copy(jobpostFile.getInputStream(), serverPath, StandardCopyOption.REPLACE_EXISTING);
+        }catch(IOException e){
+            log.error("fail to store file : name = {}, exception = {}",
+                    jobpostFile.getOriginalFilename(),
+                    e.getMessage());
             throw new JobpostException(JobpostExceptionType.NOT_FOUND_FILE);
         }
-        jobpostFile.transferTo(new File(filePath));
 
-        createRequestDTO.setFilePath(filePath);
-
+        createRequestDTO.setFilePath(serverPath.toString());
         Jobpost creatJobpost = new Jobpost().createJobpost(createRequestDTO, company);
 
         return new CompanyJobpostResponse.LongDTO(jobpostRepository.save(creatJobpost));
@@ -267,5 +280,49 @@ public class CompanyServiceImpl implements CompanyService {
 
         applicationRepository.save(updateApplication);
 
+    }
+
+    /**
+     * 기업회원 내정보 출력
+     * @author : 홍수희
+     * @param companyEmail :기업회원 이메일
+     * @return 기업회원 정보 출력
+     */
+    @Override
+    public CompanyResponse.InfoDTO showCompanyInfo(String companyEmail) {
+        Company company = companyRepository.findByEmail(companyEmail).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+
+        return CompanyResponse.InfoDTO.builder()
+                .companyId(company.getId())
+                .email(company.getEmail())
+                .companyNm(company.getName())
+                .contact(company.getContact())
+                .regNum(company.getRegNum())
+                .companyAddr(company.getAddress())
+                .ceoName(company.getRepresentativeName())
+                .url(company.getUrl())
+                .build();
+    }
+
+    /**
+     * 기업회원 내정보 수정
+     * @author : 홍수희
+     * @param companyEmail : 기업회원 이메일
+     * @param requestDTO : 수정할 데이터
+     * @return 수정한 기업회원 정보 출력
+     */
+    @Override
+    public CompanyResponse.InfoDTO updateCompanyInfo(String companyEmail, CompanyRequest.UpdateInfoDTO requestDTO) {
+        Company company = companyRepository.findByEmail(companyEmail).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+
+        company.updateData(requestDTO);
+
+        CompanyResponse.InfoDTO updateCompany = new CompanyResponse.InfoDTO(companyRepository.save(company));
+
+        return updateCompany;
     }
 }

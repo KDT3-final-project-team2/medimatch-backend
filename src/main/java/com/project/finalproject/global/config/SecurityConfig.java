@@ -28,8 +28,8 @@ public class SecurityConfig {
      * 토큰을 사용하지 않는 허용 url
      */
     String[] permitUrl = {"/**",
-            "/company/login","/applicant/signup","applicant/checkemail",
-            "/applicant/login","/company/signup", "/refresh","/admin/term/**","/admin/login","/terms/**"};
+            "/company/login","/applicant/signup","/applicant/checkemail",
+            "/applicant/login","/company/signup", "/refresh","/terms/**","/reset"};
 
     private final JwtUtil jwtUtil;
     private final JwtProperties jwtProperties;

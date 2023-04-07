@@ -1,5 +1,6 @@
 package com.project.finalproject.company.entity;
 
+import com.project.finalproject.company.dto.CompanyRequest;
 import com.project.finalproject.company.entity.enums.CompanyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -64,5 +65,33 @@ public class Company {
     public void companyResign(String email, LocalDate disableDate) {
         this.email = email;
         this.disableDate = disableDate;
+    }
+
+    public Company updateData(CompanyRequest.UpdateInfoDTO updateInfoDTO){
+        if(updateInfoDTO.getCompanyNm() != null) this.name = updateInfoDTO.getCompanyNm();
+        if(updateInfoDTO.getContact() != null) this.contact = updateInfoDTO.getContact();
+        if(updateInfoDTO.getRegNum() != null) this.regNum = updateInfoDTO.getRegNum();
+        if(updateInfoDTO.getCompanyAddr() != null) this.address = updateInfoDTO.getCompanyAddr();
+        if(updateInfoDTO.getCeoName() != null) this.representativeName = updateInfoDTO.getCeoName();
+        if(updateInfoDTO.getUrl() != null) this.url = updateInfoDTO.getUrl();
+
+        return Company.builder()
+                .id(id)
+                .name(name)
+                .email(email)
+                .address(address)
+                .password(password)
+                .contact(contact)
+                .regNum(regNum)
+                .representativeName(representativeName)
+                .url(url)
+                .companyType(companyType)
+                .signupDate(signupDate)
+                .disableDate(disableDate)
+                .build();
+    }
+
+    public void changeCompanyPassword(String password){
+        this.password = password;
     }
 }

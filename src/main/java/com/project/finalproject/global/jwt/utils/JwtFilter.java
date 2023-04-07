@@ -33,6 +33,8 @@ public class JwtFilter extends OncePerRequestFilter {
         put("/applicant/signup","permit");
         put("/refresh","permit");
         put("/admin/login","permit");
+        put("/reset","permit");
+        put("/applicant/checkemail","permit");
     }};
 
     @Autowired

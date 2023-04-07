@@ -1,7 +1,7 @@
 package com.project.finalproject.term.entity;
 
 import com.project.finalproject.company.entity.Company;
-import com.project.finalproject.term.dto.TermResDTO;
+import com.project.finalproject.term.dto.TermFormDTO;
 import com.project.finalproject.term.entity.enums.TermStatus;
 import com.project.finalproject.term.entity.enums.TermType;
 import lombok.*;
@@ -61,15 +61,34 @@ public class Term {
         this.company = company;
     }
 
-    public static Term createTerm(TermResDTO termResDTO, Company company) {
+    public static Term createTerm(TermFormDTO.registerDTO registerDTO, Company company) {
         Term term = Term.builder()
-                .content(termResDTO.getContent())
-                .type(termResDTO.getType())
-                .version(termResDTO.getVersion())
-                .status(termResDTO.getStatus())
+                .content(registerDTO.getContent())
+                .type(registerDTO.getType())
+                .version(registerDTO.getVersion())
+                .status(registerDTO.getStatus())
                 .company(company)
                 .build();
 
         return term;
+    }
+
+    public Term updateTerm(TermFormDTO.updateDTO updateDTO, Company company) {
+        if(!updateDTO.getContent().isEmpty())
+            this.content = updateDTO.getContent();
+        if (updateDTO.getStatus() != null)
+            this.status = updateDTO.getStatus();
+        if (updateDTO.getType() != null)
+            this.type = updateDTO.getType();
+        if (!updateDTO.getVersion().isEmpty())
+            this.version = updateDTO.getVersion();
+
+        return Term.builder()
+                .content(content)
+                .status(status)
+                .type(type)
+                .version(version)
+                .company(company)
+                .build();
     }
 }

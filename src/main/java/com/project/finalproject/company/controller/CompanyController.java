@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.project.finalproject.company.dto.CompanyJobpostRequest;
-import com.project.finalproject.company.dto.CompanyApplicationResponse;
-import com.project.finalproject.company.dto.CompanyApplicationRequest;
-import com.project.finalproject.company.dto.CompanyJobpostResponse;
+import com.project.finalproject.company.dto.*;
 import com.project.finalproject.company.service.CompanyService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtUtil;
@@ -50,7 +47,7 @@ public class CompanyController {
         om.registerModule(new JavaTimeModule());
         // SerializationFeature : 직렬화 (object -> json)
         om.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false); // WRITE_DATES_AS_TIMSTAMPS(date를 timestamps로 찍는 기능) 해제
-        CompanyJobpostRequest.CreateDTO requestDTO = om.readValue(jsonList, CompanyJobpostRequest.CreateDTO.class); //json DTO로 직렬화
+        CompanyJobpostRequest.CreateDTO requestDTO = om.readValue(jsonList, CompanyJobpostRequest.CreateDTO.class); //json -> DTO로 직렬화
 
         CompanyJobpostResponse.LongDTO newJobpost = companyService.createJobpost(email,requestDTO,jobpostFile);
 
@@ -166,5 +163,28 @@ public class CompanyController {
         companyService.changeApplicationStatus(email, statusReqDTO);
 
         return new ResponseDTO<>().ok("지원자 상태 변경 성공");
+    }
+
+    /**
+     * 기업회원 정보 출력
+     * @param userDetail : 토큰
+     * @return 기업회원 데이터
+     */
+    @GetMapping("/me")
+    public ResponseDTO<?> showCompanyInfo(@AuthenticationPrincipal LoginResDTO userDetail){
+        String email = userDetail.getEmail();
+
+        CompanyResponse.InfoDTO companyInfo = companyService.showCompanyInfo(email);
+
+        return new ResponseDTO<>().ok(companyInfo,"기업회원 정보 출력 완료");
+    }
+
+    @PutMapping("/me")
+    public ResponseDTO<?> updateCompanyInfo(@AuthenticationPrincipal LoginResDTO userDetail, @RequestBody CompanyRequest.UpdateInfoDTO updateReqDTO){
+        String email = userDetail.getEmail();
+
+        CompanyResponse.InfoDTO companyInfo = companyService.updateCompanyInfo(email, updateReqDTO);
+
+        return new ResponseDTO<>().ok(companyInfo,"기업회원 정보 수정 완료");
     }
 }
