@@ -24,32 +24,38 @@ public class TermController {
 
     /**
      * 관리자 약관 등록
-     * @param userDetails 토큰
-     * @param registerDTO 약관등록dto
+     * @param userDetail 토큰
+     * @param registerDTO 약관등록DTO
      * @return 등록한약관 상세조회
      * @throws IOException
      */
     @PostMapping(value = "/admin/term", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseDTO<?> adminRegister(@AuthenticationPrincipal LoginResDTO userDetails, @Valid @RequestBody TermFormDTO.registerDTO registerDTO) throws IOException {
+    public ResponseDTO<?> adminRegister(@AuthenticationPrincipal LoginResDTO userDetail, @Valid @RequestBody TermFormDTO.registerDTO registerDTO) throws IOException {
 
-        String email = userDetails.getEmail();
+        if(!userDetail.getRole().equals("ADMIN")){
 
-        TermResDTO.TermDetail newTerm = termService.registerTerm(email,registerDTO);
+            return new ResponseDTO(401, false,"Unauthorized", "접근권한이 없습니다.");
 
-        return new ResponseDTO<>().ok(newTerm, "약관 등록 성공");
+        } else {
+            String email = userDetail.getEmail();
+
+            TermResDTO.TermDetail newTerm = termService.registerTerm(email, registerDTO);
+
+            return new ResponseDTO<>().ok(newTerm, "약관 등록 성공");
+        }
     }
 
     /**
      * 기업회원 약관 등록
-     * @param userDetails 토큰
+     * @param userDetail 토큰
      * @param registerDTO
      * @return 등록한 약관 상세조회
      * @throws IOException
      */
     @PostMapping(value = "/company/term", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseDTO<?> comapnyRegister(@AuthenticationPrincipal LoginResDTO userDetails, @Valid @RequestBody TermFormDTO.registerDTO registerDTO) throws IOException {
+    public ResponseDTO<?> comapnyRegister(@AuthenticationPrincipal LoginResDTO userDetail, @Valid @RequestBody TermFormDTO.registerDTO registerDTO) throws IOException {
 
-        String email = userDetails.getEmail();
+        String email = userDetail.getEmail();
 
         TermResDTO.TermDetail newTerm = termService.registerTerm(email,registerDTO);
 
@@ -58,28 +64,33 @@ public class TermController {
 
     /**
      * 관리자 약관 목록조회
-     * @param userDetails
+     * @param userDetail
      * @return 약관 목록
      */
     @GetMapping(value = "/admin/term/list")
-    public ResponseDTO<?> adminTermList(@AuthenticationPrincipal LoginResDTO userDetails) {
+    public ResponseDTO<?> adminTermList(@AuthenticationPrincipal LoginResDTO userDetail) {
+        if(!userDetail.getRole().equals("ADMIN")){
 
-        String email = userDetails.getEmail();
+            return new ResponseDTO(401, false,"Unauthorized", "접근권한이 없습니다.");
 
-        List<TermResDTO.TermList> termList = termService.showTermList(email);
+        } else {
+            String email = userDetail.getEmail();
 
-        return new ResponseDTO<>().ok(termList, "약관 조회 성공");
+            List<TermResDTO.TermList> termList = termService.showTermList(email);
+
+            return new ResponseDTO<>().ok(termList, "약관 조회 성공");
+        }
     }
 
     /**
      * 기업회원 약관 목록조회
-     * @param userDetails
+     * @param userDetail
      * @return 약관 목록
      */
     @GetMapping(value = "/company/term/list")
-    public ResponseDTO<?> companyTermList(@AuthenticationPrincipal LoginResDTO userDetails) {
+    public ResponseDTO<?> companyTermList(@AuthenticationPrincipal LoginResDTO userDetail) {
 
-        String email = userDetails.getEmail();
+        String email = userDetail.getEmail();
 
         List<TermResDTO.TermList> termList = termService.showTermList(email);
 
@@ -88,30 +99,35 @@ public class TermController {
 
     /**
      * 관리자 약관 상세 조회
-     * @param userDetails
+     * @param userDetail
      * @param termId
      * @return 약관 상세 조회
      */
     @GetMapping(value = "/admin/term/{termId}")
-    public ResponseDTO<?> adminTermDetail(@AuthenticationPrincipal LoginResDTO userDetails, @PathVariable Long termId) {
+    public ResponseDTO<?> adminTermDetail(@AuthenticationPrincipal LoginResDTO userDetail, @PathVariable Long termId) {
+        if(!userDetail.getRole().equals("ADMIN")){
 
-        String email = userDetails.getEmail();
+            return new ResponseDTO(401, false,"Unauthorized", "접근권한이 없습니다.");
 
-        TermResDTO.TermDetail termDetail = termService.showTermDetail(email, termId);
+        } else {
+            String email = userDetail.getEmail();
 
-        return new ResponseDTO<>().ok(termDetail, "termDetail success");
+            TermResDTO.TermDetail termDetail = termService.showTermDetail(email, termId);
+
+            return new ResponseDTO<>().ok(termDetail, "termDetail success");
+        }
     }
 
     /**
      * 기업회원 약관 상세 조회
-     * @param userDetails
+     * @param userDetail
      * @param termId
      * @return 약관 상세 조회
      */
     @GetMapping(value = "/company/term/{termId}")
-    public ResponseDTO<?> companyTermDetail(@AuthenticationPrincipal LoginResDTO userDetails, @PathVariable Long termId) {
+    public ResponseDTO<?> companyTermDetail(@AuthenticationPrincipal LoginResDTO userDetail, @PathVariable Long termId) {
 
-        String email = userDetails.getEmail();
+        String email = userDetail.getEmail();
 
         TermResDTO.TermDetail termDetail = termService.showTermDetail(email, termId);
 
@@ -120,36 +136,42 @@ public class TermController {
 
     /**
      * 관리자 약관 수정
-     * @param userDetails
+     * @param userDetail
      * @param termId
      * @param updateDTO
      * @return 수정한 약관 상세조회
      * @throws IOException
      */
     @PutMapping(value = "/admin/term/{termId}",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseDTO<?> adminUpdateTerm(@AuthenticationPrincipal LoginResDTO userDetails,
+    public ResponseDTO<?> adminUpdateTerm(@AuthenticationPrincipal LoginResDTO userDetail,
                                      @PathVariable Long termId,
                                      @Valid @RequestBody TermFormDTO.updateDTO updateDTO) throws IOException {
-        String email = userDetails.getEmail();
+        if(!userDetail.getRole().equals("ADMIN")){
 
-        TermResDTO.TermDetail updateTerm = termService.updateTerm(email,termId,updateDTO);
+            return new ResponseDTO(401, false,"Unauthorized", "접근권한이 없습니다.");
 
-        return new ResponseDTO<>().ok(updateTerm, "약관 수정 성공");
+        } else {
+            String email = userDetail.getEmail();
+
+            TermResDTO.TermDetail updateTerm = termService.updateTerm(email, termId, updateDTO);
+
+            return new ResponseDTO<>().ok(updateTerm, "약관 수정 성공");
+        }
     }
 
     /**
      * 기업회원 약관 수정
-     * @param userDetails
+     * @param userDetail
      * @param termId
      * @param updateDTO
      * @return 수정한 약관 상세조회
      * @throws IOException
      */
     @PutMapping(value = "/company/term/{termId}",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseDTO<?> companyUpdateTerm(@AuthenticationPrincipal LoginResDTO userDetails,
+    public ResponseDTO<?> companyUpdateTerm(@AuthenticationPrincipal LoginResDTO userDetail,
                                      @PathVariable Long termId,
                                      @Valid @RequestBody TermFormDTO.updateDTO updateDTO) throws IOException {
-        String email = userDetails.getEmail();
+        String email = userDetail.getEmail();
 
         TermResDTO.TermDetail updateTerm = termService.updateTerm(email,termId,updateDTO);
 
