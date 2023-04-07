@@ -40,28 +40,32 @@ public class TermController {
     }
 
     /**
-     * 약관목록조회
+     * 관리자 약관 목록조회
+     * @param userDetails
+     * @return 약관 목록
      */
     @GetMapping(value = "/admin/term/list")
-    public ResponseDTO<?> showTermList() {
-        //TODO : 토큰 완성되면 약관목록조회 파라미터 수정하기
-        String admin = "admin@admin.com";
+    public ResponseDTO<?> showTermList(@AuthenticationPrincipal LoginResDTO userDetails) {
 
-        List<TermResDTO.TermList> termList = termService.showTermList(admin);
+        String email = userDetails.getEmail();
 
-        return new ResponseDTO<>().ok(termList, "termList success");
+        List<TermResDTO.TermList> termList = termService.showTermList(email);
+
+        return new ResponseDTO<>().ok(termList, "약관 조회 성공");
     }
 
     /**
-     *
-     * 약관 상세조회
+     * 관리자 약관 상세 조회
+     * @param userDetails
+     * @param termId
+     * @return 약관 상세 조회
      */
     @GetMapping(value = "/admin/term/{termId}")
-    public ResponseDTO<?> showTermDetail(@PathVariable Long termId) {
-        //TODO : 토큰 완성되면 약관상세조회 파라미터 수정하기
-        String admin = "admin@admin.com";
+    public ResponseDTO<?> showTermDetail(@AuthenticationPrincipal LoginResDTO userDetails, @PathVariable Long termId) {
 
-        TermResDTO.TermDetail termDetail = termService.showTermDetail(admin, termId);
+        String email = userDetails.getEmail();
+
+        TermResDTO.TermDetail termDetail = termService.showTermDetail(email, termId);
 
         return new ResponseDTO<>().ok(termDetail, "termDetail success");
     }
