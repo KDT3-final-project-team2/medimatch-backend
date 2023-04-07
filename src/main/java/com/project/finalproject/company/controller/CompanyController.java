@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
 import com.project.finalproject.company.dto.*;
 import com.project.finalproject.company.service.CompanyService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtUtil;
 import com.project.finalproject.login.dto.LoginResDTO;
+import com.project.finalproject.signup.dto.CompanySignupReqDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +32,19 @@ public class CompanyController {
 
     private final JwtUtil jwtutil;
 
+
+
+
+
+    @PostMapping("/checkemail")
+    public ResponseDTO checkEmail(@RequestBody CompanySignupReqDTO companySignupReqDTO){
+        if(companyService.checkEmail(companySignupReqDTO).equals("duplicate id")){
+            return new ResponseDTO(401, false, "duplicate id", "이미 존재하는 이메일입니다.");
+        }else{
+            return new ResponseDTO(200, true, "success", "사용 가능한 이메일입니다.");
+        }
+    }
+
     /**
      * 채용 공고 생성
      * @param userDetails 토큰
@@ -38,6 +53,8 @@ public class CompanyController {
      * @return 채용공고 상세 조회
      * @throws IOException
      */
+
+
     @PostMapping("/jobposts")
     public ResponseDTO<?> createJobpost(@AuthenticationPrincipal LoginResDTO userDetails,
                                         @RequestParam("requestDTO") String jsonList, MultipartFile jobpostFile) throws IOException {

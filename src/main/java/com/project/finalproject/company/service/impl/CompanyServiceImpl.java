@@ -1,5 +1,6 @@
 package com.project.finalproject.company.service.impl;
 
+import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
 import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
 import com.project.finalproject.applicant.entity.enums.Gender;
 import com.project.finalproject.application.entity.Application;
@@ -14,6 +15,7 @@ import com.project.finalproject.jobpost.entity.Jobpost;
 import com.project.finalproject.jobpost.exception.JobpostException;
 import com.project.finalproject.jobpost.exception.JobpostExceptionType;
 import com.project.finalproject.jobpost.repository.JobpostRepository;
+import com.project.finalproject.signup.dto.CompanySignupReqDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,6 +48,18 @@ public class CompanyServiceImpl implements CompanyService {
     private String JOBPOST_FILE_PATH;
 //    @Value("${jobpost.file.path.local}")
 //    private String JOBPOST_FILE_PATH;
+
+
+    @Override
+    public String checkEmail(CompanySignupReqDTO companySignupReqDTO){
+        String companyEmail = companySignupReqDTO.getCompanyEmail();
+        if(companyRepository.findByEmail(companyEmail).isPresent()){
+            return "duplicate id";
+        }
+        else{
+            return "success";
+        }
+    }
 
     /**
      * 채용 공고 생성
