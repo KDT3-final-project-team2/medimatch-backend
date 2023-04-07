@@ -40,12 +40,44 @@ public class TermController {
     }
 
     /**
+     * 기업회원 약관 등록
+     * @param userDetails 토큰
+     * @param registerDTO
+     * @return 등록한 약관 상세조회
+     * @throws IOException
+     */
+    @PostMapping(value = "/company/term", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseDTO<?> comapnyRegister(@AuthenticationPrincipal LoginResDTO userDetails, @Valid @RequestBody TermFormDTO.registerDTO registerDTO) throws IOException {
+
+        String email = userDetails.getEmail();
+
+        TermResDTO.TermDetail newTerm = termService.registerTerm(email,registerDTO);
+
+        return new ResponseDTO<>().ok(newTerm, "약관 등록 성공");
+    }
+
+    /**
      * 관리자 약관 목록조회
      * @param userDetails
      * @return 약관 목록
      */
     @GetMapping(value = "/admin/term/list")
-    public ResponseDTO<?> showTermList(@AuthenticationPrincipal LoginResDTO userDetails) {
+    public ResponseDTO<?> adminTermList(@AuthenticationPrincipal LoginResDTO userDetails) {
+
+        String email = userDetails.getEmail();
+
+        List<TermResDTO.TermList> termList = termService.showTermList(email);
+
+        return new ResponseDTO<>().ok(termList, "약관 조회 성공");
+    }
+
+    /**
+     * 기업회원 약관 목록조회
+     * @param userDetails
+     * @return 약관 목록
+     */
+    @GetMapping(value = "/company/term/list")
+    public ResponseDTO<?> companyTermList(@AuthenticationPrincipal LoginResDTO userDetails) {
 
         String email = userDetails.getEmail();
 
@@ -61,7 +93,23 @@ public class TermController {
      * @return 약관 상세 조회
      */
     @GetMapping(value = "/admin/term/{termId}")
-    public ResponseDTO<?> showTermDetail(@AuthenticationPrincipal LoginResDTO userDetails, @PathVariable Long termId) {
+    public ResponseDTO<?> adminTermDetail(@AuthenticationPrincipal LoginResDTO userDetails, @PathVariable Long termId) {
+
+        String email = userDetails.getEmail();
+
+        TermResDTO.TermDetail termDetail = termService.showTermDetail(email, termId);
+
+        return new ResponseDTO<>().ok(termDetail, "termDetail success");
+    }
+
+    /**
+     * 기업회원 약관 상세 조회
+     * @param userDetails
+     * @param termId
+     * @return 약관 상세 조회
+     */
+    @GetMapping(value = "/company/term/{termId}")
+    public ResponseDTO<?> companyTermDetail(@AuthenticationPrincipal LoginResDTO userDetails, @PathVariable Long termId) {
 
         String email = userDetails.getEmail();
 
@@ -79,7 +127,26 @@ public class TermController {
      * @throws IOException
      */
     @PutMapping(value = "/admin/term/{termId}",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseDTO<?> updateTerm(@AuthenticationPrincipal LoginResDTO userDetails,
+    public ResponseDTO<?> adminUpdateTerm(@AuthenticationPrincipal LoginResDTO userDetails,
+                                     @PathVariable Long termId,
+                                     @Valid @RequestBody TermFormDTO.updateDTO updateDTO) throws IOException {
+        String email = userDetails.getEmail();
+
+        TermResDTO.TermDetail updateTerm = termService.updateTerm(email,termId,updateDTO);
+
+        return new ResponseDTO<>().ok(updateTerm, "약관 수정 성공");
+    }
+
+    /**
+     * 기업회원 약관 수정
+     * @param userDetails
+     * @param termId
+     * @param updateDTO
+     * @return 수정한 약관 상세조회
+     * @throws IOException
+     */
+    @PutMapping(value = "/company/term/{termId}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseDTO<?> companyUpdateTerm(@AuthenticationPrincipal LoginResDTO userDetails,
                                      @PathVariable Long termId,
                                      @Valid @RequestBody TermFormDTO.updateDTO updateDTO) throws IOException {
         String email = userDetails.getEmail();
