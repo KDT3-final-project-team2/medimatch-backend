@@ -23,4 +23,16 @@ public class TermFormDTO {
 
         private TermStatus status;  //약관상태(사용,임시저장,폐기)
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @ToString
+    public static class updateDTO{
+        private String content; // 약관내용
+        private TermType type;  // 약관 타입
+        private String version; // 약관 버전
+        private TermStatus status;  //약관상태(사용,임시저장,폐기)
+    }
 }
