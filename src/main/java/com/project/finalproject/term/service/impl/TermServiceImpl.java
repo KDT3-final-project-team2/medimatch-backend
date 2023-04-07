@@ -88,6 +88,24 @@ public class TermServiceImpl implements TermService {
     }
 
     @Override
+    public TermResDTO.TermDetail updateTerm(String email,Long termId,TermFormDTO.updateDTO updateDTO) throws IOException {
+
+        Company company = companyRepository.findByEmail(email).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+
+        Term term = termRepository.findById(termId).orElseThrow(
+                () -> new TermException(TermExceptionType.NOT_FOUND_PAGE)
+        );
+
+        term.updateTerm(updateDTO,company);
+
+        return new TermResDTO.TermDetail(termRepository.save(term));
+    }
+
+
+
+    @Override
     public List<TermDetailResponseDTO> getRunningTerms(Long companyId, TermStatus status) {
         List<Term> terms = termRepository.findByCompanyIdAndStatus(companyId, status);
         for (Term term : terms) {
