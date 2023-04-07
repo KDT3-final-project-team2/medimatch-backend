@@ -1,6 +1,8 @@
 package com.project.finalproject.company.service;
 
+import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
 import com.project.finalproject.company.dto.*;
+import com.project.finalproject.signup.dto.CompanySignupReqDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,6 +11,8 @@ import java.util.List;
 
 @Service
 public interface CompanyService {
+
+    public String checkEmail(CompanySignupReqDTO companySignupReqDTO);
 
     //채용공고 생성
     CompanyJobpostResponse.LongDTO createJobpost(String email, CompanyJobpostRequest.CreateDTO createRequestDTO, MultipartFile jobpostFile) throws IOException;
