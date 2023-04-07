@@ -15,10 +15,10 @@ public interface TermService {
     TermResDTO.TermDetail registerTerm(String email, TermFormDTO.registerDTO registerDTO) throws IOException;
 
     // 약관 전체목록 조회
-    List<TermResDTO.TermList> showTermList(String adminEmail);
+    List<TermResDTO.TermList> showTermList(String email);
 
     // 약관 상세조회
-    TermResDTO.TermDetail showTermDetail(String adminEmail, Long termId);
+    TermResDTO.TermDetail showTermDetail(String email, Long termId);
 
     // 약관 수정
     TermResDTO.TermDetail updateTerm(String email,Long termId,TermFormDTO.updateDTO updateDTO) throws IOException;
