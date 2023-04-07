@@ -27,7 +27,7 @@ public class SecurityConfig {
     /**
      * 토큰을 사용하지 않는 허용 url
      */
-    String[] permitUrl = {"/**",
+    String[] permitUrl = {
             "/company/login","/applicant/signup","/applicant/checkemail","/company/checkemail",
             "/applicant/login","/company/signup", "/refresh","/terms/**","/reset"};
 
