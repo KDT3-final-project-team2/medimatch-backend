@@ -80,7 +80,7 @@
 //        when(applicationRepository.findByApplicantId(applicantId))
 //                .thenReturn(Collections.singletonList(application));
 //
-//        List<AppliedJobpostResponseDTO> appliedJobpostResponseDTOS = applicantService.appliedJobposts();
+//        List<AppliedJobpostResponseDTO> appliedJobpostResponseDTOS = applicantService.appliedJobposts(applicantId);
 //
 //        assertNotNull(appliedJobpostResponseDTOS);
 //        assertFalse(appliedJobpostResponseDTOS.isEmpty());

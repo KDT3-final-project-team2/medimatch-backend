@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.util.Date;
@@ -157,14 +158,16 @@ public class JwtUtil {
      * 헤더에서 토큰을 추출하고 토큰으로 부터 Email, role을 추출해주는 메서드
      */
     public HashMap<String, String> allInOne(String authorizationHeader){
+
         HashMap<String, String> info = new HashMap<>();
         String token = authorizationHeader.substring(jwtProperties.getTokenPrefix().length());
         String email = getAccessUserEmail(token);
         String role = getRole(token);
+        String id = getId(token).toString();
 
-        info.put(email,"email");
-        info.put(role, "role");
-
+        info.put("email",email);
+        info.put("role",role);
+        info.put("id",id);
         return info;
     }
 

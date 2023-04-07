@@ -44,10 +44,10 @@ public class ApplicantServiceImpl implements ApplicantService {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${applicant.resume.file.path.server}")
+    @Value("${applicant.resume.file.path.local}")
     private String APPLICANT_RESUME_FILE_PATH_SERVER;
 
-    @Value("${application.resume.file.path.server}")
+    @Value("${application.resume.file.path.local}")
     private String APPLICATION_RESUME_FILE_PATH_SERVER;
 
 
@@ -65,10 +65,10 @@ public class ApplicantServiceImpl implements ApplicantService {
     @Override
     public String signup(SignupRequestDTO signupRequestDTO){
         if(applicantRepository.findByEmail(signupRequestDTO.getApplicantEmail()).isPresent()){
+
             return "duplicate id";
         }
         else{
-            //TODO: 개인회원 회원가입시 비밀번호 암호화 추가
             Applicant applicant = signupRequestDTO.toEntity();
             applicant.setPassword(passwordEncoder.encode(signupRequestDTO.getApplicantPassword()));
             applicantRepository.save(applicant);
@@ -84,8 +84,7 @@ public class ApplicantServiceImpl implements ApplicantService {
     }
 
     @Override
-    public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO){
-        Long applicantId = 1L; //TODO 개인회원Id 받기
+    public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO, Long applicantId){
         Applicant applicant = applicantRepository.findById(applicantId).get();
         applicant.setPassword(passwordEncoder.encode(infoUpdateRequestDTO.getApplicantPassword()));
         applicant.setName(infoUpdateRequestDTO.getApplicantName());
@@ -99,8 +98,8 @@ public class ApplicantServiceImpl implements ApplicantService {
     }
 
     @Override
-    public List<AppliedJobpostResponseDTO> appliedJobposts(){
-        Long applicantId = 1L; //TODO 개인회원Id 받기
+    public List<AppliedJobpostResponseDTO> appliedJobposts(Long applicantId){
+
         ArrayList<AppliedJobpostResponseDTO> appliedJobpostResponseDTOS = new ArrayList<>();
         List<Application> applications = applicationRepository.findByApplicantId(applicantId);
         for (Application application : applications) {
@@ -114,8 +113,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 
 
     @Override
-    public String applyJobpost(Long jobpostId) throws IOException {
-        Long applicantId = 1L; //TODO 개인회원Id 받기
+    public String applyJobpost(Long jobpostId, Long applicantId) throws IOException {
         Jobpost jobpost = jobpostRepository.findById(jobpostId).get(); //Jobpost 객체 가져오기
 
         if (LocalDate.now().isAfter(jobpost.getDueDate().toLocalDate())) { // 채용공고 마감일이 지났을때, 지원 불가
@@ -142,8 +140,7 @@ public class ApplicantServiceImpl implements ApplicantService {
     }
 
     @Override
-    public String cancelApplyJobpost(Long jobpostId) throws IOException {
-        Long applicantId = 1L; //TODO 개인회원Id 받기
+    public String cancelApplyJobpost(Long jobpostId, Long applicantId) throws IOException {
         Application existingApplication = applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId).orElse(null);
         if(existingApplication == null){//개인회원이 지원한 채용공고인지 확인
             return "not applied";
@@ -164,8 +161,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 
 
     @Override
-    public String resumeSave(MultipartFile resume) throws IOException { //이력서 등록, 덮어쓰기
-        Long applicantId = 1L; //TODO 개인회원Id 받기
+    public String resumeSave(MultipartFile resume, Long applicantId) throws IOException { //이력서 등록, 덮어쓰기
         if (resume.isEmpty()){
             return "empty file";
         }
@@ -181,8 +177,7 @@ public class ApplicantServiceImpl implements ApplicantService {
     }
 
     @Override
-    public ResponseEntity<Resource> resumeDownload() throws IOException{ //이력서 다운로드
-        Long applicantId = 1L; //TODO 개인회원Id 받기
+    public ResponseEntity<Resource> resumeDownload(Long applicantId) throws IOException{ //이력서 다운로드
 
         // PDF파일을 가져온다.
         Applicant applicant = applicantRepository.findById(applicantId).orElse(null);
@@ -194,8 +189,7 @@ public class ApplicantServiceImpl implements ApplicantService {
     }
 
     @Override
-    public String resumeDelete() { //이력서 삭제
-        Long applicantId = 1L; //TODO 개인회원Id 받기
+    public String resumeDelete(Long applicantId) { //이력서 삭제
 
         // 이력서 경로 가져오기
         Applicant applicant = applicantRepository.findById(applicantId).orElse(null);

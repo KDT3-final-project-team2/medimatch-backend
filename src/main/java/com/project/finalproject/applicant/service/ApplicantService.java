@@ -19,20 +19,19 @@ public interface ApplicantService {
 
     public MyInfoResponseDTO myInfo(Long applicantID);
 
-    public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO);
+    public String infoUpdate(InfoUpdateRequestDTO infoUpdateRequestDTO, Long applicantId);
 
-    public List<AppliedJobpostResponseDTO> appliedJobposts();
+    public List<AppliedJobpostResponseDTO> appliedJobposts(Long applicantId);
 
-    public String applyJobpost(Long jobpostId) throws IOException;
+    public String applyJobpost(Long jobpostId, Long applicantId) throws IOException;
 
-    public String cancelApplyJobpost(Long jobpostId) throws IOException;
+    public String cancelApplyJobpost(Long jobpostId, Long applicantId) throws IOException;
 
 
+    public String resumeSave(MultipartFile files, Long applicantId) throws IOException;
 
-    public String resumeSave(MultipartFile files) throws IOException;
+    public ResponseEntity<Resource> resumeDownload(Long applicantId) throws IOException;
 
-    public ResponseEntity<Resource> resumeDownload() throws IOException;
-
-    public String resumeDelete() throws IOException;
+    public String resumeDelete(Long applicantId) throws IOException;
 
 }

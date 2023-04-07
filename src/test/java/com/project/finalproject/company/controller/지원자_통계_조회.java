@@ -6,6 +6,7 @@
 //import com.project.finalproject.global.dto.ResponseDTO;
 //import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
 //import com.project.finalproject.global.jwt.utils.JwtFilter;
+//import com.project.finalproject.global.jwt.utils.JwtUtil;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,9 @@
 //    @MockBean
 //    JwtExceptionFilter jwtExceptionFilter;
 //
+//    @MockBean
+//    JwtUtil jwtUtil;
+//
 //
 //    @Test
 //    @DisplayName("지원자 통계 조회 성공")
@@ -62,6 +66,11 @@
 //                .jobpostTitleCount(new HashMap<String, Integer>())
 //                .build();
 //
+//        HashMap<String, String> mockHashMap2 = new HashMap<>();
+//        mockHashMap2.put("id", "1");
+//
+//        given(jwtUtil.allInOne(any()))
+//                .willReturn(mockHashMap2);
 //        given(companyService.statisticsForApplicationsForCompany(any(Long.class)))
 //                .willReturn(mockDTO); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
 //
@@ -90,7 +99,11 @@
 //                .applicantEducationCount(new HashMap<String, Integer>())
 //                .jobpostTitleCount(new HashMap<String, Integer>())
 //                .build();
+//        HashMap<String, String> mockHashMap = new HashMap<>();
+//        mockHashMap.put("id", "1");
 //
+//        given(jwtUtil.allInOne(any()))
+//                .willReturn(mockHashMap);
 //        given(companyService.statisticsForApplicationsForCompany(any(Long.class)))
 //                .willReturn(mockDTO); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
 //

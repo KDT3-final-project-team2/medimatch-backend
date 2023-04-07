@@ -81,7 +81,7 @@
 //        when(applicantRepository.findById(applicantId))
 //                .thenReturn(Optional.of(applicant));
 //
-//        String result = applicantService.resumeDelete(); //파일이 실제로 존재하지 않으므로 실패
+//        String result = applicantService.resumeDelete(applicantId); //파일이 실제로 존재하지 않으므로 실패
 ////        assertEquals("success", result);
 //        assertEquals("success", "success");
 //

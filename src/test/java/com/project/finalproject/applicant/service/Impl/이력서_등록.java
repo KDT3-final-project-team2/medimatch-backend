@@ -86,7 +86,7 @@
 //        when(applicantRepository.findById(applicantId))
 //                .thenReturn(Optional.of(applicant));
 //
-//        String result = applicantService.resumeSave(resume);
+//        String result = applicantService.resumeSave(resume, applicantId);
 //
 //        assertEquals("success", result);
 //
@@ -118,7 +118,7 @@
 //
 //        when(applicantRepository.findById(applicantId)).thenReturn(Optional.of(applicant));
 //
-//        String result = applicantService.resumeSave(resume);
+//        String result = applicantService.resumeSave(resume, applicantId);
 //
 //        assertEquals("empty file", result);
 //    }
