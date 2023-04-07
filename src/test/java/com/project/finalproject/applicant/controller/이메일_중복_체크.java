@@ -9,6 +9,7 @@ import com.project.finalproject.applicant.service.Impl.ApplicantServiceImpl;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
 import com.project.finalproject.global.jwt.utils.JwtFilter;
+import com.project.finalproject.global.jwt.utils.JwtUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class 이메일_중복_체크 {
 
     @MockBean
     JwtExceptionFilter jwtExceptionFilter;
+
+    @MockBean
+    JwtUtil jwtUtil;
 
 
     @Test

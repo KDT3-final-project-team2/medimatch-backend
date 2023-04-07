@@ -80,7 +80,7 @@ public class 지원한_채용공고 {
         when(applicationRepository.findByApplicantId(applicantId))
                 .thenReturn(Collections.singletonList(application));
 
-        List<AppliedJobpostResponseDTO> appliedJobpostResponseDTOS = applicantService.appliedJobposts();
+        List<AppliedJobpostResponseDTO> appliedJobpostResponseDTOS = applicantService.appliedJobposts(applicantId);
 
         assertNotNull(appliedJobpostResponseDTOS);
         assertFalse(appliedJobpostResponseDTOS.isEmpty());

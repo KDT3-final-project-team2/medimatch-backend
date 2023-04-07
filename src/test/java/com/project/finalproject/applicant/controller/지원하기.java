@@ -6,6 +6,7 @@ import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
 import com.project.finalproject.global.jwt.utils.JwtFilter;
+import com.project.finalproject.global.jwt.utils.JwtUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,6 +52,9 @@ public class 지원하기 {
     @MockBean
     JwtExceptionFilter jwtExceptionFilter;
 
+    @MockBean
+    JwtUtil jwtUtil;
+
 
     @Test
     @DisplayName("채용공고 지원하기 성공")
@@ -56,8 +62,12 @@ public class 지원하기 {
     public void applySuccess() throws Exception {
         JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
         jobpostIdRequestDTO.setJobpostId(1234L);
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
-        given(applicantService.applyJobpost(any(Long.class)))
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
+        given(applicantService.applyJobpost(any(Long.class), any(Long.class)))
                 .willReturn("success");
 
         MvcResult mvcResult = mockMvc.perform(post("/applicant/apply")
@@ -74,7 +84,7 @@ public class 지원하기 {
         assertEquals(true, responseDTO.isSuccess());
         assertEquals("success", responseDTO.getData());
 
-        verify(applicantService).applyJobpost(any(Long.class));
+        verify(applicantService).applyJobpost(any(Long.class), any(Long.class));
     }
 
 
@@ -84,8 +94,13 @@ public class 지원하기 {
     public void applyFail1() throws Exception {
         JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
         jobpostIdRequestDTO.setJobpostId(1234L);
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
-        given(applicantService.applyJobpost(any(Long.class)))
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
+
+        given(applicantService.applyJobpost(any(Long.class), any(Long.class)))
                 .willReturn("due date passed");
 
         MvcResult mvcResult = mockMvc.perform(post("/applicant/apply")
@@ -102,7 +117,7 @@ public class 지원하기 {
         assertEquals(false, responseDTO.isSuccess());
         assertEquals("due date passed", responseDTO.getData());
 
-        verify(applicantService).applyJobpost(any(Long.class));
+        verify(applicantService).applyJobpost(any(Long.class), any(Long.class));
     }
 
 
@@ -112,8 +127,13 @@ public class 지원하기 {
     public void applyFail2() throws Exception {
         JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
         jobpostIdRequestDTO.setJobpostId(1234L);
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
-        given(applicantService.applyJobpost(any(Long.class)))
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
+
+        given(applicantService.applyJobpost(any(Long.class), any(Long.class)))
                 .willReturn("applied already");
 
         MvcResult mvcResult = mockMvc.perform(post("/applicant/apply")
@@ -130,7 +150,7 @@ public class 지원하기 {
         assertEquals(false, responseDTO.isSuccess());
         assertEquals("applied already", responseDTO.getData());
 
-        verify(applicantService).applyJobpost(any(Long.class));
+        verify(applicantService).applyJobpost(any(Long.class), any(Long.class));
     }
 
     @Test
@@ -139,8 +159,13 @@ public class 지원하기 {
     public void applyFail3() throws Exception {
         JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
         jobpostIdRequestDTO.setJobpostId(1234L);
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
-        given(applicantService.applyJobpost(any(Long.class)))
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
+
+        given(applicantService.applyJobpost(any(Long.class), any(Long.class)))
                 .willReturn("no resume");
 
         MvcResult mvcResult = mockMvc.perform(post("/applicant/apply")
@@ -157,7 +182,7 @@ public class 지원하기 {
         assertEquals(false, responseDTO.isSuccess());
         assertEquals("no resume", responseDTO.getData());
 
-        verify(applicantService).applyJobpost(any(Long.class));
+        verify(applicantService).applyJobpost(any(Long.class), any(Long.class));
     }
 
 }

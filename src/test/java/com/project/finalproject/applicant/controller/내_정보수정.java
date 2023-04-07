@@ -6,6 +6,7 @@ import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
 import com.project.finalproject.global.jwt.utils.JwtFilter;
+import com.project.finalproject.global.jwt.utils.JwtUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -47,13 +50,19 @@ public class 내_정보수정 {
     @MockBean
     JwtExceptionFilter jwtExceptionFilter;
 
+    @MockBean
+    JwtUtil jwtUtil;
 
     @Test
     @DisplayName("내 정보수정 성공")
     @WithMockUser
     public void infoUpdateSuccess() throws Exception {
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
-        given(applicantService.infoUpdate(any(InfoUpdateRequestDTO.class)))
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
+        given(applicantService.infoUpdate(any(InfoUpdateRequestDTO.class),any(Long.class)))
                 .willReturn("success"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
 
         MvcResult mvcResult = mockMvc.perform(put("/applicant/me")
@@ -70,15 +79,19 @@ public class 내_정보수정 {
         assertEquals(true, responseDTO.isSuccess());
         assertEquals("success", responseDTO.getData());
 
-        verify(applicantService).infoUpdate(any(InfoUpdateRequestDTO.class));
+        verify(applicantService).infoUpdate(any(InfoUpdateRequestDTO.class),any(Long.class));
     }
 
     @Test
     @DisplayName("내 정보수정 실패")
     @WithMockUser
     public void infoUpdateFail() throws Exception {
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
-        given(applicantService.infoUpdate(any(InfoUpdateRequestDTO.class)))
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
+        given(applicantService.infoUpdate(any(InfoUpdateRequestDTO.class),any(Long.class)))
                 .willReturn("fail"); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
 
         MvcResult mvcResult = mockMvc.perform(put("/applicant/me")
@@ -95,7 +108,7 @@ public class 내_정보수정 {
         assertEquals(false, responseDTO.isSuccess());
         assertEquals("fail", responseDTO.getData());
 
-        verify(applicantService).infoUpdate(any(InfoUpdateRequestDTO.class));
+        verify(applicantService).infoUpdate(any(InfoUpdateRequestDTO.class),any(Long.class));
     }
 }
 

@@ -76,7 +76,7 @@ public class 이력서_조회 {
 
         when(applicantRepository.findById(applicantId)).thenReturn(Optional.of(applicant));
 
-        ResponseEntity<Resource> response = applicantService.resumeDownload();
+        ResponseEntity<Resource> response = applicantService.resumeDownload(applicantId);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
 

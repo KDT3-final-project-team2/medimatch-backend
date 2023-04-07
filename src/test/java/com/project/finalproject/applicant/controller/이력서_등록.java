@@ -6,6 +6,7 @@ import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
 import com.project.finalproject.global.jwt.utils.JwtFilter;
+import com.project.finalproject.global.jwt.utils.JwtUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,14 +51,21 @@ public class 이력서_등록 {
     @MockBean
     JwtExceptionFilter jwtExceptionFilter;
 
+    @MockBean
+    JwtUtil jwtUtil;
+
 
     @Test
     @DisplayName("이력서 등록 성공")
     @WithMockUser
     public void resumeSaveSuccess() throws Exception {
         MockMultipartFile mockResume = new MockMultipartFile("resume.pdf", new byte[0]);
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
-        given(applicantService.resumeSave(any(MultipartFile.class)))
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
+        given(applicantService.resumeSave(any(MultipartFile.class), any(Long.class)))
                 .willReturn("success");
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.multipart("/applicant/resume")
@@ -71,7 +81,7 @@ public class 이력서_등록 {
         assertEquals(true, responseDTO.isSuccess());
         assertEquals("success", responseDTO.getData());
 
-        verify(applicantService).resumeSave(any(MultipartFile.class));
+        verify(applicantService).resumeSave(any(MultipartFile.class), any(Long.class));
     }
 
     @Test
@@ -79,8 +89,12 @@ public class 이력서_등록 {
     @WithMockUser
     public void resumeSaveFail() throws Exception {
         MockMultipartFile mockResume = new MockMultipartFile("resume.pdf", new byte[0]);
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
-        given(applicantService.resumeSave(any(MultipartFile.class)))
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
+        given(applicantService.resumeSave(any(MultipartFile.class), any(Long.class)))
                 .willReturn("empty file");
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.multipart("/applicant/resume")
@@ -96,7 +110,7 @@ public class 이력서_등록 {
         assertEquals(false, responseDTO.isSuccess());
         assertEquals("empty file", responseDTO.getData());
 
-        verify(applicantService).resumeSave(any(MultipartFile.class));
+        verify(applicantService).resumeSave(any(MultipartFile.class), any(Long.class));
     }
 
 }

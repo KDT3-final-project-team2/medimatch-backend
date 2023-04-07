@@ -108,7 +108,7 @@ public class 지원취소 {
         when(applicantRepository.findById(applicantId))
                 .thenReturn(Optional.of(applicant));
 
-        String result = applicantService.applyJobpost(jobpostId);
+        String result = applicantService.applyJobpost(jobpostId, applicantId);
 
         assertEquals("success", result);
 
@@ -132,7 +132,7 @@ public class 지원취소 {
         when(applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId))
                 .thenReturn(Optional.of(application));
 
-        String result = applicantService.cancelApplyJobpost(jobpostId);
+        String result = applicantService.cancelApplyJobpost(jobpostId,applicantId);
 
         assertEquals("success", result);
 
@@ -150,7 +150,7 @@ public class 지원취소 {
         when(applicationRepository.findByApplicantIdAndJobpostId(applicantId, jobpostId))
                 .thenReturn(Optional.ofNullable(null));
 
-        String result = applicantService.cancelApplyJobpost(jobpostId);
+        String result = applicantService.cancelApplyJobpost(jobpostId,applicantId);
 
         assertEquals("not applied", result);
 

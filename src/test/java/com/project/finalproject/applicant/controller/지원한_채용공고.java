@@ -6,6 +6,7 @@ import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
 import com.project.finalproject.global.jwt.utils.JwtFilter;
+import com.project.finalproject.global.jwt.utils.JwtUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,6 +51,8 @@ public class 지원한_채용공고 {
     @MockBean
     JwtExceptionFilter jwtExceptionFilter;
 
+    @MockBean
+    JwtUtil jwtUtil;
 
     @Test
     @DisplayName("지원한 채용공고 불러오기 성공")
@@ -57,9 +61,13 @@ public class 지원한_채용공고 {
         List<AppliedJobpostResponseDTO> mockList = new ArrayList<>();
         AppliedJobpostResponseDTO mockAppliedJobpostResponseDTO = new AppliedJobpostResponseDTO();
         mockList.add(mockAppliedJobpostResponseDTO);
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
         
-        given(applicantService.appliedJobposts())
+        given(applicantService.appliedJobposts(any(Long.class)))
                 .willReturn(mockList); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
 
         MvcResult mvcResult = mockMvc.perform(get("/applicant/main")
                         .with(csrf()))
@@ -73,7 +81,7 @@ public class 지원한_채용공고 {
         assertEquals(true, responseDTO.isSuccess());
 //        assertEquals("success", responseDTO.getData());
 
-        verify(applicantService).appliedJobposts();
+        verify(applicantService).appliedJobposts(any(Long.class));
     }
 
     @Test
@@ -81,9 +89,13 @@ public class 지원한_채용공고 {
     @WithMockUser
     public void getMainPageFail() throws Exception {
         List<AppliedJobpostResponseDTO> mockList = new ArrayList<>();
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
-        given(applicantService.appliedJobposts())
+        given(applicantService.appliedJobposts(any(Long.class)))
                 .willReturn(mockList); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
 
         MvcResult mvcResult = mockMvc.perform(get("/applicant/main")
                         .with(csrf()))
@@ -97,7 +109,7 @@ public class 지원한_채용공고 {
         assertEquals(false, responseDTO.isSuccess());
         assertEquals(null, responseDTO.getData());
 
-        verify(applicantService).appliedJobposts();
+        verify(applicantService).appliedJobposts(any(Long.class));
     }
 }
 

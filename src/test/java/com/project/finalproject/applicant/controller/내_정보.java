@@ -9,6 +9,7 @@ import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
 import com.project.finalproject.global.jwt.utils.JwtFilter;
+import com.project.finalproject.global.jwt.utils.JwtUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -50,13 +55,20 @@ public class 내_정보 {
     @MockBean
     JwtExceptionFilter jwtExceptionFilter;
 
+    @MockBean
+    JwtUtil jwtUtil;
+
 
     @Test
     @DisplayName("내 정보 불러오기 성공")
     @WithMockUser
     public void getMyInfoSuccess() throws Exception {
         MyInfoResponseDTO mockMyInfoResponseDTO = new MyInfoResponseDTO();
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
         given(applicantService.myInfo(any(Long.class)))
                 .willReturn(mockMyInfoResponseDTO); // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드.
 

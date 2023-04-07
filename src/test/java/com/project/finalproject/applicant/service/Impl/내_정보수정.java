@@ -76,7 +76,7 @@ public class 내_정보수정 {
         when(applicantRepository.findById(applicantId)).thenReturn(Optional.of(applicant));
         when(applicantRepository.save(any(Applicant.class))).thenReturn(applicant);
 
-        String result = applicantService.infoUpdate(infoUpdateRequestDTO);
+        String result = applicantService.infoUpdate(infoUpdateRequestDTO, applicantId);
 
         assertEquals("success", result);
         assertEquals(infoUpdateRequestDTO.getApplicantName(), applicant.getName());

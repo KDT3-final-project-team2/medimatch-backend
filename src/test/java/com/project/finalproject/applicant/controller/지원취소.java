@@ -6,6 +6,7 @@ import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
 import com.project.finalproject.global.jwt.utils.JwtFilter;
+import com.project.finalproject.global.jwt.utils.JwtUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,6 +48,8 @@ public class 지원취소 {
     @MockBean
     JwtExceptionFilter jwtExceptionFilter;
 
+    @MockBean
+    JwtUtil jwtUtil;
 
     @Test
     @DisplayName("채용공고 지원취소하기 성공")
@@ -52,8 +57,13 @@ public class 지원취소 {
     public void applySuccess() throws Exception {
         JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
         jobpostIdRequestDTO.setJobpostId(1234L);
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
-        given(applicantService.cancelApplyJobpost(any(Long.class)))
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
+
+        given(applicantService.cancelApplyJobpost(any(Long.class),any(Long.class)))
                 .willReturn("success");
 
         MvcResult mvcResult = mockMvc.perform(delete("/applicant/apply")
@@ -70,7 +80,7 @@ public class 지원취소 {
         assertEquals(true, responseDTO.isSuccess());
         assertEquals("success", responseDTO.getData());
 
-        verify(applicantService).cancelApplyJobpost(any(Long.class));
+        verify(applicantService).cancelApplyJobpost(any(Long.class),any(Long.class));
     }
 
     @Test
@@ -79,8 +89,13 @@ public class 지원취소 {
     public void applyFail() throws Exception {
         JobpostIdRequestDTO jobpostIdRequestDTO = new JobpostIdRequestDTO();
         jobpostIdRequestDTO.setJobpostId(1234L);
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
-        given(applicantService.cancelApplyJobpost(any(Long.class)))
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
+
+        given(applicantService.cancelApplyJobpost(any(Long.class),any(Long.class)))
                 .willReturn("not applied");
 
         MvcResult mvcResult = mockMvc.perform(delete("/applicant/apply")
@@ -97,7 +112,7 @@ public class 지원취소 {
         assertEquals(false, responseDTO.isSuccess());
         assertEquals("not applied", responseDTO.getData());
 
-        verify(applicantService).cancelApplyJobpost(any(Long.class));
+        verify(applicantService).cancelApplyJobpost(any(Long.class),any(Long.class));
     }
 
 }

@@ -115,7 +115,7 @@ public class 지원하기 {
         when(applicantRepository.findById(applicantId))
                 .thenReturn(Optional.of(applicant));
 
-        String result = applicantService.applyJobpost(jobpostId);
+        String result = applicantService.applyJobpost(jobpostId,applicantId);
 
         assertEquals("success", result);
 
@@ -128,6 +128,7 @@ public class 지원하기 {
     @DisplayName("채용공고 지원 실패 : 채용공고 마감")
     public void checkApplyJobpostFail1() throws IOException {
         Long jobpostId = 1L;
+        Long applicantId = 1L;
 
         Company company = Company.builder()
                 .id(1L)
@@ -155,7 +156,7 @@ public class 지원하기 {
                 .thenReturn(Optional.of(jobpost));
 
 
-        String result = applicantService.applyJobpost(jobpostId);
+        String result = applicantService.applyJobpost(jobpostId, applicantId);
 
         assertEquals("due date passed", result);
 
@@ -215,7 +216,7 @@ public class 지원하기 {
         when(applicantRepository.findById(applicantId))
                 .thenReturn(Optional.of(applicant));
 
-        String result = applicantService.applyJobpost(jobpostId);
+        String result = applicantService.applyJobpost(jobpostId, applicantId);
 
         assertEquals("applied already", result);
 
@@ -274,7 +275,7 @@ public class 지원하기 {
         when(applicantRepository.findById(applicantId))
                 .thenReturn(Optional.of(applicant));
 
-        String result = applicantService.applyJobpost(jobpostId);
+        String result = applicantService.applyJobpost(jobpostId, applicantId);
 
         assertEquals("no resume", result);
 

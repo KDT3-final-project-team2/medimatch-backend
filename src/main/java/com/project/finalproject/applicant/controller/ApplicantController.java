@@ -6,14 +6,20 @@ import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
 import com.project.finalproject.applicant.dto.response.AppliedJobpostResponseDTO;
 import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
+import com.project.finalproject.global.jwt.utils.JwtFilter;
+import com.project.finalproject.global.jwt.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -23,8 +29,14 @@ public class ApplicantController {
 
     private final ApplicantService applicantService;
 
+    private final JwtUtil jwtutil;
+
     @GetMapping("/test")
-    public ResponseDTO test(){
+    public ResponseDTO test(HttpServletRequest request){
+        HashMap<String, String> tokenInfo = jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION));
+        System.out.println(tokenInfo.get("email"));
+        System.out.println(tokenInfo.get("role"));
+        System.out.println(tokenInfo.get("id"));
         return new ResponseDTO(200, true, null, "테스트");
     }
 
@@ -49,15 +61,16 @@ public class ApplicantController {
 
     // 내 정보
     @GetMapping("/info")
-    public ResponseDTO myInfo(){
-        Long applicantId = 1L;
+    public ResponseDTO myInfo(HttpServletRequest request){
+        Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
         return new ResponseDTO(200, true, applicantService.myInfo(applicantId), "내 정보");
     }
 
     // 정보 수정
     @PutMapping("/me")
-    public ResponseDTO me(@RequestBody InfoUpdateRequestDTO infoUpdateRequestDTO){
-        if (applicantService.infoUpdate(infoUpdateRequestDTO).equals("success")){
+    public ResponseDTO me(@RequestBody InfoUpdateRequestDTO infoUpdateRequestDTO, HttpServletRequest request){
+        Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+        if (applicantService.infoUpdate(infoUpdateRequestDTO, applicantId).equals("success")){
             return new ResponseDTO(200, true, "success", "회원정보 수정 성공");
         }else{
             return new ResponseDTO(401, false, "fail", "회원정보 수정 실패");
@@ -66,8 +79,9 @@ public class ApplicantController {
 
     // 메인페이지
     @GetMapping("/main")
-    public ResponseDTO main(){
-        List<AppliedJobpostResponseDTO> appliedJobpostResponseDTOList = applicantService.appliedJobposts();
+    public ResponseDTO main(HttpServletRequest request){
+        Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+        List<AppliedJobpostResponseDTO> appliedJobpostResponseDTOList = applicantService.appliedJobposts(applicantId);
         if(appliedJobpostResponseDTOList.size() == 0){
             return new ResponseDTO(401, false, null, "지원한 채용공고가 없습니다.");
         }
@@ -78,8 +92,9 @@ public class ApplicantController {
 
     // 지원하기
     @PostMapping("/apply")
-    public ResponseDTO applyJobpost(@RequestBody JobpostIdRequestDTO jobpostId) throws IOException {
-        String message = applicantService.applyJobpost(jobpostId.getJobpostId());
+    public ResponseDTO applyJobpost(@RequestBody JobpostIdRequestDTO jobpostId, HttpServletRequest request) throws IOException {
+        Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+        String message = applicantService.applyJobpost(jobpostId.getJobpostId(), applicantId);
         if(message.equals("due date passed")){
             return new ResponseDTO(401, false, "due date passed", "채용공고가 마감되었습니다.");
         }
@@ -94,8 +109,9 @@ public class ApplicantController {
 
     // 지원취소
     @DeleteMapping("/apply")
-    public ResponseDTO cancelApplyJobpost(@RequestBody JobpostIdRequestDTO jobpostId) throws IOException {
-        String message = applicantService.cancelApplyJobpost(jobpostId.getJobpostId());
+    public ResponseDTO cancelApplyJobpost(@RequestBody JobpostIdRequestDTO jobpostId, HttpServletRequest request) throws IOException {
+        Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+        String message = applicantService.cancelApplyJobpost(jobpostId.getJobpostId(),applicantId);
         if(message.equals("not applied")){
             return new ResponseDTO(401, false, "not applied", "지원하지 않았습니다.");
         }else{
@@ -107,8 +123,9 @@ public class ApplicantController {
 
     // 이력서 등록
     @PostMapping("/resume")
-    public ResponseDTO resumeSave(MultipartFile resume) throws IOException {
-        String message = applicantService.resumeSave(resume);
+    public ResponseDTO resumeSave(MultipartFile resume, HttpServletRequest request) throws IOException {
+        Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+        String message = applicantService.resumeSave(resume, applicantId);
         if (message.equals("empty file")) {
             return new ResponseDTO(401, false, "empty file", "빈 파일입니다.");
         } else {
@@ -118,14 +135,16 @@ public class ApplicantController {
 
     // 이력서 조회
     @GetMapping("/resume")
-    public ResponseEntity<Resource> resumeDownload() throws IOException {
-        return applicantService.resumeDownload();
+    public ResponseEntity<Resource> resumeDownload(HttpServletRequest request) throws IOException {
+        Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+        return applicantService.resumeDownload(applicantId);
     }
 
     //이력서 수정
     @PutMapping("/resume")
-    public ResponseDTO resumeUpdate(MultipartFile resume) throws IOException {
-        String message = applicantService.resumeSave(resume);
+    public ResponseDTO resumeUpdate(MultipartFile resume, HttpServletRequest request) throws IOException {
+        Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+        String message = applicantService.resumeSave(resume, applicantId);
         if (message.equals("empty file")) {
             return new ResponseDTO(401, true, "empty file", "빈 파일입니다.");
         } else {
@@ -135,8 +154,9 @@ public class ApplicantController {
 
     // 이력서 삭제
     @DeleteMapping("/resume")
-    public ResponseDTO resumeDelete() throws IOException {
-        String message = applicantService.resumeDelete();
+    public ResponseDTO resumeDelete(HttpServletRequest request) throws IOException {
+        Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+        String message = applicantService.resumeDelete(applicantId);
         if (message.equals("file not found")) {
             return new ResponseDTO(401, false, "file not found", "이력서가 존재하지 않습니다.");
         }else if(message.equals("fail")){

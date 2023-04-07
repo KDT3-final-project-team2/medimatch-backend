@@ -29,8 +29,8 @@ import static org.mockito.Mockito.when;
 @AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
 @SpringBootTest
 @Import(TermServiceImpl.class)
-@TestPropertySource(locations = "classpath:application-local.properties")
-//@TestPropertySource(locations = "classpath:application.properties")
+//@TestPropertySource(locations = "classpath:application-local.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class 사용중인_약관_불러오기 {
 
 

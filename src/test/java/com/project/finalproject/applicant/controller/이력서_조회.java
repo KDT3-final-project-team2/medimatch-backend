@@ -5,6 +5,7 @@ import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
 import com.project.finalproject.global.jwt.utils.JwtFilter;
+import com.project.finalproject.global.jwt.utils.JwtUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,6 +53,9 @@ public class 이력서_조회 {
     @MockBean
     JwtExceptionFilter jwtExceptionFilter;
 
+    @MockBean
+    JwtUtil jwtUtil;
+
 
     @Test
     @DisplayName("이력서 조회 성공")
@@ -57,8 +63,13 @@ public class 이력서_조회 {
     public void resumeDownloadSuccess() throws Exception {
         byte[] mockResumeContent = "test resume content".getBytes();
         ByteArrayResource resource = new ByteArrayResource(mockResumeContent);
+        HashMap<String, String> mockHashMap = new HashMap<>();
+        mockHashMap.put("id", "1");
 
-        given(applicantService.resumeDownload())
+        given(jwtUtil.allInOne(any()))
+                .willReturn(mockHashMap);
+
+        given(applicantService.resumeDownload(any(Long.class)))
                 .willReturn(ResponseEntity.ok()
                         .contentLength(mockResumeContent.length)
                         .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -73,7 +84,7 @@ public class 이력서_조회 {
 
         assertArrayEquals(mockResumeContent, responseContent);
 
-        verify(applicantService).resumeDownload();
+        verify(applicantService).resumeDownload(any(Long.class));
     }
 }
 

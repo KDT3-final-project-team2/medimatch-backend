@@ -10,13 +10,16 @@ import com.project.finalproject.company.dto.CompanyApplicationRequest;
 import com.project.finalproject.company.dto.CompanyJobpostResponse;
 import com.project.finalproject.company.service.CompanyService;
 import com.project.finalproject.global.dto.ResponseDTO;
+import com.project.finalproject.global.jwt.utils.JwtUtil;
 import com.project.finalproject.login.dto.LoginResDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,6 +30,8 @@ import java.util.List;
 public class CompanyController {
 
     private final CompanyService companyService;
+
+    private final JwtUtil jwtutil;
 
     /**
      * 채용 공고 생성
@@ -50,7 +55,6 @@ public class CompanyController {
         CompanyJobpostResponse.LongDTO newJobpost = companyService.createJobpost(email,requestDTO,jobpostFile);
 
         return new ResponseDTO<>().ok(newJobpost,"채용 공고 생성 완료");
-
     }
 
     /**
@@ -124,10 +128,11 @@ public class CompanyController {
         return new ResponseDTO<>().ok(newJobpost, "상태 변경 완료");
     }
 
+
     @GetMapping("/applications/statistics")
-    public ResponseDTO companyApplicationsStatistics(){
-        //#Todo 회사 ID 가져오기
-        CompanyApplicationResponse.StatisticsDTO responseDTO = companyService.statisticsForApplicationsForCompany(1L);
+    public ResponseDTO companyApplicationsStatistics(HttpServletRequest request){
+        Long companyId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+        CompanyApplicationResponse.StatisticsDTO responseDTO = companyService.statisticsForApplicationsForCompany(companyId);
         if(responseDTO.getApplicantAgeCount().size() == 0){
             return new ResponseDTO(401, false, "fail", "지원한 지원자가 없습니다.");
         }
