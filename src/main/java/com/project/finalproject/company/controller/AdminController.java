@@ -22,21 +22,31 @@ public class AdminController {
     private final AdminService adminService;
 
     @GetMapping("/companies")
-    public ResponseDTO<?> showCompanyList(@AuthenticationPrincipal LoginResDTO userDetails) {
-        String email = userDetails.getEmail();
+    public ResponseDTO<?> showCompanyList(@AuthenticationPrincipal LoginResDTO userDetail) {
+        if(!userDetail.getRole().equals("ADMIN")){
+            return new ResponseDTO(401, false,"Unauthorized", "접근권한이 없습니다.");
 
-        List<AdminCompanyRes.CompanyListDTO> companyList = adminService.showCompanyList(CompanyType.COMPANY);
+        } else{
 
-        return new ResponseDTO<>().ok(companyList, "companyList success");
+            List<AdminCompanyRes.CompanyListDTO> companyList = adminService.showCompanyList(CompanyType.COMPANY);
+
+            return new ResponseDTO<>().ok(companyList, "companyList success");
+        }
+
     }
 
     @GetMapping("/applicants")
-    public ResponseDTO<?> showApplicantList(@AuthenticationPrincipal LoginResDTO userDetails) {
-        String email = userDetails.getEmail();
+    public ResponseDTO<?> showApplicantList(@AuthenticationPrincipal LoginResDTO userDetail) {
+        if(!userDetail.getRole().equals("ADMIN")){
 
-        List<AdminApplicantRes.ApplicantListDTO> applicantList = adminService.showApplicantList();
+            return new ResponseDTO(401, false,"Unauthorized", "접근권한이 없습니다.");
 
-        return new ResponseDTO<>().ok(applicantList, "applicantList success");
+        } else{
+
+            List<AdminApplicantRes.ApplicantListDTO> applicantList = adminService.showApplicantList();
+
+            return new ResponseDTO<>().ok(applicantList, "applicantList success");
+        }
     }
 
 }
