@@ -66,6 +66,25 @@ public class TermController {
         return new ResponseDTO<>().ok(termDetail, "termDetail success");
     }
 
+    /**
+     * 관리자 약관 수정
+     * @param userDetails
+     * @param termId
+     * @param updateDTO
+     * @return 수정한 약관 상세조회
+     * @throws IOException
+     */
+    @PutMapping(value = "/admin/term/{termId}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseDTO<?> updateTerm(@AuthenticationPrincipal LoginResDTO userDetails,
+                                     @PathVariable Long termId,
+                                     @Valid @RequestBody TermFormDTO.updateDTO updateDTO) throws IOException {
+        String email = userDetails.getEmail();
+
+        TermResDTO.TermDetail updateTerm = termService.updateTerm(email,termId,updateDTO);
+
+        return new ResponseDTO<>().ok(updateTerm, "약관 수정 성공");
+    }
+
     /*
     * 약관 목록 불러오기
      */
