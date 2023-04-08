@@ -131,17 +131,27 @@ public class ApplicantController {
         }
     }
 
-    // 이력서 조회
     @GetMapping("/resume")
-    public ResponseEntity<Resource> resumeDownload(HttpServletRequest request) throws IOException {
+    public ResponseDTO resumeDownload(HttpServletRequest request) throws IOException {
         Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
-        return applicantService.resumeDownload(applicantId);
+        String message = applicantService.resumeDelete(applicantId);
+        if(message == null){
+            return new ResponseDTO(401, false, "fail", "등록된 이력서가 없습니다");
+        }
+        return new ResponseDTO(200, true, message, "이력서 저장 경로");
     }
+    // 이력서 조회
+//    @GetMapping("/resume")
+//    public ResponseEntity<Resource> resumeDownload(HttpServletRequest request) throws IOException {
+//        Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+//        return applicantService.resumeDownload(applicantId);
+//    }
 
     //이력서 수정
     @PutMapping("/resume")
     public ResponseDTO resumeUpdate(MultipartFile resume, HttpServletRequest request) throws IOException {
         Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+//        Long applicantId = 1L;
         String message = applicantService.resumeSave(resume, applicantId);
         if (message.equals("empty file")) {
             return new ResponseDTO(401, true, "empty file", "빈 파일입니다.");

@@ -30,6 +30,7 @@ public interface ApplicantService {
 
     public String resumeSave(MultipartFile files, Long applicantId) throws IOException;
 
+    public String resumePath(Long applicantId);
     public ResponseEntity<Resource> resumeDownload(Long applicantId) throws IOException;
 
     public String resumeDelete(Long applicantId) throws IOException;
