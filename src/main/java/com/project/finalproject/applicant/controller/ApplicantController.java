@@ -134,7 +134,7 @@ public class ApplicantController {
     @GetMapping("/resume")
     public ResponseDTO resumeDownload(HttpServletRequest request) throws IOException {
         Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
-        String message = applicantService.resumeDelete(applicantId);
+        String message = applicantService.resumePath(applicantId);
         if(message == null){
             return new ResponseDTO(401, false, "fail", "등록된 이력서가 없습니다");
         }
