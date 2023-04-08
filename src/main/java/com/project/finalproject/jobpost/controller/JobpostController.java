@@ -20,17 +20,17 @@ public class JobpostController {
     /**
      * 채용공고 삭제(관리자)
      * @param userDetail
-     * @param jobpostId
+     * @param postId
      * @return "success"
      */
     @DeleteMapping(value = "/jobposts/posts/{postId}")
     public ResponseDTO<?> remove(@AuthenticationPrincipal LoginResDTO userDetail,
-                                 @PathVariable Long jobpostId) {
+                                 @PathVariable Long postId) {
         if(!userDetail.getRole().equals("ADMIN")){
             return new ResponseDTO(401, false,"Unauthorized", "권한이 없습니다.");
         } else {
 
-            jobpostService.remove(jobpostId);
+            jobpostService.remove(postId);
 
             return new ResponseDTO(200, true, "success", "deleteJobpost success");
         }
