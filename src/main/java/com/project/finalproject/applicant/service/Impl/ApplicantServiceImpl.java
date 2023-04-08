@@ -177,6 +177,11 @@ public class ApplicantServiceImpl implements ApplicantService {
     }
 
     @Override
+    public String resumePath(Long applicantId){
+        Applicant applicant = applicantRepository.findById(applicantId).orElse(null);
+        return applicant.getFilePath();
+    }
+    @Override
     public ResponseEntity<Resource> resumeDownload(Long applicantId) throws IOException{ //이력서 다운로드
 
         // PDF파일을 가져온다.
