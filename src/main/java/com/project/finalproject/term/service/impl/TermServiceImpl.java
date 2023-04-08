@@ -7,8 +7,10 @@ import com.project.finalproject.company.repository.CompanyRepository;
 import com.project.finalproject.term.dto.TermDetailResponseDTO;
 import com.project.finalproject.term.dto.TermFormDTO;
 import com.project.finalproject.term.dto.TermResDTO;
+import com.project.finalproject.term.dto.TermTypeList;
 import com.project.finalproject.term.entity.Term;
 import com.project.finalproject.term.entity.enums.TermStatus;
+import com.project.finalproject.term.entity.enums.TermType;
 import com.project.finalproject.term.exception.TermException;
 import com.project.finalproject.term.exception.TermExceptionType;
 import com.project.finalproject.term.repository.TermRepository;
@@ -113,16 +115,49 @@ public class TermServiceImpl implements TermService {
 
 
 
+//    @Override
+//    public List<TermDetailResponseDTO> getRunningTerms(Long companyId, TermStatus status) {
+//        List<Term> terms = termRepository.findByCompanyIdAndStatus(companyId, status);
+//        for (Term term : terms) {
+//            if (term.getStatus().equals(TermStatus.USE)) {
+//                return terms.stream()
+//                        .map(TermDetailResponseDTO::new)
+//                        .collect(Collectors.toList());
+//            }
+//        }
+//        return null;
+//    }
     @Override
-    public List<TermDetailResponseDTO> getRunningTerms(Long companyId, TermStatus status) {
-        List<Term> terms = termRepository.findByCompanyIdAndStatus(companyId, status);
-        for (Term term : terms) {
-            if (term.getStatus().equals(TermStatus.USE)) {
-                return terms.stream()
-                        .map(TermDetailResponseDTO::new)
-                        .collect(Collectors.toList());
-            }
+    public TermTypeList getRunningTerms(Long companyId, TermStatus status) {
+        TermTypeList termTypeList = new TermTypeList();
+        List<Term> termsService = termRepository.findByCompanyIdAndStatusAndType(companyId, status, TermType.SERVICE);
+        List<Term> termsPrivacy = termRepository.findByCompanyIdAndStatusAndType(companyId, status, TermType.PRIVACY);
+        List<Term> termsThirdParty = termRepository.findByCompanyIdAndStatusAndType(companyId, status, TermType.THIRD_PARTY);
+        List<Term> termsMarketing = termRepository.findByCompanyIdAndStatusAndType(companyId, status, TermType.MARKETING);
+
+        if (termsPrivacy.size() == 0) {
+            termTypeList.setPrivacy(null);
+        } else {
+            termTypeList.setPrivacy(new TermDetailResponseDTO(termsPrivacy.get(0)));
         }
-        return null;
-    }
+        if (termsService.size() == 0) {
+            termTypeList.setService(null);
+        } else {
+            termTypeList.setService(new TermDetailResponseDTO(termsService.get(0)));
+        }
+        if (termsThirdParty.size() == 0) {
+            termTypeList.setThirdParty(null);
+        } else {
+            termTypeList.setThirdParty(new TermDetailResponseDTO(termsThirdParty.get(0)));
+        }
+        if (termsMarketing.size() == 0) {
+            termTypeList.setMarketing(null);
+        } else {
+            termTypeList.setMarketing(new TermDetailResponseDTO(termsMarketing.get(0)));
+        }
+
+        return termTypeList;
+
+}
+
 }
