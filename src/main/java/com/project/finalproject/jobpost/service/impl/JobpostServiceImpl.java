@@ -15,13 +15,13 @@ public class JobpostServiceImpl implements JobpostService {
     private final JobpostRepository jobpostRepository;
 
     @Override
-    public String remove(Long jobpostId) {
+    public String remove(Long postId) {
 
-        Jobpost jobpost = jobpostRepository.findById(jobpostId).orElse(null);
+        Jobpost jobpost = jobpostRepository.findById(postId).orElse(null);
 
         String filePath = jobpost.getFilepath();
 
-        jobpostRepository.deleteById(jobpostId);
+        jobpostRepository.deleteById(postId);
 
         File post = new File(filePath);
 
