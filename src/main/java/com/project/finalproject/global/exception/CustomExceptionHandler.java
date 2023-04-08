@@ -1,7 +1,6 @@
 package com.project.finalproject.global.exception;
 
 import com.project.finalproject.company.exception.CompanyException;
-import com.project.finalproject.company.exception.CompanyExceptionType;
 import com.project.finalproject.global.dto.ErrorDTO;
 import com.project.finalproject.global.exception.base.CustomException;
 import com.project.finalproject.jobpost.exception.JobpostException;

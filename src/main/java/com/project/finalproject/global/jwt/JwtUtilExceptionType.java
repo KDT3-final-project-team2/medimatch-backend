@@ -1,6 +1,5 @@
 package com.project.finalproject.global.jwt;
 
-import com.project.finalproject.global.exception.base.CustomExceptionType;
 import org.springframework.http.HttpStatus;
 
 public enum JwtUtilExceptionType {
