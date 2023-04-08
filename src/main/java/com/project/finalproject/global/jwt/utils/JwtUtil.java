@@ -1,7 +1,10 @@
 package com.project.finalproject.global.jwt.utils;
 
+import com.project.finalproject.global.jwt.JwtUtilException;
+import com.project.finalproject.global.jwt.JwtUtilExceptionType;
 import com.project.finalproject.login.dto.LoginResDTO;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+
+import java.security.Key;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -19,8 +25,6 @@ public class JwtUtil {
 
     private final JwtProperties jwtProperties;
     Logger logger = LoggerFactory.getLogger(this.getClass());
-
-
     /**
      * 헤더로부터 LoginResDTO 생성
      */
@@ -41,7 +45,7 @@ public class JwtUtil {
     /**
      * 헤더값이 유효한지 검증
      */
-    boolean checkHeader(String header) {
+    public boolean checkHeader(String header) {
         if (header == null || !header.startsWith(jwtProperties.getTokenPrefix())) {
             logger.error("없는 토큰 또는 잘못된 형식의 토큰입니다.");
             return true;
@@ -78,8 +82,13 @@ public class JwtUtil {
      * 토큰에서 role 추출
      */
     public String getRole(String token) {
-        return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
-                .getBody().get("role", String.class);
+        try{
+            return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
+                    .getBody().get("role", String.class);
+        }catch (ExpiredJwtException e){
+            throw new JwtUtilException(JwtUtilExceptionType.ACCESS_TOKEN_EXPIRATION_DATE);
+        }
+
     }
 
     /**
@@ -87,13 +96,27 @@ public class JwtUtil {
      */
     public static boolean isAccessExpired(String token, String secretKey) {
         try{
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
                     .getBody().getExpiration().before(new Date());
+        }
+        catch(ExpiredJwtException e){
             return false;
         }
-        catch(Exception e){
-            return true;
+    }
+
+    //토큰 유효시간 검증, 5분 지나면 false, 안지나면 true
+    public boolean validExpired(String token){
+        try {
+            return Jwts.parser()
+                    .setSigningKey(jwtProperties.getSecretKey())
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getExpiration()
+                    .before(new Date());
+        }catch (ExpiredJwtException e){
+            logger.info("Expired JWT token.");
         }
+        return false;
     }
 
     /**
@@ -118,8 +141,13 @@ public class JwtUtil {
      * Refresh 토큰에서 Email 추출
      */
     public String getRefreshUserEmail(String token) {
-        return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
-                .getBody().get("userEmail", String.class);
+        try{
+            return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
+                    .getBody().get("userEmail", String.class);
+        }catch (ExpiredJwtException e){
+            throw new JwtUtilException(JwtUtilExceptionType.ACCESS_TOKEN_EXPIRATION_DATE);
+        }
+
     }
 
     /**
@@ -175,16 +203,26 @@ public class JwtUtil {
      * 토큰에서 id값 추출
      */
     public Long getId(String token) {
-        return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
-                .getBody().get("id", Long.class);
+        try{
+            return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
+                    .getBody().get("id", Long.class);
+
+        } catch (ExpiredJwtException e){
+            throw new JwtUtilException(JwtUtilExceptionType.ACCESS_TOKEN_EXPIRATION_DATE);
+        }
     }
 
     /**
      * 토큰에서 유효기간 일시 추출
      */
     public Date getExpiration(String token) {
-        return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
-                .getBody().getExpiration();
+        try{
+            return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
+                    .getBody().getExpiration();
+        }catch (ExpiredJwtException e){
+            throw new JwtUtilException(JwtUtilExceptionType.ACCESS_TOKEN_EXPIRATION_DATE);
+        }
+
     }
 
 }

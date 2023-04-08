@@ -1,4 +1,4 @@
-package com.project.finalproject.global.exception;
+package com.project.finalproject.global.jwt.utils;
 
 import lombok.*;
 import org.springframework.http.HttpStatus;

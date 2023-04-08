@@ -1,6 +1,9 @@
-package com.project.finalproject.global.jwt.utils;
+package com.project.finalproject.global.jwt;
 
-import com.project.finalproject.global.exception.UtilException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.finalproject.global.dto.ErrorDTO;
+import com.project.finalproject.global.jwt.utils.JwtProperties;
+import com.project.finalproject.global.jwt.utils.JwtUtil;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,36 +41,50 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 
         try {
             filterChain.doFilter(request, response);
-        } catch (UtilException e) {
-            setErrorResponse(response, e);
+        } catch (JwtUtilException ex) {
+            setErrorResponse(response, ex);
         }
     }
 
     /**
      * 예외를 종류별로 처리하는 메서드
      */
-    public void setErrorResponse(HttpServletResponse response, UtilException utilException) throws IOException {
-        response.setStatus(utilException.getHttpStatus().value());
+    public void setErrorResponse(HttpServletResponse response, JwtUtilException utilException) throws IOException {
+        response.setStatus(utilException.getExceptionType().getHttpStatus().value());
         response.setContentType("application/json;charset=UTF-8");
-        if(utilException.getErrorMsg().equals("REFRESH") || utilException.getErrorMsg().equals("INVALID")){
-            response.getWriter().println("{ \"stateCode\" : " + utilException.getErrorCode()
+
+        int errorCode = utilException.getExceptionType().getErrorCode();
+
+        ObjectMapper om = new ObjectMapper();
+
+        ErrorDTO errorDTO = ErrorDTO.builder()
+                .errorCode(utilException.getExceptionType().getErrorCode())
+                .errorMessage(utilException.getExceptionType().getMessage())
+                .build();
+
+        //(DTO -> json)
+        String jsonStr = om.writeValueAsString(errorDTO);
+        response.getWriter().write(jsonStr);
+
+        /*if(utilException.getExceptionType().getMessage().equals("REFRESH") || utilException.getExceptionType().getMessage().equals("INVALID")){
+            response.getWriter().println("{ \"stateCode\" : " + utilException.getExceptionType().getErrorCode()
                     + ", \"success\" : \"" + "false"
-                    + "\", \"message\" : \"" + utilException.getErrorMsg()
+                    + "\", \"message\" : \"" + utilException.getExceptionType().getMessage()
                     + "\", \"data\" : \"" + null
                     + "\" }");
         }
         else {
-            String refreshToken = utilException.getErrorMsg();
+            String refreshToken = utilException.getExceptionType().getMessage();
             String email = jwtutil.getRefreshUserEmail(refreshToken);
             String role = jwtutil.getRole(refreshToken);
             Long id = jwtutil.getId(refreshToken);
             String accessToken = jwtutil.createAccessToken(email, jwtProperties.getSecretKey(), role, id);
-            response.getWriter().println("{ \"stateCode\" : " + utilException.getErrorCode()
+            response.getWriter().println("{ \"stateCode\" : " + utilException.getExceptionType().getErrorCode()
                     + ", \"success\" : \"" + "false"
                     + "\", \"message\" : \"" + "새로운 AccessToken입니다."
                     + "\", \"data\" : \"" + accessToken
                     + "\" }");
-        }
+        }*/
     }
 
 }
