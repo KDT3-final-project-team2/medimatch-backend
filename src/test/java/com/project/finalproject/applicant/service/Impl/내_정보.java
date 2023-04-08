@@ -1,32 +1,32 @@
 package com.project.finalproject.applicant.service.Impl;
 
-import com.project.finalproject.applicant.dto.request.InfoUpdateRequestDTO;
-import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
-import com.project.finalproject.applicant.dto.response.MyInfoResponseDTO;
-import com.project.finalproject.applicant.entity.Applicant;
-import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
-import com.project.finalproject.applicant.entity.enums.ApplicantWorkExperience;
-import com.project.finalproject.applicant.entity.enums.Gender;
-import com.project.finalproject.applicant.entity.enums.Sector;
-import com.project.finalproject.applicant.repository.ApplicantRepository;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.TestPropertySource;
-
-import java.time.LocalDate;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+//import com.project.finalproject.applicant.dto.request.InfoUpdateRequestDTO;
+//import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
+//import com.project.finalproject.applicant.dto.response.MyInfoResponseDTO;
+//import com.project.finalproject.applicant.entity.Applicant;
+//import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
+//import com.project.finalproject.applicant.entity.enums.ApplicantWorkExperience;
+//import com.project.finalproject.applicant.entity.enums.Gender;
+//import com.project.finalproject.applicant.entity.enums.Sector;
+//import com.project.finalproject.applicant.repository.ApplicantRepository;
+//import org.junit.jupiter.api.DisplayName;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.mock.mockito.MockBean;
+//import org.springframework.context.annotation.Import;
+//import org.springframework.security.test.context.support.WithMockUser;
+//import org.springframework.test.context.TestPropertySource;
+//
+//import java.time.LocalDate;
+//import java.util.Optional;
+//
+//import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertNotNull;
+//import static org.mockito.ArgumentMatchers.any;
+//import static org.mockito.Mockito.verify;
+//import static org.mockito.Mockito.when;
 
 //@AutoConfigureMockMvc(addFilters = false) //SecurityConfig를 무시하고 테스트
 //@SpringBootTest

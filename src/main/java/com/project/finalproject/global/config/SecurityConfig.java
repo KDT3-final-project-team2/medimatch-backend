@@ -1,7 +1,7 @@
 package com.project.finalproject.global.config;
 
-import com.project.finalproject.global.jwt.utils.JwtExceptionFilter;
-import com.project.finalproject.global.jwt.utils.JwtFilter;
+import com.project.finalproject.global.jwt.JwtExceptionFilter;
+import com.project.finalproject.global.jwt.JwtFilter;
 import com.project.finalproject.global.jwt.utils.JwtProperties;
 import com.project.finalproject.global.jwt.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
