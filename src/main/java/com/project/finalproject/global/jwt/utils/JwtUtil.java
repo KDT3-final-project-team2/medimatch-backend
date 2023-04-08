@@ -132,7 +132,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + Duration.ofMinutes(1).toMillis())) //테스트를 위해 1분으로 해놓음. 원랜 5분
+                .setExpiration(new Date(System.currentTimeMillis() + Duration.ofMinutes(5).toMillis())) //테스트를 위해 1분으로 해놓음. 원랜 5분
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
