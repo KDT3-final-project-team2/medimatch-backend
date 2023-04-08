@@ -2,6 +2,7 @@ package com.project.finalproject.term.repository;
 
 import com.project.finalproject.term.entity.Term;
 import com.project.finalproject.term.entity.enums.TermStatus;
+import com.project.finalproject.term.entity.enums.TermType;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +17,7 @@ public interface TermRepository extends JpaRepository<Term, Long> {
     @Query("SELECT t FROM Term t WHERE t.company.id = :companyId AND t.status = :status")
     List<Term> findByCompanyIdAndStatus(@Param("companyId") Long companyId, @Param("status") TermStatus status);
 
+    @Query("SELECT t FROM Term t WHERE t.company.id = :companyId AND t.status = :status" +
+            " AND t.type = :type")
+    List<Term> findByCompanyIdAndStatusAndType(@Param("companyId") Long companyId, @Param("status") TermStatus status, @Param("type") TermType type);
 }

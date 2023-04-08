@@ -2,9 +2,9 @@ package com.project.finalproject.term.controller;
 
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.login.dto.LoginResDTO;
-import com.project.finalproject.term.dto.TermDetailResponseDTO;
 import com.project.finalproject.term.dto.TermFormDTO;
 import com.project.finalproject.term.dto.TermResDTO;
+import com.project.finalproject.term.dto.TermTypeList;
 import com.project.finalproject.term.entity.enums.TermStatus;
 import com.project.finalproject.term.service.TermService;
 import lombok.RequiredArgsConstructor;
@@ -183,7 +183,7 @@ public class TermController {
      */
     @GetMapping(value = "/terms/{companyId}")
     public ResponseDTO<?> showTerms(@PathVariable Long companyId) {
-        List<TermDetailResponseDTO> termList = termService.getRunningTerms(companyId, TermStatus.USE);
+        TermTypeList termList = termService.getRunningTerms(companyId, TermStatus.USE);
         return new ResponseDTO(200, true, termList, "사용중인 약관 목록");
     }
 }

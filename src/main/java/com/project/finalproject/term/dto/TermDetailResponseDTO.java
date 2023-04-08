@@ -15,19 +15,6 @@ import java.time.LocalDateTime;
 @Builder
 public class TermDetailResponseDTO {
 
-    /*
-    "Terms" : List{
-termId,
-termContent,
-termType,
-termVersion,
-termCreateDate,
-termEditDate,
-termStatus,
-companyId
-}
-
-     */
     private Long termId;
     private String termContent;
     private String termType;
