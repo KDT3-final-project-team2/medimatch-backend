@@ -1,6 +1,9 @@
 package com.project.finalproject.company.service.impl;
 
+import com.project.finalproject.applicant.dto.ClassifierDTO;
 import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
+import com.project.finalproject.applicant.dto.response.ChatMessageResponseDTO;
+import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.applicant.entity.enums.ApplicantEducation;
 import com.project.finalproject.applicant.entity.enums.Gender;
 import com.project.finalproject.application.entity.Application;
@@ -10,6 +13,7 @@ import com.project.finalproject.company.entity.Company;
 import com.project.finalproject.company.exception.CompanyException;
 import com.project.finalproject.company.exception.CompanyExceptionType;
 import com.project.finalproject.company.repository.CompanyRepository;
+import com.project.finalproject.company.service.CompanyIntentClassifier;
 import com.project.finalproject.company.service.CompanyService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.exception.GlobalException;
@@ -52,6 +56,7 @@ public class CompanyServiceImpl implements CompanyService {
     private final JobpostRepository jobpostRepository;
     private final ApplicationRepository applicationRepository;
     private final JavaMailSender javaMailSender;
+    private final CompanyIntentClassifier companyIntentClassifier;
 
     @Value("${spring.mail.username}")
     private String mailSender;
@@ -373,5 +378,60 @@ public class CompanyServiceImpl implements CompanyService {
         javaMailSender.send(mimeMessage);
 
         return new ResponseDTO(200, true, null, "입력하신 메일로 결과를 발송했습니다.");
+    }
+
+    @Override
+    public ChatMessageResponseDTO doIntentAction(String message, Long companyId) throws Exception {
+        ClassifierDTO classifierDTO = companyIntentClassifier.davinciRequest(message);
+        String intent = classifierDTO.getIntent();
+        String info = classifierDTO.getInfo();
+
+        String responseMessage=null;
+        String page=null;
+        String result=null;
+        String method=null;
+        switch (intent) {
+            case "채용공고 등록하기":
+                responseMessage = "채용공고를 작성할 수 있는 페이지로 이동시켜드렸습니다.";
+                page = "/jobposts";
+                method = "POST";
+                break;
+
+            case "채용공고 조회":
+                responseMessage = "등록한 채용공고 조회 페이지로 이동시켜드렸습니다.";
+                page = "/company/jobposts";
+                method = "GET";
+                break;
+
+            case "채용공고 수정":
+                responseMessage = "등록한 채용공고 수정 페이지로 이동시켜드렸습니다.";
+                page = "/company/jobposts";
+                method = "GET";
+                break;
+
+            case "내 정보 수정":
+                responseMessage = "내 정보를 수정할 수 있는 페이지로 이동시켜드렸습니다.";
+                page = "/company/me";
+                method = "PUT";
+                break;
+
+            case "지원자 조회":
+                responseMessage = "지원자 목록을 볼 수 있는 페이지로 이동시켜 드렸습니다.";
+                page = "/company/applications";
+                method = "GET";
+                break;
+
+            case "지원자 통계":
+                responseMessage = "지원자 통계를 볼 수 있는 페이지로 이동시켜 드렸습니다.";
+                page = "/company/application/statistics";
+                method = "GET";
+                break;
+
+            default:
+                responseMessage = "제가 멍청하여 이해하지 못했습니다. 원하시는걸 다시 말씀해주세요.";
+                page="stay";
+                break;
+        }
+        return new ChatMessageResponseDTO(method, page, responseMessage);
     }
 }

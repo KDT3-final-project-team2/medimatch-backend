@@ -4,8 +4,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.project.finalproject.applicant.dto.request.ChatMessageRequestDTO;
 import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
+import com.project.finalproject.applicant.dto.response.ChatMessageResponseDTO;
 import com.project.finalproject.company.dto.*;
+import com.project.finalproject.company.service.CompanyIntentClassifier;
+import com.project.finalproject.company.service.CompanyResponseGenerator;
 import com.project.finalproject.company.service.CompanyService;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtUtil;
@@ -33,7 +37,7 @@ public class CompanyController {
 
     private final JwtUtil jwtutil;
 
-
+    private final CompanyResponseGenerator companyResponseGenerator;
 
 
 
@@ -212,5 +216,13 @@ public class CompanyController {
     @PostMapping("/result")
     public ResponseDTO sendEmail(@RequestBody EmailReqDTO emailReqDTO) throws MessagingException {
         return companyService.sendEmail(emailReqDTO);
+    }
+
+    @PostMapping("/chat")
+    public ResponseDTO handleMessage(@RequestBody ChatMessageRequestDTO message, HttpServletRequest request) throws Exception {
+        Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+        ChatMessageResponseDTO result = companyService.doIntentAction(message.getText(), applicantId);
+        companyResponseGenerator.davinciResponse(result.getMessage());
+        return new ResponseDTO(200, true, result, "채팅 답변입니다.");
     }
 }

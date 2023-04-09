@@ -1,6 +1,7 @@
 package com.project.finalproject.company.service;
 
 import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
+import com.project.finalproject.applicant.dto.response.ChatMessageResponseDTO;
 import com.project.finalproject.company.dto.*;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.signup.dto.CompanySignupReqDTO;
@@ -48,4 +49,7 @@ public interface CompanyService {
 
     //기업이 지원자에게 합/불 메일 발송
     ResponseDTO sendEmail(EmailReqDTO emailReqDTO) throws MessagingException;
+
+    //수행 비서 기능
+    ChatMessageResponseDTO doIntentAction(String message, Long applicantId) throws Exception;
 }
