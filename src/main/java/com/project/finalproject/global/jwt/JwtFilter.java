@@ -66,16 +66,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if(tokenStr != null && !tokenStr.equalsIgnoreCase("null")){
             //black list 체크
-            log.info("access black list 검증");
             checkBlackList(tokenStr);
 
             //access token 만료시간 체크
-            log.info("access 만료시간 검증 : " + jwtUtil.validExpired(tokenStr));
             if(jwtUtil.validExpired(tokenStr)) {
                 //refresh token
-                log.info("refresh token");
                 String refresh = parseHeader(request, "REFRESH");
-                log.info("refresh black list");
                 checkBlackList(refresh);
                 if(jwtUtil.validExpired(refresh)){
                     throw new JwtUtilException(JwtUtilExceptionType.REFRESH_TOKEN_EXPIRATION_DATE);
