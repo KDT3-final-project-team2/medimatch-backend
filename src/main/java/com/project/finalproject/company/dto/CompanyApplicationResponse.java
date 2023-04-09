@@ -43,6 +43,8 @@ public class CompanyApplicationResponse {
         LocalDateTime applyDate; //지원서날짜
         LocalDateTime interviewDate; //면접날짜
 
+        Long applicationId; //지원서 id (상태 변경시 사용)
+
         @Builder
         public ApplicantInfoDTO(Application application) {
             Applicant applicant = application.getApplicant();
@@ -68,6 +70,7 @@ public class CompanyApplicationResponse {
             this.applicationStatus = application.getStatus().getStatus();
             this.applyDate = application.getApplyDate();
             this.interviewDate = application.getInterviewDate();
+            this.applicationId = application.getId();
         }
     }
 
