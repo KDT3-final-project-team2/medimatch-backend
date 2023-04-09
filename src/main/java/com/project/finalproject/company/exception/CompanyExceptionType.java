@@ -19,11 +19,11 @@ public enum CompanyExceptionType implements CustomExceptionType {
 
     @Override
     public String getMessage() {
-        return this.getMessage();
+        return this.errorMsg;
     }
 
     @Override
     public int getErrorCode() {
-        return this.getErrorCode();
+        return this.errorCode;
     }
 }
