@@ -47,7 +47,7 @@ public class CalendarService {
                 calendarRepository.save(Calendar.builder()
                                 .title(reqDTO.getCalendarTitle())
                                 .content(reqDTO.getCalendarContent())
-                                .date(LocalDate.now())
+                                .date(LocalDate.parse(reqDTO.getCalendarDate()))
                                 .applicant(applicantCalendarRepository.findById(id).orElseThrow(()-> new GlobalException(GlobalExceptionType.NOT_FOUND)))
                         .build());
                 return new ResponseDTO(200, true, null, "일정이 등록되었습니다.");
@@ -55,7 +55,7 @@ public class CalendarService {
                 calendarRepository.save(Calendar.builder()
                         .title(reqDTO.getCalendarTitle())
                         .content(reqDTO.getCalendarContent())
-                        .date(LocalDate.now())
+                        .date(LocalDate.parse(reqDTO.getCalendarDate()))
                         .company(companyCalendarRepository.findById(id).orElseThrow(()-> new GlobalException(GlobalExceptionType.NOT_FOUND)))
                         .build());
                 return new ResponseDTO(200, true, null, "일정이 등록되었습니다.");
