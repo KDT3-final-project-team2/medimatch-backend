@@ -23,6 +23,7 @@ public class CompanyApplicationRequest {
         ApplicationStatus status; //변경할 지원자 상태
         LocalDateTime interviewDate; //인터뷰 날짜
         LocalDateTime passDate; //합격 날짜
+        String memo;
     }
 
 }

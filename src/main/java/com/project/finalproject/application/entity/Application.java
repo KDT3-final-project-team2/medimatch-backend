@@ -87,6 +87,7 @@ public class Application {
         this.status = statusReqDTO.getStatus();
         if(statusReqDTO.getInterviewDate() != null) this.interviewDate = statusReqDTO.getInterviewDate();
         if(statusReqDTO.getPassDate() != null) this.passDate = statusReqDTO.getPassDate();
+        if(statusReqDTO.getMemo() != null && !statusReqDTO.getMemo().equals("")) this.memo = statusReqDTO.getMemo();
 
         return Application.builder()
                 .id(id)
