@@ -84,7 +84,7 @@ public class Application {
 
     //지원서 상태변경
     public Application updateStatus(CompanyApplicationRequest.StatusReqDTO statusReqDTO){
-        this.status = statusReqDTO.getStatus();
+        if(statusReqDTO.getStatus() != null) this.status = statusReqDTO.getStatus();
         if(statusReqDTO.getInterviewDate() != null) this.interviewDate = statusReqDTO.getInterviewDate();
         if(statusReqDTO.getPassDate() != null) this.passDate = statusReqDTO.getPassDate();
         if(statusReqDTO.getMemo() != null && !statusReqDTO.getMemo().equals("")) this.memo = statusReqDTO.getMemo();
