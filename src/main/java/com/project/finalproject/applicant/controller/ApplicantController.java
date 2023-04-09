@@ -4,14 +4,16 @@ import com.project.finalproject.applicant.dto.request.InfoUpdateRequestDTO;
 import com.project.finalproject.applicant.dto.request.JobpostIdRequestDTO;
 import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
 import com.project.finalproject.applicant.dto.response.AppliedJobpostResponseDTO;
+import com.project.finalproject.applicant.service.ApplicantResponseGenerator;
 import com.project.finalproject.applicant.service.ApplicantService;
+import com.project.finalproject.applicant.service.ApplicantIntentClassifier;
+import com.project.finalproject.applicant.dto.request.ChatMessageRequestDTO;
+import com.project.finalproject.applicant.dto.response.ChatMessageResponseDTO;
 import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +27,9 @@ import java.util.List;
 @RequestMapping("/applicant")
 public class ApplicantController {
 
+
+    private final ApplicantIntentClassifier applicantIntentClassifier;
+    private final ApplicantResponseGenerator applicantResponseGenerator;
     private final ApplicantService applicantService;
 
     private final JwtUtil jwtutil;
@@ -179,5 +184,14 @@ public class ApplicantController {
     @GetMapping("/jobpost/suggest")
     public ResponseDTO jobpostSuggest(){
         return new ResponseDTO(200, true, null, "추천 채용공고");
+    }
+
+
+    @PostMapping("/chat")
+    public ResponseDTO handleMessage(@RequestBody ChatMessageRequestDTO message, HttpServletRequest request) throws Exception {
+        Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
+        ChatMessageResponseDTO result = applicantService.doIntentAction(message.getText(), applicantId);
+        applicantResponseGenerator.davinciResponse(result.getMessage());
+        return new ResponseDTO(200, true, result, "채팅 답변입니다.");
     }
 }
