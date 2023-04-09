@@ -284,7 +284,11 @@ public class CompanyServiceImpl implements CompanyService {
 
         List<Application> application = applicationRepository.findAll();
 
-        return application.stream().map(CompanyApplicationResponse.ApplicantInfoDTO::new).collect(Collectors.toList());
+        return application
+                .stream()
+                .filter(app -> app.getJobpost().getCompany().getId().equals(company.getId()))
+                .map(CompanyApplicationResponse.ApplicantInfoDTO::new)
+                .collect(Collectors.toList());
     }
 
     /**
