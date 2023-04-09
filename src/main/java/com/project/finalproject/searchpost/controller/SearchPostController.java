@@ -21,9 +21,10 @@ public class SearchPostController {
      */
     @GetMapping("/jobposts/search/{type}")
     public Page<PostResDTO> searchPosts(@PathVariable String type,
-                                   @RequestBody PostReqDTO reqDTO,
+                                   @RequestParam(name ="keyword") String keyword,
                                    @PageableDefault Pageable pageable){
-        return searchPostService.searchPost(type, reqDTO, pageable);
+
+        return searchPostService.searchPost(type, PostReqDTO.builder().keyword(keyword).build(), pageable);
     }
 
     /**
