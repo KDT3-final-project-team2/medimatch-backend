@@ -28,7 +28,6 @@ import java.util.List;
 public class ApplicantController {
 
 
-    private final ApplicantIntentClassifier applicantIntentClassifier;
     private final ApplicantResponseGenerator applicantResponseGenerator;
     private final ApplicantService applicantService;
 
