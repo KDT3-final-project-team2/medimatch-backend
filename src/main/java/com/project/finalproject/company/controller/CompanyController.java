@@ -18,6 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
@@ -203,5 +204,13 @@ public class CompanyController {
         CompanyResponse.InfoDTO companyInfo = companyService.updateCompanyInfo(email, updateReqDTO);
 
         return new ResponseDTO<>().ok(companyInfo,"기업회원 정보 수정 완료");
+    }
+
+    /**
+     * 합/불 메일발송
+     */
+    @PostMapping("/result")
+    public ResponseDTO sendEmail(@RequestBody EmailReqDTO emailReqDTO) throws MessagingException {
+        return companyService.sendEmail(emailReqDTO);
     }
 }

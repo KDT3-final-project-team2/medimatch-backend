@@ -2,10 +2,12 @@ package com.project.finalproject.company.service;
 
 import com.project.finalproject.applicant.dto.request.SignupRequestDTO;
 import com.project.finalproject.company.dto.*;
+import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.signup.dto.CompanySignupReqDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 
@@ -43,4 +45,7 @@ public interface CompanyService {
 
     //기업회원 내정보 수정
     CompanyResponse.InfoDTO updateCompanyInfo(String companyEmail, CompanyRequest.UpdateInfoDTO requestDTO);
+
+    //기업이 지원자에게 합/불 메일 발송
+    ResponseDTO sendEmail(EmailReqDTO emailReqDTO) throws MessagingException;
 }

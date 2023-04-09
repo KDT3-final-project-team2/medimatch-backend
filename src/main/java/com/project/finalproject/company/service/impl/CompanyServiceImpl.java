@@ -11,6 +11,9 @@ import com.project.finalproject.company.exception.CompanyException;
 import com.project.finalproject.company.exception.CompanyExceptionType;
 import com.project.finalproject.company.repository.CompanyRepository;
 import com.project.finalproject.company.service.CompanyService;
+import com.project.finalproject.global.dto.ResponseDTO;
+import com.project.finalproject.global.exception.GlobalException;
+import com.project.finalproject.global.exception.GlobalExceptionType;
 import com.project.finalproject.jobpost.entity.Jobpost;
 import com.project.finalproject.jobpost.exception.JobpostException;
 import com.project.finalproject.jobpost.exception.JobpostExceptionType;
@@ -19,10 +22,14 @@ import com.project.finalproject.signup.dto.CompanySignupReqDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -44,6 +51,10 @@ public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository companyRepository;
     private final JobpostRepository jobpostRepository;
     private final ApplicationRepository applicationRepository;
+    private final JavaMailSender javaMailSender;
+
+    @Value("${spring.mail.username}")
+    private String mailSender;
     @Value("${jobpost.file.path.server}")
     private String JOBPOST_FILE_PATH;
 //    @Value("${jobpost.file.path.local}")
@@ -338,5 +349,29 @@ public class CompanyServiceImpl implements CompanyService {
         CompanyResponse.InfoDTO updateCompany = new CompanyResponse.InfoDTO(companyRepository.save(company));
 
         return updateCompany;
+    }
+
+    /**
+     * 합/불 메일발송
+     */
+    @Override
+    public ResponseDTO sendEmail(EmailReqDTO emailReqDTO) throws MessagingException {
+        String email = emailReqDTO.getEmail();
+        String title = emailReqDTO.getTitle();
+        String content = emailReqDTO.getContent();
+
+        if(email == null){
+            throw new GlobalException(GlobalExceptionType.BAD_REQUEST);
+        }
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true,"UTF-8");
+        mimeMessageHelper.setFrom(mailSender);
+        mimeMessageHelper.setTo(email);
+        mimeMessageHelper.setSubject(title);
+        mimeMessageHelper.setText(content);
+        javaMailSender.send(mimeMessage);
+
+        return new ResponseDTO(200, true, null, "입력하신 메일로 결과를 발송했습니다.");
     }
 }
