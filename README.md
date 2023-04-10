@@ -1,4 +1,6 @@
 <center><img width="100%" src="https://user-images.githubusercontent.com/113500771/230939650-95c6492c-4e55-4204-b4a8-2b692751371f.png"></center>
+<center><img width="100%" src="https://user-images.githubusercontent.com/113500771/230946054-84fc3a39-2aa2-4370-a91b-d6a54a9dd20e.png"></center>
+
 
 
 # 👨‍💼💼👩‍ [Medi-Match](https://medimatch.netlify.app/)  (23.03.06.~)
@@ -55,7 +57,15 @@
 - Jenkins 2.387.1
 
 
-## :pushpin: API 기능명세서 (API Documentation) [<img src="https://img.shields.io/badge/XLSX-green?style=flat-round&logo=microsoft-excel&logoColor=white"/>](https://docs.google.com/spreadsheets/d/1hp8n-RCXBAU7vBZuKfc3hRU249YZBqq2HSpNNU3kK0M/edit#gid=2023094119)
+<br/><br/>
+
+
+## :pushpin: API 기능명세서 (API Documentation) 
+- <b>백엔드</b> 프로젝트 타임라인, 진행도 그리고 담당자 [<img src="https://img.shields.io/badge/XLSX-green?style=flat-round&logo=microsoft-excel&logoColor=white"/>](https://docs.google.com/spreadsheets/d/1hp8n-RCXBAU7vBZuKfc3hRU249YZBqq2HSpNNU3kK0M/edit#gid=2023094119)
+- <b>프론트엔드</b> 프로젝트 타임라인, 진행도 그리고 담당자 [<img src="https://img.shields.io/badge/XLSX-green?style=flat-round&logo=microsoft-excel&logoColor=white"/>](https://docs.google.com/spreadsheets/d/1OohcrwOS-QbkHMW4zawMep3D80FAdzSMYDGCe0Pud4k/edit#gid=1709744959)
+
+
+<br/><br/>
 
 
 ## :floppy_disk: ER 다이어그램 (ER-Diagram with Cardinality Constraints)
