@@ -12,7 +12,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000","http://localhost:5173") //클라이언트 url
+                .allowedOrigins("http://localhost:3000","http://localhost:5173","https://medimatch.netlify.app/") //클라이언트 url
                 .allowedHeaders("*") //모든 헤더
                 .allowedMethods("GET","POST","PUT","DELETE")
                 .exposedHeaders(HttpHeaders.AUTHORIZATION)
