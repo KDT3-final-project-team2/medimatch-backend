@@ -1,12 +1,13 @@
 package com.project.finalproject.company.dto;
 
 import com.project.finalproject.jobpost.entity.Jobpost;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
+
 
 public class CompanyJobpostResponse {
 
@@ -69,5 +70,15 @@ public class CompanyJobpostResponse {
             this.status = jobpost.getStatus().getStatus();
         }
 
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FileDTO{
+        Long jobpostId;
+        String fileName;
+        String filePath;
     }
 }
