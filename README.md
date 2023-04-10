@@ -1,6 +1,7 @@
-(이미지 파일)
+<center><img width="100%" src="https://user-images.githubusercontent.com/113500771/230939650-95c6492c-4e55-4204-b4a8-2b692751371f.png"></center>
 
-# 이모티콘 [프로젝트 제목](https://)  (23.03.06.~23.04.10.)
+
+# 👨‍💼💼👩‍ [Medi-Match](https://medimatch.netlify.app/)  (23.03.06.~)
 
 (시연영상1)
 (시연영상2)
@@ -8,24 +9,30 @@
 
 
 - :page_with_curl: Check out our project documents at [<img src="https://img.shields.io/badge/Notion-000000?style=flat-round&logo=Notion&logoColor=white"/>](https://www.notion.so/2-61e48e6a682e4d7191fc2993b91b0665)
-- :triangular_ruler: Check out our [<img src="https://img.shields.io/badge/Project%20Structure-555555?style=flat-round&logo=filetree&logoColor=white"/>](https://)
-- :clapper: Check out short demonstration clip of our project at [<img src="https://img.shields.io/badge/YouTube-FF0000?style=flat-round&logo=YouTube&logoColor=white"/>](https://)
+- <b>TODO</b> :triangular_ruler: Check out our [<img src="https://img.shields.io/badge/Project%20Structure-555555?style=flat-round&logo=filetree&logoColor=white"/>](https://)
+- <b>TODO</b> :clapper: Check out short demonstration clip of our project at [<img src="https://img.shields.io/badge/YouTube-FF0000?style=flat-round&logo=YouTube&logoColor=white"/>](https://)
 
 
 <br/><br/>
 
 
 ## :mortar_board: 프로젝트 목표 (Project Goals)
-1. 목표 1
-2. 목표 2
-3. 목표 3
-4. 즐기자!!! :satisfied:
+1. Nginx, Jenkin를 통한 CICD를 구현해보자!
+2. Https, JWT를 활용하여 보안을 강화하자!
+3. ERD 정규화를 실현해보자!
+4. 팀원들이 이해하기 쉬운 코드 작성과 컨벤션을 지키자!
+5. 원활한 소통과 기록을 남기자!
+6. 팀원 모두 전체 프로젝트에 대한 이해를 갖자!
+7. UXUI, 프론트엔드 개발자분들과의 협업을 경험해보자!
+8. 익숙하지 않은 기능들을 중심으로 역할 분담하여 공부하자!
+9. 현업에 적용할 수 있는 최신 기술들을 사용하자!
+10. 즐기자!!! :satisfied:  
 
 
 <br/><br/>
 
 
-## :hammer: 기술 스택 (Technologies Used) - 예시
+##  <b>TODO</b> :hammer: 기술 스택 (Technologies Used) - 예시
 ![Java](https://img.shields.io/badge/Java-007396?style=flat-round&logo=Java&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat-round&logo=Spring%20Boot&logoColor=white)
 ![Spring Security](https://img.shields.io/badge/Spring%20Security-6DB33F?style=flat-round&logo=Spring&logoColor=white)
@@ -47,19 +54,12 @@
 - AWS EC2 Ubuntu 20.04
 - Jenkins 2.387.1
 
-<br/><br/>
 
-
-
-
-## :pushpin: API 기능명세서 (API Documentation)
-(이미지 파일)
-
-<br/><br/>
+## :pushpin: API 기능명세서 (API Documentation) [<img src="https://img.shields.io/badge/XLSX-green?style=flat-round&logo=microsoft-excel&logoColor=white"/>](https://docs.google.com/spreadsheets/d/1hp8n-RCXBAU7vBZuKfc3hRU249YZBqq2HSpNNU3kK0M/edit#gid=2023094119)
 
 
 ## :floppy_disk: ER 다이어그램 (ER-Diagram with Cardinality Constraints)
-(이미지 파일)
+![image](https://user-images.githubusercontent.com/113500771/230943681-93c795bd-c802-4174-9d80-74bba361c150.png)
 
 
 <br/><br/>
@@ -74,9 +74,31 @@
 
 
 ## :earth_asia: 사용 (Usage)
-1. 사용 방법 1
-2. 사용 방법 2
-3. 사용 방법 3
+- 개인회원
+1. 회원가입을 한다.
+2. 이력서를 등록한다.
+3. 채용공고를 검색하여 지원한다.
+4. 이메일을 수시로 확인하여 연락을 기다린다.
+5. 필요하면 캘린더을 이용하여 메모한다.
+6. 뭘 해야할지 모를땐 챗봇에게 물어본다.
+<br/>
+
+- 기업회원
+1. 회원가입을 한다.
+2. 채용공고와 약관을 등록한다.
+3. 지원자에 대한 1차, 2차 합/불합 이메일을 발송시킨다
+4. 필요하면 지원자에 대한 메모를 작성할 수 있다
+5. 개인회원과 같이 캘린더를 이용하여 일정을 작성할 수 있다.
+6. 지원자에 대한 통계를 확인 할 수 있다.
+7. 뭘 해야할지 모를땐 챗봇에게 물어본다.
+<br/>
+
+- 슈퍼관리자
+1. 로그인을 하여 채용공고, 약관을 관리할 수 있다.
+2. 지원자, 기업회원의 통계를 확인하여 정보를 얻을 수 있다.
+3. 개인회원, 기업회원을 관리할 수 있다.
+
+
 
 
 <br/><br/>
@@ -135,12 +157,17 @@ This project is licensed under the MIT License.
 
 
 ## :relaxed: 프로젝트 회고(Reflection Report) 
+![image](https://user-images.githubusercontent.com/113500771/230945225-27c6eaa5-5e01-490c-915f-305b54443934.png)
+![image](https://user-images.githubusercontent.com/113500771/230945548-f28d5048-8410-40b2-80c1-e418e0b0f918.png)
 
 
 <br/><br/>
 
 
 ## :pray: 감사의말 (Acknowledgements)
-
+"막히거나 잘 이해가 안되는 부분들을 자세하게 설명해주시는 등 많은 도움을 주신 최진영 멘토님께 감사드립니다."
+"프론트엔드분들의 빠른 피드백과 다소 무리한 의견들에 대해서도 흔쾌히 반영해주셔서 감사합니다."
+"UXUI의 화려한 UI 디자인과 원활한 상호협력에 대하여 감사드립니다."
+"저희 팀원들에게 프로젝트에 대한 엄청난 노력과 열정, 그리고 헌신에 감사드립니다."
 
 <br/><br/>
