@@ -35,10 +35,10 @@ public class ApplicantController {
 
     @GetMapping("/test")
     public ResponseDTO test(HttpServletRequest request){
-        HashMap<String, String> tokenInfo = jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION));
-        System.out.println(tokenInfo.get("email"));
-        System.out.println(tokenInfo.get("role"));
-        System.out.println(tokenInfo.get("id"));
+        String path = "/var/www/html/files/applicant/1.pdf";
+        System.out.println(path);
+        path = path.replace("/var/www/html", "https://medimatch.shop");
+        System.out.println(path);
         return new ResponseDTO(200, true, null, "테스트");
     }
 
@@ -138,11 +138,12 @@ public class ApplicantController {
     @GetMapping("/resume")
     public ResponseDTO resumeDownload(HttpServletRequest request) throws IOException {
         Long applicantId = Long.parseLong(jwtutil.allInOne(request.getHeader(HttpHeaders.AUTHORIZATION)).get("id"));
-        String message = applicantService.resumePath(applicantId);
-        if(message == null){
+        String path = applicantService.resumePath(applicantId);
+        path = path.replace("/var/www/html", "https://medimatch.shop");
+        if(path == null){
             return new ResponseDTO(401, false, "fail", "등록된 이력서가 없습니다");
         }
-        return new ResponseDTO(200, true, message, "이력서 저장 경로");
+        return new ResponseDTO(200, true, path, "이력서 저장 경로");
     }
     // 이력서 조회
 //    @GetMapping("/resume")
