@@ -5,20 +5,19 @@
 
 # 👨‍💼💼👩‍ [Medi-Match](https://medimatch.netlify.app/)  (23.03.06.~)
 
-(시연영상1)
-(시연영상2)
-(시연영상3)
+(:construction:시연영상1)
+(:construction:시연영상2)
+(:construction:시연영상3)
 
 
 - :page_with_curl: Check out our project documents at [<img src="https://img.shields.io/badge/Notion-000000?style=flat-round&logo=Notion&logoColor=white"/>](https://www.notion.so/2-61e48e6a682e4d7191fc2993b91b0665)
-- <b>TODO</b> :triangular_ruler: Check out our [<img src="https://img.shields.io/badge/Project%20Structure-555555?style=flat-round&logo=filetree&logoColor=white"/>](https://)
-- <b>TODO</b> :clapper: Check out short demonstration clip of our project at [<img src="https://img.shields.io/badge/YouTube-FF0000?style=flat-round&logo=YouTube&logoColor=white"/>](https://)
-
-
+- :construction: :triangular_ruler: Check out our [<img src="https://img.shields.io/badge/Project%20Structure-555555?style=flat-round&logo=filetree&logoColor=white"/>](https://) 
+- Check out our <b>Backend Interim Design Review(Kor)</b> at  [<img src="https://img.shields.io/badge/YouTube-FF0000?style=flat-round&logo=YouTube&logoColor=white"/>](https://youtu.be/6pX8QydgdeI)
+- :construction: :clapper: Check out short demonstration clip of our project at [<img src="https://img.shields.io/badge/YouTube-FF0000?style=flat-round&logo=YouTube&logoColor=white"/>](https://)
 <br/><br/>
 
 
-## :mortar_board: 프로젝트 목표 (Project Goals)
+## :construction: :mortar_board: 프로젝트 목표 (Project Goals)
 1. Nginx, Jenkin를 통한 CICD를 구현해보자!
 2. Https, JWT를 활용하여 보안을 강화하자!
 3. ERD 정규화를 실현해보자!
@@ -34,7 +33,7 @@
 <br/><br/>
 
 
-##  <b>TODO</b> :hammer: 기술 스택 (Technologies Used) - 예시
+## :construction: :hammer: 기술 스택 (Technologies Used) - 예시
 ![Java](https://img.shields.io/badge/Java-007396?style=flat-round&logo=Java&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat-round&logo=Spring%20Boot&logoColor=white)
 ![Spring Security](https://img.shields.io/badge/Spring%20Security-6DB33F?style=flat-round&logo=Spring&logoColor=white)
@@ -75,7 +74,7 @@
 <br/><br/>
 
 
-## :inbox_tray: 설치 (Installation)
+## :construction: :inbox_tray: 설치 (Installation)
 1. 백엔드 레포지토리를 클론합니다. 'git clone https://github.com/fastcampus-mini/credit-market-BE.git'
 2. 설치 방법2
 3. 설치 방법3
