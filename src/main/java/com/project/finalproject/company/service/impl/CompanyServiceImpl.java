@@ -361,6 +361,35 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     /**
+     * 파일 url 출력
+     * @param companyEmail 기업 회원 이메일
+     * @param jobpostId 파일 url 출력할 postId
+     * @return 파일 url 정보 출력
+     */
+    @Override
+    public CompanyJobpostResponse.FileDTO downloadCompany(String companyEmail, Long jobpostId) {
+        //2차 검증
+        Company company = companyRepository.findByEmail(companyEmail).orElseThrow(
+                () -> new CompanyException(CompanyExceptionType.NOT_FOUND_USER)
+        );
+
+        //파일 url 들고오기
+        Jobpost jobpost = jobpostRepository.findById(jobpostId).orElseThrow(
+                () -> new JobpostException(JobpostExceptionType.NOT_FOUND_PAGE)
+        );
+
+        String DBUrl = jobpost.getFilepath();
+        String resUrl = DBUrl.replace("/var/www/html","https://medimatch.shop");
+        String fileName = DBUrl.replace(JOBPOST_FILE_PATH,"");
+
+        return CompanyJobpostResponse.FileDTO.builder()
+                .fileName(fileName)
+                .filePath(resUrl)
+                .jobpostId(jobpost.getId())
+                .build();
+    }
+
+    /**
      * 합/불 메일발송
      */
     @Override

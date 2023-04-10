@@ -58,8 +58,6 @@ public class CompanyController {
      * @return 채용공고 상세 조회
      * @throws IOException
      */
-
-
     @PostMapping("/jobposts")
     public ResponseDTO<?> createJobpost(@AuthenticationPrincipal LoginResDTO userDetails,
                                         @RequestParam("requestDTO") String jsonList, MultipartFile jobpostFile) throws IOException {
@@ -201,6 +199,12 @@ public class CompanyController {
         return new ResponseDTO<>().ok(companyInfo,"기업회원 정보 출력 완료");
     }
 
+    /**
+     * 기업 회원 본인 정보 수정
+     * @param userDetail : 토큰
+     * @param updateReqDTO : 수정할 정보
+     * @return 수정한 데이터
+     */
     @PutMapping("/me")
     public ResponseDTO<?> updateCompanyInfo(@AuthenticationPrincipal LoginResDTO userDetail, @RequestBody CompanyRequest.UpdateInfoDTO updateReqDTO){
         String email = userDetail.getEmail();
@@ -208,6 +212,21 @@ public class CompanyController {
         CompanyResponse.InfoDTO companyInfo = companyService.updateCompanyInfo(email, updateReqDTO);
 
         return new ResponseDTO<>().ok(companyInfo,"기업회원 정보 수정 완료");
+    }
+
+    /**
+     * 기업 회원 채용공고 pdf 파일 다운로드 링크 출력
+     * @param userDetail :토큰
+     * @param postId :jobpostID
+     * @return 파일 url 정보
+     */
+    @GetMapping("/file/{postId}")
+    public ResponseDTO<?> downloadJobpostFile(@AuthenticationPrincipal LoginResDTO userDetail, @PathVariable Long postId){
+        String email = userDetail.getEmail();
+
+        CompanyJobpostResponse.FileDTO fileResponse = companyService.downloadCompany(email,postId);
+
+        return new ResponseDTO<>().ok(fileResponse,"파일 정보 출력");
     }
 
     /**
