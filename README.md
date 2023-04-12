@@ -125,7 +125,7 @@ This project is licensed under the MIT License.
 <table border>
   <tbody>
     <tr>
-      <td align="center">
+      <td align="center" width="200px">
         <center>BE. 팀장</center><br>
         <a href="https://github.com/HongGuma">
           <img src="https://img.shields.io/badge/홍수희-6e34bf?style=flat-round&logo=GitHub&logoColor=white"/>
@@ -135,7 +135,7 @@ This project is licensed under the MIT License.
         <center>역할 작성</center><br>
         <center>역할 작성</center><br>
       </td>
-      <td align="center">
+      <td align="center" width="200px">
         <center>BE. 팀원</center><br>
         <a href="https://github.com/724thomas">
           <img src="https://img.shields.io/badge/최원준-345ebf?style=flat-round&logo=GitHub&logoColor=white"/>
@@ -146,7 +146,7 @@ This project is licensed under the MIT License.
         <center>파일 입출력</center><br>
         <center>JWT 관련</center><br>
       </td>
-      <td align="center">
+      <td align="center" width="200px">
         <center>BE. 팀원</center><br>
         <a href="https://github.com/smallsnail-study">
           <img src="https://img.shields.io/badge/곽윤희-ff5e5e?style=flat-round&logo=GitHub&logoColor=white"/>
@@ -156,7 +156,7 @@ This project is licensed under the MIT License.
         <center>역할 작성</center><br>
         <center>역할 작성</center><br>
       </td>
-      <td align="center">
+      <td align="center" width="200px">
         <center>BE. 팀원</center><br>
         <a href="https://github.com/flimberkim">
           <img src="https://img.shields.io/badge/김우석-34bfa6?style=flat-round&logo=GitHub&logoColor=white"/>
