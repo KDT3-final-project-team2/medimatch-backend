@@ -161,9 +161,10 @@ This project is licensed under the MIT License.
           <img src="https://img.shields.io/badge/김우석-34bfa6?style=flat-round&logo=GitHub&logoColor=white"/>
         <img width="100%" src="https://avatars.githubusercontent.com/u/113500922?v=4"  alt=""/>
         </a>
-        <center>역할 작성</center><br>
-        <center>역할 작성</center><br>
-        <center>역할 작성</center><br>
+        <center>로그인/인증관련 기능 구현</center><br>
+        <center>이메일 알림 서비스 기능 구현</center><br>
+        <center>일정(달력)관련 기능 구현</center><br>
+        <center>공고조회 관련 기능 구현</center><br>
       </td>
      </tr>
   </tbody>
