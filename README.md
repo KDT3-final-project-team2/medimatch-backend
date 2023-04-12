@@ -141,9 +141,10 @@ This project is licensed under the MIT License.
           <img src="https://img.shields.io/badge/최원준-345ebf?style=flat-round&logo=GitHub&logoColor=white"/>
         <img width="100%" src="https://avatars.githubusercontent.com/u/113500771?v=4"  alt=""/>
         </a>
-        <center>역할 작성</center><br>
-        <center>역할 작성</center><br>
-        <center>역할 작성</center><br>
+        <center>DB 설계</center><br>
+        <center>개인 AI 비서</center><br>
+        <center>파일 입출력</center><br>
+        <center>JWT 관련</center><br>
       </td>
       <td align="center" width="150px">
         <center>BE. 팀원</center><br>
