@@ -126,36 +126,44 @@ This project is licensed under the MIT License.
   <tbody>
     <tr>
       <td align="center" width="150px">
-        <img width="100%" src="https://avatars.githubusercontent.com/u/51091854?v=4"  alt=""/>
-        <center>BE. 팀장</center>
-        <br/>
+        <center>BE. 팀장</center><br>
         <a href="https://github.com/HongGuma">
           <img src="https://img.shields.io/badge/홍수희-6e34bf?style=flat-round&logo=GitHub&logoColor=white"/>
+        <img width="100%" src="https://avatars.githubusercontent.com/u/51091854?v=4"  alt=""/>
         </a>
+        <center>역할 작성</center><br>
+        <center>역할 작성</center><br>
+        <center>역할 작성</center><br>
       </td>
       <td align="center" width="150px">
-        <img width="100%" src="https://avatars.githubusercontent.com/u/113500771?v=4"  alt=""/>
-        <center>BE. 팀원</center>
-        <br/>
+        <center>BE. 팀원</center><br>
         <a href="https://github.com/724thomas">
           <img src="https://img.shields.io/badge/최원준-345ebf?style=flat-round&logo=GitHub&logoColor=white"/>
+        <img width="100%" src="https://avatars.githubusercontent.com/u/113500771?v=4"  alt=""/>
         </a>
+        <center>역할 작성</center><br>
+        <center>역할 작성</center><br>
+        <center>역할 작성</center><br>
       </td>
       <td align="center" width="150px">
-        <img width="100%" src="https://avatars.githubusercontent.com/u/109578096?v=4"  alt=""/>
-        <center>BE. 팀원</center>
-        <br/>
+        <center>BE. 팀원</center><br>
         <a href="https://github.com/smallsnail-study">
           <img src="https://img.shields.io/badge/곽윤희-ff5e5e?style=flat-round&logo=GitHub&logoColor=white"/>
+        <img width="100%" src="https://avatars.githubusercontent.com/u/109578096?v=4"  alt=""/>
         </a>
+        <center>역할 작성</center><br>
+        <center>역할 작성</center><br>
+        <center>역할 작성</center><br>
       </td>
       <td align="center" width="150px">
-        <img width="100%" src="https://avatars.githubusercontent.com/u/113500922?v=4"  alt=""/>
-        <center>BE. 팀원</center>
-        <br/>
+        <center>BE. 팀원</center><br>
         <a href="https://github.com/flimberkim">
           <img src="https://img.shields.io/badge/김우석-34bfa6?style=flat-round&logo=GitHub&logoColor=white"/>
+        <img width="100%" src="https://avatars.githubusercontent.com/u/113500922?v=4"  alt=""/>
         </a>
+        <center>역할 작성</center><br>
+        <center>역할 작성</center><br>
+        <center>역할 작성</center><br>
       </td>
      </tr>
   </tbody>
@@ -174,9 +182,9 @@ This project is licensed under the MIT License.
 
 
 ## :pray: 감사의말 (Acknowledgements)
-"막히거나 잘 이해가 안되는 부분들을 자세하게 설명해주시는 등 많은 도움을 주신 최진영 멘토님께 감사드립니다."
-"프론트엔드분들의 빠른 피드백과 다소 무리한 의견들에 대해서도 흔쾌히 반영해주셔서 감사합니다."
-"UXUI의 화려한 UI 디자인과 원활한 상호협력에 대하여 감사드립니다."
-"저희 팀원들에게 프로젝트에 대한 엄청난 노력과 열정, 그리고 헌신에 감사드립니다."
+"막히거나 잘 이해가 안되는 부분들을 자세하게 설명해주시는 등 많은 도움을 주신 최진영 멘토님께 감사드립니다."<br>
+"프론트엔드분들의 빠른 피드백과 다소 무리한 의견들에 대해서도 흔쾌히 반영해주셔서 감사합니다."<br>
+"UXUI의 화려한 UI 디자인과 원활한 상호협력에 대하여 감사드립니다."<br>
+"저희 팀원들에게 프로젝트에 대한 엄청난 노력과 열정, 그리고 헌신에 감사드립니다."<br>
 
 <br/><br/>
