@@ -9,11 +9,25 @@
 (:construction:시연영상2)
 (:construction:시연영상3)
 
+<br></br>소개 :
 
 - :page_with_curl: Check out our project documents at [<img src="https://img.shields.io/badge/Notion-000000?style=flat-round&logo=Notion&logoColor=white"/>](https://www.notion.so/2-61e48e6a682e4d7191fc2993b91b0665)
 - :construction: :triangular_ruler: Check out our [<img src="https://img.shields.io/badge/Project%20Structure-555555?style=flat-round&logo=filetree&logoColor=white"/>](https://) 
 - Check out our <b>Backend Interim Design Review(Kor)</b> at  [<img src="https://img.shields.io/badge/YouTube-FF0000?style=flat-round&logo=YouTube&logoColor=white"/>](https://youtu.be/6pX8QydgdeI)
 - :construction: :clapper: Check out short demonstration clip of our project at [<img src="https://img.shields.io/badge/YouTube-FF0000?style=flat-round&logo=YouTube&logoColor=white"/>](https://)
+
+
+<br/><br/>
+
+
+## 👨‍👨‍협업 방식<br>
+- 매주 월요일, 수요일은 오프라인 미팅으로 온라인으로 진행하며 겪었던 트러블 슈팅 공유와 코드 리뷰를 진행합니다.<br>
+- 개발 과정에서 발생하는 에러와 예외는 Slack을 통해 공유하며 협력하여 해결할 수 있도록 합니다.<br>
+- 모든 Pull Request는 다른 팀원 1명 이상의 리뷰를 거쳐 Merge 합니다.<br>
+- Google Spreadsheet, Notion를 활용하여 BE 파트 내부 회의, FE와의 커뮤니케이션을 했습니다.<br>
+- Notion을 활용하여 UXUI와 같은 타 파트 회의록을 작성하여 관리합니다.<br>
+
+
 <br/><br/>
 
 
