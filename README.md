@@ -58,7 +58,7 @@
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=flat-round&logo=MariaDB&logoColor=white)
 ![Amazon Web Services](https://img.shields.io/badge/Amazon%20Web%20Services-232F3E?style=flat-round&logo=amazon-aws&logoColor=white)
 
-- Spring Boot 2.7.9
+- Spring Boot 2.7.9 
 - Spring Security 2.7.9
 - JPA 2.7.9
 - jwt 0.11.5
@@ -68,9 +68,19 @@
 - RDS MySQL 8.0.28
 - AWS EC2 Ubuntu 20.04
 - Jenkins 2.387.1
+- Nginx 
 
+<img width="5%"/><img width="5%" src="https://techstack-generator.vercel.app/java-icon.svg"/>
+<img width="5%" src="https://techstack-generator.vercel.app/nginx-icon.svg"/>
+<img width="5%" src="https://techstack-generator.vercel.app/nginx-icon.svg"/>
+<img width="5%" src="https://techstack-generator.vercel.app/nginx-icon.svg"/>
+<img width="5%" src="https://techstack-generator.vercel.app/nginx-icon.svg"/>
+<img width="5%" src="https://techstack-generator.vercel.app/nginx-icon.svg"/>
+<img width="5%" src="https://techstack-generator.vercel.app/docker-icon.svg"/>
+<img width="5%" src="https://techstack-generator.vercel.app/mysql-icon.svg"/>
+<img width="5%" src="https://techstack-generator.vercel.app/aws-icon.svg"/>
+<img width="5%" src="https://techstack-generator.vercel.app/github-icon.svg"/>
 
-<br/><br/>
 
 
 ## :pushpin: API 기능명세서 (API Documentation) 
