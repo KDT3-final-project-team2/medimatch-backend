@@ -53,8 +53,6 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         response.setStatus(utilException.getExceptionType().getHttpStatus().value());
         response.setContentType("application/json;charset=UTF-8");
 
-        int errorCode = utilException.getExceptionType().getErrorCode();
-
         ObjectMapper om = new ObjectMapper();
 
         ErrorDTO errorDTO = ErrorDTO.builder()
@@ -63,28 +61,9 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
                 .build();
 
         //(DTO -> json)
-        String jsonStr = om.writeValueAsString(errorDTO);
+        String jsonStr = om.writerWithDefaultPrettyPrinter().writeValueAsString(errorDTO);
         response.getWriter().write(jsonStr);
 
-        /*if(utilException.getExceptionType().getMessage().equals("REFRESH") || utilException.getExceptionType().getMessage().equals("INVALID")){
-            response.getWriter().println("{ \"stateCode\" : " + utilException.getExceptionType().getErrorCode()
-                    + ", \"success\" : \"" + "false"
-                    + "\", \"message\" : \"" + utilException.getExceptionType().getMessage()
-                    + "\", \"data\" : \"" + null
-                    + "\" }");
-        }
-        else {
-            String refreshToken = utilException.getExceptionType().getMessage();
-            String email = jwtutil.getRefreshUserEmail(refreshToken);
-            String role = jwtutil.getRole(refreshToken);
-            Long id = jwtutil.getId(refreshToken);
-            String accessToken = jwtutil.createAccessToken(email, jwtProperties.getSecretKey(), role, id);
-            response.getWriter().println("{ \"stateCode\" : " + utilException.getExceptionType().getErrorCode()
-                    + ", \"success\" : \"" + "false"
-                    + "\", \"message\" : \"" + "새로운 AccessToken입니다."
-                    + "\", \"data\" : \"" + accessToken
-                    + "\" }");
-        }*/
     }
 
 }

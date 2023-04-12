@@ -1,5 +1,7 @@
 package com.project.finalproject.global.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.finalproject.global.dto.ResponseDTO;
 import com.project.finalproject.global.jwt.utils.JwtProperties;
 import com.project.finalproject.global.jwt.utils.JwtUtil;
 import com.project.finalproject.login.dto.LoginResDTO;
@@ -38,6 +40,7 @@ public class JwtFilter extends OncePerRequestFilter {
         put("/admin/login","permit");
         put("/reset","permit");
         put("/applicant/checkemail","permit");
+        put("/company/checkemail","permit");
     }};
 
     @Autowired
@@ -63,22 +66,47 @@ public class JwtFilter extends OncePerRequestFilter {
         log.info("JWT filter run");
 
         String tokenStr = parseHeader(request, HttpHeaders.AUTHORIZATION);
+        String refreshHeader = request.getHeader("REFRESH");
+
+        String uri = request.getRequestURI();
+        if(permitUrl.containsKey(uri) || uri.startsWith("/terms/")){
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if(tokenStr != null && !tokenStr.equalsIgnoreCase("null")){
-            //black list 체크
-            checkBlackList(tokenStr);
 
+            //black list 체크
+            if(checkBlackList(tokenStr, response)) return;
+            System.out.println(jwtUtil.isAccessExpired(tokenStr, jwtProperties.getSecretKey()));
             //access token 만료시간 체크
-            if(jwtUtil.validExpired(tokenStr)) {
+            if(jwtUtil.isAccessExpired(tokenStr, jwtProperties.getSecretKey())) {
+                //refresh header 있는지 여부 확인
+                if(refreshHeader == null){
+                    throw new JwtUtilException(JwtUtilExceptionType.ACCESS_TOKEN_EXPIRATION_DATE);
+                }
+                logger.error("여기3");
                 //refresh token
                 String refresh = parseHeader(request, "REFRESH");
-                checkBlackList(refresh);
-                if(jwtUtil.validExpired(refresh)){
+                if(checkBlackList(refresh, response)) return;
+                if(jwtUtil.isRefreshExpired(refresh, jwtProperties.getSecretKey())){
                     throw new JwtUtilException(JwtUtilExceptionType.REFRESH_TOKEN_EXPIRATION_DATE);
                 }
-            }
+                ObjectMapper om = new ObjectMapper();
+                String email = jwtUtil.getRefreshUserEmail(refresh);
+                String role = jwtUtil.getRole(refresh);
+                Long id = jwtUtil.getId(refresh);
+                String validAccessToken = jwtUtil.createAccessToken(email,jwtProperties.getSecretKey(),role,id);
+                ResponseDTO responseDTO = new ResponseDTO(200, true, validAccessToken,"New AccessToken");
 
+                //(DTO -> json)
+                String jsonStr = om.writerWithDefaultPrettyPrinter().writeValueAsString(responseDTO);
+                response.getWriter().write(jsonStr);
+                return;
+            }
+            System.out.println("들어오나?");
             LoginResDTO user = jwtUtil.getResDTO(request.getHeader(HttpHeaders.AUTHORIZATION));
+            System.out.println(user.getRole());
             SecurityContextHolder.getContext()
                     .setAuthentication(
                             new UsernamePasswordAuthenticationToken(
@@ -87,10 +115,11 @@ public class JwtFilter extends OncePerRequestFilter {
                                     user.getAuthorities()
                             )
                     );
-
+            filterChain.doFilter(request,response);
+            return;
         }
 
-        filterChain.doFilter(request,response);
+        throw new JwtUtilException(JwtUtilExceptionType.USER_ACCESS_TOKEN_UN_AUTHORIZED);
     }
 
     //request header 파싱
@@ -106,17 +135,22 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     //redis에 해당 토큰이 있는지 검증 (아직 테스트 안해봄)
-    public void checkBlackList(String token){
-        if(JwtUtil.isRefreshExpired(token, jwtProperties.getSecretKey())){
+    public boolean checkBlackList(String token, HttpServletResponse response) throws IOException {
+        if(stringRedisTemplate.hasKey(token)){
+            //login페이지로 redirect하라는 response
             if(jwtUtil.getRole(token).equals("USER")){
-                throw new JwtUtilException(JwtUtilExceptionType.USER_ACCESS_TOKEN_UN_AUTHORIZED);
+                response.sendRedirect("/applicant/login");
+                return true;
             }
             else if(jwtUtil.getRole(token).equals("COMPANY")){
-                throw new JwtUtilException(JwtUtilExceptionType.COMPANY_ACCESS_TOKEN_UN_AUTHORIZED);
+                response.sendRedirect("/company/login");
+                return true;
             }
             else {
-                throw new JwtUtilException(JwtUtilExceptionType.ADMIN_ACCESS_TOKEN_UN_AUTHORIZED);
+                response.sendRedirect("/admin/login");
+                return true;
             }
         }
+        return false;
     }
 }

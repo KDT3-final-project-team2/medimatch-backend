@@ -10,12 +10,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -64,10 +61,15 @@ public class JwtUtil {
      * Token 값을 Claims로 바꿔주는 메서드
      */
     public Claims parsingToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(jwtProperties.getSecretKey())
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts.parser()
+                    .setSigningKey(jwtProperties.getSecretKey())
+                    .parseClaimsJws(token)
+                    .getBody();
+        }
+        catch (Exception e){
+            throw new JwtUtilException(JwtUtilExceptionType.ACCESS_TOKEN_EXPIRATION_DATE);
+        }
     }
 
     /**
@@ -100,7 +102,7 @@ public class JwtUtil {
                     .getBody().getExpiration().before(new Date());
         }
         catch(ExpiredJwtException e){
-            return false;
+            return true;
         }
     }
 
@@ -222,7 +224,5 @@ public class JwtUtil {
         }catch (ExpiredJwtException e){
             throw new JwtUtilException(JwtUtilExceptionType.ACCESS_TOKEN_EXPIRATION_DATE);
         }
-
     }
-
 }
