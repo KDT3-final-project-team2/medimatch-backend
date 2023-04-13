@@ -8,6 +8,7 @@ import com.project.finalproject.applicant.entity.Applicant;
 import com.project.finalproject.applicant.repository.ApplicantRepository;
 import com.project.finalproject.applicant.service.ApplicantService;
 import com.project.finalproject.application.entity.Application;
+import com.project.finalproject.application.entity.enums.ApplicationStatus;
 import com.project.finalproject.application.repository.ApplicationRepository;
 import com.project.finalproject.applicant.service.ApplicantIntentClassifier;
 import com.project.finalproject.applicant.dto.response.ChatMessageResponseDTO;
@@ -244,13 +245,43 @@ public class ApplicantServiceImpl implements ApplicantService {
                     method = "PUT";
                 } else {
                     //이력서는 등록했는데, 지원한 채용공고가 없을때
-                    List<Application> applications = applicationRepository.findByApplicantId(applicantId);
-                    if (applications.size()==0) {
+                    List<Application> applicationList = applicationRepository.findByApplicantId(applicantId);
+                    if (applicationList.size()==0) {
                         responseMessage = "지원한 채용공고가 없습니다. 채용공고를 검색해보세요.";
                         page = "/jobposts/posts";
                         method = "GET";
                     } else {
                         //이력서를 등록했고, 지원한 채용공고가 있을때
+                        applicationList = applicationRepository.findByApplicantId(applicantId);
+                        // count applications where application_status = Pass or interview
+                        int countPass = 0;
+                        for (Application application : applicationList) {
+                            if (application.getStatus().equals(ApplicationStatus.PASS)) {
+                                countPass++;
+                            }
+                        }
+                        if (countPass>=1){
+                            responseMessage = "축하합니다. 채용공고에 합격하셨습니다. 채용공고를 확인해보세요.";
+                            page = "/applicant/main";
+                            method = "GET";
+                        } else {
+                            int countInterview = 0;
+                            for (Application application : applicationList) {
+                                if (application.getStatus().equals(ApplicationStatus.INTERVIEW)) {
+                                    countInterview++;
+                                }
+                            }
+                            if (countInterview>=1){
+                                responseMessage = "축하합니다. 면접 스케줄이 잡혀있습니다. 채용공고를 확인해보세요.";
+                                page = "/applicant/main";
+                                method = "GET";
+                            } else {
+                                responseMessage = "아직 채용공고 결과가 나오지 않았습니다. 더 많은 채용공고에 지원해보세요.";
+                                page = "/jobposts/posts";
+                                method = "GET";
+                            }
+                        }
+
                         responseMessage = "채용공고 지원 취소 페이지로 이동시켜 드렸습니다.";
                         page = "/applicant/apply";
                         method = "DELETE";
