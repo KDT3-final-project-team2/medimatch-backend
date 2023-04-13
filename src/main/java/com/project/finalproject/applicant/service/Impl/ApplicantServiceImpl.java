@@ -53,7 +53,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 
     @Value("${application.resume.file.path.server}")
     private String APPLICATION_RESUME_FILE_PATH_SERVER;
-
+    ///var/www/html/files/applicant/
 
     @Override
     public String checkEmail(SignupRequestDTO signupRequestDTO){
@@ -183,6 +183,7 @@ public class ApplicantServiceImpl implements ApplicantService {
     @Override
     public String resumePath(Long applicantId){
         Applicant applicant = applicantRepository.findById(applicantId).orElse(null);
+
         return applicant.getFilePath();
     }
     @Override
@@ -228,62 +229,82 @@ public class ApplicantServiceImpl implements ApplicantService {
         String intent = classifierDTO.getIntent();
         String info = classifierDTO.getInfo();
 
+        Applicant applicant;
         String responseMessage=null;
         String page=null;
         String result=null;
         String method=null;
         switch (intent) {
             case "뭐 해야해":
-                page = "뭐 해야해";
+                //등록된 이력서가 없을때
+                applicant = applicantRepository.findById(applicantId).orElse(null);
+                if (applicant.getFilePath()==null) {
+                    responseMessage = "이력서를 등록하세요.";
+                    page = "/applicant/resume";
+                    method = "PUT";
+                } else {
+                    //이력서는 등록했는데, 지원한 채용공고가 없을때
+                    List<Application> applications = applicationRepository.findByApplicantId(applicantId);
+                    if (applications.size()==0) {
+                        responseMessage = "지원한 채용공고가 없습니다. 채용공고를 검색해보세요.";
+                        page = "/jobposts/posts";
+                        method = "GET";
+                    } else {
+                        //이력서를 등록했고, 지원한 채용공고가 있을때
+                        responseMessage = "채용공고 지원 취소 페이지로 이동시켜 드렸습니다.";
+                        page = "/applicant/apply";
+                        method = "DELETE";
+                    }
+                }
                 break;
-
             case "채용공고 검색하기":
-                responseMessage = "채용공고 검색 페이지로 이동시켜드렸습니다.";
+                responseMessage = "채용공고 검색 페이지로 이동시켜 드렸습니다.";
                 page = "/jobposts/posts";
                 method = "GET";
                 break;
             case "채용공고 확인하기":
-                responseMessage = "채용공고 확인 페이지로 이동시켜드렸습니다.";
-                page = "";
+                responseMessage = "채용공고 확인 페이지로 이동시켜 드렸습니다.";
+                page = "/applicant/main";
+                method= "GET";
                 break;
             case "채용공고 지원하기":
-                responseMessage = "채용공고 지원 페이지로 이동시켜드렸습니다.";
+                responseMessage = "채용공고 지원 페이지로 이동시켜 드렸습니다.";
                 page = "/applicant/apply";
                 method = "POST";
                 break;
             case "채용공고 지원 취소하기":
-                responseMessage = "채용공고 지원 취소 페이지로 이동시켜드렸습니다.";
+                responseMessage = "채용공고 지원 취소 페이지로 이동시켜 드렸습니다.";
                 page = "/applicant/apply";
                 method = "DELETE";
                 break;
             case "지원한 회사 보기":
-                responseMessage = "지원한 회사 페이지로 이동시켜드렸습니다.";
+                responseMessage = "지원한 회사 페이지로 이동시켜 드렸습니다.";
                 page = "/applicant/main";
                 method = "GET";
                 break;
             case "합격한 회사 보기":
-                responseMessage = "지원한 회사 페이지로 이동시켜드렸습니다.";
+                responseMessage = "합격한 회사 페이지로 이동시켜 드렸습니다.";
                 page = "/applicant/main";
                 method = "GET";
                 break;
 
             case "내 정보 보기":
-                responseMessage = "내 정보 페이지로 이동시켜드렸습니다.";
+                responseMessage = "내 정보 페이지로 이동시켜 드렸습니다.";
                 page="/applicant/info";
                 method="GET";
                 break;
             case "내 정보 수정":
-                responseMessage = "내 정보 수정 페이지로 이동시켜드렸습니다.";
+                responseMessage = "내 정보 수정 페이지로 이동시켜 드렸습니다.";
                 page="/applicant/me";
                 method="PUT";
                 break;
             case "비밀번호 변경하기":
                 if (info==null || info.equals("None")) {
-                    responseMessage = "비밀번호 변경 페이지로 이동시켜드렸습니다.";
+                    responseMessage = "비밀번호 변경 페이지로 이동시켜 드렸습니다.";
                     page="/applicant/me";
                     method="PUT";
-            }else{
-                    Applicant applicant = applicantRepository.findById(applicantId).get();
+                }else{
+                    applicant = applicantRepository.findById(applicantId).get();
                     applicant.setPassword(passwordEncoder.encode(info));
                     applicantRepository.save(applicant);
                     responseMessage = "비밀번호를 " + info + "로 변경시켜드렸습니다";
@@ -321,7 +342,7 @@ public class ApplicantServiceImpl implements ApplicantService {
                         break;
                 }
                 page="stay";
-                method="GET";
+                method="DELETE";
                 break;
             default:
                 responseMessage = "제가 멍청하여 이해하지 못했습니다. 원하시는걸 다시 말씀해주세요.";
