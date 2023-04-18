@@ -90,6 +90,9 @@
 
 <br/><br/>
 
+## 아키텍쳐
+![image](https://user-images.githubusercontent.com/51091854/232758606-98c1834d-c613-4e6a-9fb7-00fde5c61638.png)
+
 
 ## :floppy_disk: ER 다이어그램 (ER-Diagram with Cardinality Constraints)
 ![image](https://user-images.githubusercontent.com/113500771/230943681-93c795bd-c802-4174-9d80-74bba361c150.png)
