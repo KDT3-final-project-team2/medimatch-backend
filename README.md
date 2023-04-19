@@ -158,9 +158,10 @@ This project is licensed under the MIT License.
           <img src="https://img.shields.io/badge/홍수희-6e34bf?style=flat-round&logo=GitHub&logoColor=white"/>
         <img width="100%" src="https://avatars.githubusercontent.com/u/51091854?v=4"  alt=""/>
         </a>
-        <center>역할 작성</center><br>
-        <center>역할 작성</center><br>
-        <center>역할 작성</center><br>
+        <center>CI/CD</center><br>
+        <center>서버 배포</center><br>
+        <center>기업 채용 공고 CRUD</center><br>
+        <center>기업에 지원한 지원자 CRUD</center><br>
       </td>
       <td align="center" width="200px">
         <center>BE. 팀원</center><br>
@@ -179,9 +180,10 @@ This project is licensed under the MIT License.
           <img src="https://img.shields.io/badge/곽윤희-ff5e5e?style=flat-round&logo=GitHub&logoColor=white"/>
         <img width="100%" src="https://avatars.githubusercontent.com/u/109578096?v=4"  alt=""/>
         </a>
-        <center>역할 작성</center><br>
-        <center>역할 작성</center><br>
-        <center>역할 작성</center><br>
+        <center>관리자 약관 관리(CRUD)</center><br>
+        <center>기업 약관 관리(CRUD)</center><br>
+        <center>지원자 지원 현황 통계</center><br>
+        <center>기업 가입 현황 통계</center><br>
       </td>
       <td align="center" width="200px">
         <center>BE. 팀원</center><br>
