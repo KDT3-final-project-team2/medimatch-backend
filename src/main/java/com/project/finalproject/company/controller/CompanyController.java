@@ -214,6 +214,7 @@ public class CompanyController {
         return new ResponseDTO<>().ok(companyInfo,"기업회원 정보 수정 완료");
     }
 
+
     /**
      * 기업 회원 채용공고 pdf 파일 다운로드 링크 출력
      * @param userDetail :토큰
@@ -222,12 +223,29 @@ public class CompanyController {
      */
     @GetMapping("/file/{postId}")
     public ResponseDTO<?> downloadJobpostFile(@AuthenticationPrincipal LoginResDTO userDetail, @PathVariable Long postId){
-        String email = userDetail.getEmail();
-
-        CompanyJobpostResponse.FileDTO fileResponse = companyService.downloadCompany(email,postId);
-
-        return new ResponseDTO<>().ok(fileResponse,"파일 정보 출력");
+        String path = companyService.jobpostPath(postId);
+        path = path.replace("/var/www/html","https://medimatch.shop");
+        if (path == null) {
+            return new ResponseDTO(404, false, "fail", "파일이 존재하지 않습니다.");
+        }
+        return new ResponseDTO(200, true, path, "파일 다운로드 링크입니다.");
     }
+
+
+    /**
+     * 기업 회원 채용공고 pdf 파일 다운로드 링크 출력
+     * @param userDetail :토큰
+     * @param postId :jobpostID
+     * @return 파일 url 정보
+     */
+//    @GetMapping("/file/{postId}")
+//    public ResponseDTO<?> downloadJobpostFile(@AuthenticationPrincipal LoginResDTO userDetail, @PathVariable Long postId){
+//        String email = userDetail.getEmail();
+//
+//        CompanyJobpostResponse.FileDTO fileResponse = companyService.downloadCompany(email,postId);
+//
+//        return new ResponseDTO<>().ok(fileResponse,"파일 정보 출력");
+//    } 다운로드 제외
 
     /**
      * 합/불 메일발송

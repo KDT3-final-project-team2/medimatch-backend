@@ -210,7 +210,17 @@ public class CompanyServiceImpl implements CompanyService {
         //상태 변경하기
         jobpost.changeStatus();
 
+        String filePath = jobpost.getFilepath();
         Jobpost newJobpost = jobpostRepository.save(jobpost);
+        File jobpostFile = new File(filePath);
+        if (!jobpostFile.exists()) {
+            throw new JobpostException(JobpostExceptionType.NOT_FOUND_FILE);
+        }
+        if (jobpostFile.delete()) {
+            log.info("파일 삭제 성공");
+        } else {
+            log.info("파일 삭제 실패");
+        }
 
         return new CompanyJobpostResponse.LongDTO(newJobpost);
     }
@@ -358,6 +368,14 @@ public class CompanyServiceImpl implements CompanyService {
         CompanyResponse.InfoDTO updateCompany = new CompanyResponse.InfoDTO(companyRepository.save(company));
 
         return updateCompany;
+    }
+
+
+    // 채용공고 pdf파일 조회
+    @Override
+    public String jobpostPath(Long jobpostId){
+        Jobpost jobpost = jobpostRepository.findById(jobpostId).orElse(null);
+        return jobpost.getFilepath();
     }
 
     /**

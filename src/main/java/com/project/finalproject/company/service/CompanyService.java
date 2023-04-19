@@ -47,6 +47,9 @@ public interface CompanyService {
     //기업회원 내정보 수정
     CompanyResponse.InfoDTO updateCompanyInfo(String companyEmail, CompanyRequest.UpdateInfoDTO requestDTO);
 
+    // 채용공고 pdf 파일 미리보기
+    public String jobpostPath(Long jobpostId);
+
     //채용공고 pdf 파일 다운로드
     CompanyJobpostResponse.FileDTO downloadCompany(String companyEmail, Long jobpostId);
 
