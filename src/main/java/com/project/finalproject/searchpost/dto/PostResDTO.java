@@ -21,6 +21,8 @@ public class PostResDTO {
     private String jobpostFilePath;
     private String companyName;
 
+    private String companyAddress;
+
     public PostResDTO(Jobpost jobpost){
 
         this.jobpostId = jobpost.getId();
@@ -82,6 +84,8 @@ public class PostResDTO {
         this.jobpostFilePath = jobpost.getFilepath();
 
         this.companyName = jobpost.getCompany().getName();
+
+        this.companyAddress = jobpost.getCompany().getAddress();
 
     }
 }
