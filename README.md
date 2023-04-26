@@ -5,11 +5,12 @@
 
 # 👨‍💼💼👩‍ [Medi-Match](https://medimatch.netlify.app/)  (23.03.06.~)
 
-(🔎 Admin)
+(🔎 관리자)
 <br><img src="https://user-images.githubusercontent.com/109578096/234488289-b06614d1-7093-4c61-8927-b7e3216c6a03.gif"></br>
-(🔎 Company)
+(🔎 기업회원)
 <br><img src="https://user-images.githubusercontent.com/109578096/234498796-9e97450c-c561-45c8-8bbe-ad9e8de46bc7.gif"></br>
-(:construction:시연영상3)
+(🔎 개인회원)
+<br><img src="https://user-images.githubusercontent.com/109578096/234508264-55798e30-9d67-47c7-87f9-04ccb8ffa233.gif"></br>
 
 <br></br>소개 :
 
