@@ -7,7 +7,8 @@
 
 (🔎 Admin)
 <br><img src="https://user-images.githubusercontent.com/109578096/234488289-b06614d1-7093-4c61-8927-b7e3216c6a03.gif"></br>
-(:construction:시연영상2)
+(🔎 Company)
+<br><img src="https://user-images.githubusercontent.com/109578096/234498796-9e97450c-c561-45c8-8bbe-ad9e8de46bc7.gif"></br>
 (:construction:시연영상3)
 
 <br></br>소개 :
